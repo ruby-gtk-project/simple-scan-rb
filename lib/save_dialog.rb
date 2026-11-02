@@ -6,6 +6,7 @@ require 'gtk4'
 require_relative 'alerts'
 require_relative 'book'
 require_relative 'settings'
+require_relative 'translations'
 
 # SaveDialog asks where to save the document, in what format, and at what
 # compression.
@@ -23,14 +24,17 @@ require_relative 'settings'
 # it is chosen, and the compression slider still writes jpeg-quality live,
 # exactly as upstream's do.
 class SaveDialog < Adwaita::Dialog
+  include Translations
+  extend Translations
+
   # Label and mime type per format, in upstream's order.
   FORMATS = [
     # Save dialog: label for saving in PDF format
-    ['PDF (multi-page document)', 'application/pdf'],
+    [_('PDF (multi-page document)'), 'application/pdf'],
     # Save dialog: label for saving in JPEG format
-    ['JPEG (compressed)', 'image/jpeg'],
+    [_('JPEG (compressed)'), 'image/jpeg'],
     # Save dialog: label for saving in PNG format
-    ['PNG (lossless)', 'image/png'],
+    [_('PNG (lossless)'), 'image/png'],
   ].freeze
 
   EXTENSIONS = {
@@ -40,7 +44,7 @@ class SaveDialog < Adwaita::Dialog
   }.freeze
 
   # Default filename to use when saving a document; the extension is added to it
-  DEFAULT_BASENAME = 'Scanned Document'
+  DEFAULT_BASENAME = _('Scanned Document')
 
   def self.mime_type_to_extension(mime_type) = EXTENSIONS[mime_type]
 
@@ -61,7 +65,7 @@ class SaveDialog < Adwaita::Dialog
     @current_path = current_path
     @on_chosen = on_chosen
     # Save dialog: dialog title
-    self.title = 'Save As…'
+    self.title = _('Save As…')
     self.content_width = 520
   end
 
@@ -101,7 +105,7 @@ class SaveDialog < Adwaita::Dialog
 
   def save_button
     @save_button ||= Gtk::Button.new.tap do |button|
-      button.label = '_Save'
+      button.label = _('_Save')
       button.use_underline = true
       button.add_css_class('suggested-action')
     end
@@ -121,7 +125,7 @@ class SaveDialog < Adwaita::Dialog
   def format_row
     @format_row ||= Adwaita::ComboRow.new.tap do |row|
       # Label in save dialog beside combo box to choose the file format
-      row.title = 'File format'
+      row.title = _('File format')
       row.model = Gtk::StringList.new(FORMATS.map(&:first))
     end
   end
@@ -129,7 +133,7 @@ class SaveDialog < Adwaita::Dialog
   def quality_row
     @quality_row ||= Adwaita::ActionRow.new.tap do |row|
       # Label in save dialog beside the compression slider
-      row.title = 'Compression'
+      row.title = _('Compression')
       row.add_suffix(quality_scale)
     end
   end
@@ -161,7 +165,7 @@ class SaveDialog < Adwaita::Dialog
   def file_dialog
     @file_dialog ||= Gtk::FileDialog.new.tap do |dialog|
       # Save dialog: dialog title
-      dialog.title = 'Save As…'
+      dialog.title = _('Save As…')
       dialog.filters = filters
       dialog.default_filter = image_filter
     end
@@ -177,7 +181,7 @@ class SaveDialog < Adwaita::Dialog
   def image_filter
     @image_filter ||= Gtk::FileFilter.new.tap do |filter|
       # Save dialog: filter name to show only supported image files
-      filter.name = 'Image Files'
+      filter.name = _('Image Files')
       EXTENSIONS.each_key { |mime_type| filter.add_mime_type(mime_type) }
     end
   end
@@ -185,7 +189,7 @@ class SaveDialog < Adwaita::Dialog
   def all_filter
     @all_filter ||= Gtk::FileFilter.new.tap do |filter|
       # Save dialog: filter name to show all files
-      filter.name = 'All Files'
+      filter.name = _('All Files')
       filter.add_pattern('*')
     end
   end

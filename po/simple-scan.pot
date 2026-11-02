@@ -1,0 +1,792 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the simple-scan package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: simple-scan VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-02 23:17+0000\n"
+"PO-Revision-Date: 2026-11-02 23:17+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#. Title of the about dialog
+#: ../lib/about_dialog.rb:40
+msgid "About Document Scanner"
+msgstr ""
+
+#. Title of the scan window
+#. Upstream's scanning property setter: a scan in progress swaps the Scan
+#. button for Stop and makes the document visible.
+#: ../lib/about_dialog.rb:41 ../lib/app_window.rb:209 ../lib/app_window.rb:218
+#: ../lib/app_window.rb:365
+msgid "Document Scanner"
+msgstr ""
+
+#. Description of the program
+#: ../lib/about_dialog.rb:45
+msgid "Simple document scanning tool"
+msgstr ""
+
+#: ../lib/about_dialog.rb:47
+msgid "translator-credits"
+msgstr ""
+
+#. Upstream's show_error_dialog.
+#: ../lib/alerts.rb:30
+msgid "_Close"
+msgstr ""
+
+#. Upstream's prompt_to_save_async. The block is handed :save, :discard or
+#. :cancel, the three answers upstream switches on.
+#. Text in dialog warning when a document is about to be lost
+#: ../lib/alerts.rb:42
+msgid "If you don’t save, changes will be permanently lost."
+msgstr ""
+
+#: ../lib/alerts.rb:44 ../lib/alerts.rb:61
+msgid "_Cancel"
+msgstr ""
+
+#. Memoized widget methods
+#: ../lib/alerts.rb:45 ../lib/save_dialog.rb:108
+msgid "_Save"
+msgstr ""
+
+#. Upstream's check_overwrite, asked once per file that already exists.
+#. Contents of dialog that shows if saving would overwrite an existing file
+#: ../lib/alerts.rb:58
+msgid "A file named “%s” already exists.  Do you want to replace it?"
+msgstr ""
+
+#. Button in dialog that shows if saving would overwrite an existing file
+#: ../lib/alerts.rb:63
+msgid "_Replace"
+msgstr ""
+
+#. Upstream's prompt_to_load_autosaved_book.
+#. Contents of dialog that shows if an autosaved book should be loaded
+#: ../lib/alerts.rb:75
+msgid "An autosaved book exists. Do you want to open it?"
+msgstr ""
+
+#. Tooltip for the scan toolbar button
+#: ../lib/app_window.rb:229
+msgid "Scan a single page from the scanner"
+msgstr ""
+
+#: ../lib/app_window.rb:236
+msgid "_Scan"
+msgstr ""
+
+#. Tooltip for the scan options button
+#: ../lib/app_window.rb:244
+msgid "Choose what to scan"
+msgstr ""
+
+#. Tooltip for the stop button
+#: ../lib/app_window.rb:252
+msgid "Stop the current scan"
+msgstr ""
+
+#: ../lib/app_window.rb:260
+msgid "S_top"
+msgstr ""
+
+#. Tooltip for the document type button
+#: ../lib/app_window.rb:270
+msgid "Choose the type of document being scanned"
+msgstr ""
+
+#. Tooltip for the save toolbar button
+#: ../lib/app_window.rb:278
+msgid "Save document to a file"
+msgstr ""
+
+#. Tooltip for the main menu button
+#: ../lib/app_window.rb:288
+msgid "Menu"
+msgstr ""
+
+#. The gear menu, which upstream builds in code rather than in the UI file.
+#: ../lib/app_window.rb:302
+msgid "_Email"
+msgstr ""
+
+#: ../lib/app_window.rb:303
+msgid "Pri_nt"
+msgstr ""
+
+#: ../lib/app_window.rb:304
+msgctxt "menu"
+msgid "_Reorder Pages"
+msgstr ""
+
+#. Memoized widget methods
+#: ../lib/app_window.rb:310 ../lib/scan_options_popover.rb:114
+msgid "_Preferences"
+msgstr ""
+
+#: ../lib/app_window.rb:311
+msgid "_Keyboard Shortcuts"
+msgstr ""
+
+#: ../lib/app_window.rb:312
+msgid "_Help"
+msgstr ""
+
+#: ../lib/app_window.rb:313
+msgid "_About Document Scanner"
+msgstr ""
+
+#. Memoized widget methods
+#. Preferences dialog: section label for scanning settings
+#: ../lib/app_window.rb:365 ../lib/preferences_dialog.rb:100
+#: ../lib/preferences_dialog.rb:108
+msgid "Scanning"
+msgstr ""
+
+#. Upstream's authorize, which the scanner calls for a network device. The
+#. credentials go to the block, because GTK4 cannot run a dialog modally.
+#. Label in authorization dialog. “%s” is replaced with the name of the resource requesting authorization
+#: ../lib/app_window.rb:412
+msgid "Username and password required to access “%s”"
+msgstr ""
+
+#. Text in dialog warning when a document is about to be lost
+#: ../lib/app_window.rb:656
+msgid "Save current document?"
+msgstr ""
+
+#: ../lib/app_window.rb:656
+msgid "_Discard Changes"
+msgstr ""
+
+#. Text on the progress bar while saving
+#: ../lib/app_window.rb:715
+msgid "Saving"
+msgstr ""
+
+#. Title of error dialog when a save failed
+#: ../lib/app_window.rb:730
+msgid "Failed to save file"
+msgstr ""
+
+#. Error message displayed when unable to save an image for preview
+#: ../lib/app_window.rb:818
+msgid "Unable to save image for preview"
+msgstr ""
+
+#. Error message displayed when unable to launch the help browser
+#: ../lib/app_window.rb:839
+msgid "Unable to open help file"
+msgstr ""
+
+#. Text in dialog warning when a document is about to be lost
+#: ../lib/app_window.rb:851
+msgid "Save document before quitting?"
+msgstr ""
+
+#: ../lib/app_window.rb:851
+msgid "_Quit without Saving"
+msgstr ""
+
+#. Title of the authorization dialog
+#: ../lib/authorize_dialog.rb:23
+msgid "Authorize"
+msgstr ""
+
+#. Button to submit the authorization dialog
+#: ../lib/authorize_dialog.rb:66
+msgid "_Authorize"
+msgstr ""
+
+#. Label beside username entry
+#: ../lib/authorize_dialog.rb:94
+msgid "Username for resource"
+msgstr ""
+
+#. Label beside password entry
+#: ../lib/authorize_dialog.rb:101
+msgid "Password"
+msgstr ""
+
+#. Text of button for cancelling save
+#: ../lib/cancellable_progress_bar.rb:68
+msgid "Cancel"
+msgstr ""
+
+#. Label on new document button
+#: ../lib/document_action_bar.rb:61
+msgid "_New Document"
+msgstr ""
+
+#. Tooltip for rotate left (counter-clockwise) button
+#: ../lib/document_action_bar.rb:76
+msgid "Rotate the page to the left (counter-clockwise)"
+msgstr ""
+
+#. Tooltip for rotate right (clockwise) button
+#: ../lib/document_action_bar.rb:84
+msgid "Rotate the page to the right (clockwise)"
+msgstr ""
+
+#. Tooltip for crop button
+#: ../lib/document_action_bar.rb:92
+msgid "Crop the selected page"
+msgstr ""
+
+#. Tooltip for delete button
+#: ../lib/document_action_bar.rb:100
+msgid "Delete the selected page"
+msgstr ""
+
+#. Message to indicate a Brother scanner has been detected
+#: ../lib/install_drivers_dialog.rb:38
+msgid "You appear to have a Brother scanner."
+msgstr ""
+
+#. Instructions on how to install Brother scanner drivers
+#: ../lib/install_drivers_dialog.rb:40
+msgid ""
+"Drivers for this are available on the <a href=\"http://support.brother.com\">Bro"
+"ther website</a>."
+msgstr ""
+
+#. Message to indicate a Canon Pixma scanner has been detected
+#: ../lib/install_drivers_dialog.rb:46
+msgid ""
+"You appear to have a Canon scanner, which is supported by the <a href=\"http://"
+"www.sane-project.org/man/sane-pixma.5.html\">Pixma SANE backend</a>."
+msgstr ""
+
+#. Instructions on how to resolve an issue with SANE scanner drivers
+#: ../lib/install_drivers_dialog.rb:51
+msgid ""
+"Please check if your <a href=\"http://www.sane-project.org/sane-supported-devic"
+"es.html\">scanner is supported by SANE</a>, otherwise report the issue to the <"
+"a href=\"https://alioth-lists.debian.net/cgi-bin/mailman/listinfo/sane-devel\">S"
+"ANE mailing list</a>."
+msgstr ""
+
+#. Message to indicate a Samsung scanner has been detected
+#: ../lib/install_drivers_dialog.rb:58
+msgid "You appear to have a Samsung scanner."
+msgstr ""
+
+#. Because HP acquired Samsung's global printing business in 2017, the support is on HP's site
+#: ../lib/install_drivers_dialog.rb:60
+msgid ""
+"Drivers for this are available on the <a href=\"https://support.hp.com\">HP webs"
+"ite</a> (HP acquired Samsung’s printing business)."
+msgstr ""
+
+#. Message to indicate an HP scanner has been detected
+#. smfp devices are rebranded Samsung models and need drivers that are not in the hpaio package
+#: ../lib/install_drivers_dialog.rb:66 ../lib/install_drivers_dialog.rb:68
+msgid "You appear to have an HP scanner."
+msgstr ""
+
+#: ../lib/install_drivers_dialog.rb:69
+msgid ""
+"Drivers for this are available on the <a href=\"https://support.hp.com\">HP webs"
+"ite</a>."
+msgstr ""
+
+#. Message to indicate an Epson scanner has been detected
+#: ../lib/install_drivers_dialog.rb:72
+msgid "You appear to have an Epson scanner."
+msgstr ""
+
+#. Instructions on how to install Epson scanner drivers
+#: ../lib/install_drivers_dialog.rb:74
+msgid ""
+"Drivers for this are available on the <a href=\"http://support.epson.com\">Epson"
+" website</a>."
+msgstr ""
+
+#. Message to indicate a Lexmark scanner has been detected
+#: ../lib/install_drivers_dialog.rb:77
+msgid "You appear to have an Lexmark scanner."
+msgstr ""
+
+#. Instructions on how to install Lexmark scanner drivers
+#: ../lib/install_drivers_dialog.rb:79
+msgid ""
+"Drivers for this are available on the <a href=\"http://support.lexmark.com\">Lex"
+"mark website</a>."
+msgstr ""
+
+#. Title of dialog giving instructions on how to install drivers
+#: ../lib/install_drivers_dialog.rb:89
+msgid "Install drivers"
+msgstr ""
+
+#. Message in the driver install dialog
+#: ../lib/install_drivers_dialog.rb:135
+msgid "Once installed you will need to restart this app."
+msgstr ""
+
+#. Label shown to prompt the user to install packages
+#: ../lib/install_drivers_dialog.rb:158
+msgid "You need to install the %s package."
+msgid_plural "You need to install the %s packages."
+msgstr[0] ""
+msgstr[1] ""
+
+#. The crop submenu, in upstream's order. The value is the crop name the
+#. window's crop action takes; "none" and "custom" are upstream's two special
+#. cases, the rest are paper sizes Page#set_named_crop knows.
+#. Radio button for no crop
+#: ../lib/page_menu.rb:27
+msgid "_None"
+msgstr ""
+
+#: ../lib/page_menu.rb:28
+msgid "A_4"
+msgstr ""
+
+#: ../lib/page_menu.rb:29
+msgid "A_5"
+msgstr ""
+
+#: ../lib/page_menu.rb:30
+msgid "A_6"
+msgstr ""
+
+#. Radio button for cropping page to US letter size
+#: ../lib/page_menu.rb:32
+msgid "_Letter"
+msgstr ""
+
+#. Radio button for cropping page to US legal size
+#: ../lib/page_menu.rb:34
+msgid "Le_gal"
+msgstr ""
+
+#: ../lib/page_menu.rb:35 ../lib/preferences_dialog.rb:43
+msgid "4×6"
+msgstr ""
+
+#: ../lib/page_menu.rb:36
+msgid "A_3"
+msgstr ""
+
+#. Radio button for cropping to a custom page size
+#: ../lib/page_menu.rb:38
+msgid "_Custom"
+msgstr ""
+
+#. Label for page crop submenu
+#: ../lib/page_menu.rb:55
+msgid "_Crop"
+msgstr ""
+
+#. Menu item to rotate page to left (anti-clockwise)
+#: ../lib/page_menu.rb:86
+msgid "Rotate _Left"
+msgstr ""
+
+#. Menu item to rotate page to right (clockwise)
+#: ../lib/page_menu.rb:88
+msgid "Rotate _Right"
+msgstr ""
+
+#. Menu item to rotate the crop area
+#: ../lib/page_menu.rb:101
+msgid "_Rotate Crop"
+msgstr ""
+
+#. Menu item to move the selected page to the left
+#: ../lib/page_menu.rb:116
+msgid "Move Left"
+msgstr ""
+
+#. Menu item to move the selected page to the right
+#: ../lib/page_menu.rb:118
+msgid "Move Right"
+msgstr ""
+
+#. Width and height in tenths of a mm, and the label, from upstream's
+#. paper_size_model.
+#. Combo box value for automatic paper size
+#: ../lib/preferences_dialog.rb:36
+msgid "Automatic"
+msgstr ""
+
+#: ../lib/preferences_dialog.rb:47
+msgid "Front"
+msgstr ""
+
+#: ../lib/preferences_dialog.rb:48
+msgid "Back"
+msgstr ""
+
+#: ../lib/preferences_dialog.rb:49
+msgid "Both"
+msgstr ""
+
+#. Milliseconds, and the label, from the five radio buttons in the UI file.
+#: ../lib/preferences_dialog.rb:54
+msgid "No delay"
+msgstr ""
+
+#: ../lib/preferences_dialog.rb:55
+msgid "3 second delay"
+msgstr ""
+
+#: ../lib/preferences_dialog.rb:56
+msgid "6 second delay"
+msgstr ""
+
+#: ../lib/preferences_dialog.rb:57
+msgid "10 second delay"
+msgstr ""
+
+#: ../lib/preferences_dialog.rb:58
+msgid "15 second delay"
+msgstr ""
+
+#. Title of the preferences dialog
+#: ../lib/preferences_dialog.rb:66
+msgid "Preferences"
+msgstr ""
+
+#. Preferences dialog: section label for image quality settings
+#: ../lib/preferences_dialog.rb:115
+msgid "Quality"
+msgstr ""
+
+#: ../lib/preferences_dialog.rb:120
+msgid "Text Resolution"
+msgstr ""
+
+#: ../lib/preferences_dialog.rb:124
+msgid "Image Resolution"
+msgstr ""
+
+#: ../lib/preferences_dialog.rb:128
+msgid "Page Side"
+msgstr ""
+
+#: ../lib/preferences_dialog.rb:132
+msgid "Paper Size"
+msgstr ""
+
+#: ../lib/preferences_dialog.rb:136
+msgid "Delay Between Pages"
+msgstr ""
+
+#. Preferences dialog: label for the brightness scale
+#: ../lib/preferences_dialog.rb:142
+msgid "Brightness"
+msgstr ""
+
+#. Preferences dialog: label for the contrast scale
+#: ../lib/preferences_dialog.rb:150
+msgid "Contrast"
+msgstr ""
+
+#: ../lib/preferences_dialog.rb:155
+msgid "Darker"
+msgstr ""
+
+#: ../lib/preferences_dialog.rb:155
+msgid "Lighter"
+msgstr ""
+
+#: ../lib/preferences_dialog.rb:157
+msgid "Less"
+msgstr ""
+
+#: ../lib/preferences_dialog.rb:157
+msgid "More"
+msgstr ""
+
+#. Preferences dialog: label for the default resolution in the resolution list
+#: ../lib/preferences_dialog.rb:198
+msgid "%d dpi (default)"
+msgstr ""
+
+#. Preferences dialog: label for the minimum resolution in the resolution list
+#: ../lib/preferences_dialog.rb:201
+msgid "%d dpi (draft)"
+msgstr ""
+
+#. Preferences dialog: label for the maximum resolution in the resolution list
+#: ../lib/preferences_dialog.rb:204
+msgid "%d dpi (high resolution)"
+msgstr ""
+
+#. Preferences dialog: label for a resolution value (dpi = dots per inch)
+#: ../lib/preferences_dialog.rb:207
+msgid "%d dpi"
+msgstr ""
+
+#. Label, the before-and-after description make_reorder_box reads, and the
+#. name of the reordering, in upstream's grid order.
+#. Label on button for combining sides in the reordering dialog
+#: ../lib/reorder_pages_dialog.rb:24
+msgid "Combine sides"
+msgstr ""
+
+#. Label on button for combining sides in reverse order
+#: ../lib/reorder_pages_dialog.rb:26
+msgid "Combine sides (reverse)"
+msgstr ""
+
+#. Label on button for reversing in the reordering dialog
+#: ../lib/reorder_pages_dialog.rb:28
+msgid "Reverse"
+msgstr ""
+
+#. Label on button for cancelling page reordering
+#: ../lib/reorder_pages_dialog.rb:30
+msgid "Keep unchanged"
+msgstr ""
+
+#. Title of dialog to reorder pages
+#: ../lib/reorder_pages_dialog.rb:41
+msgctxt "dialog title"
+msgid "Reorder Pages"
+msgstr ""
+
+#. Label and mime type per format, in upstream's order.
+#. Save dialog: label for saving in PDF format
+#: ../lib/save_dialog.rb:33
+msgid "PDF (multi-page document)"
+msgstr ""
+
+#. Save dialog: label for saving in JPEG format
+#: ../lib/save_dialog.rb:35
+msgid "JPEG (compressed)"
+msgstr ""
+
+#. Save dialog: label for saving in PNG format
+#: ../lib/save_dialog.rb:37
+msgid "PNG (lossless)"
+msgstr ""
+
+#. Default filename to use when saving a document; the extension is added to it
+#: ../lib/save_dialog.rb:47
+msgid "Scanned Document"
+msgstr ""
+
+#. Save dialog: dialog title
+#. Save dialog: dialog title
+#: ../lib/save_dialog.rb:68 ../lib/save_dialog.rb:168
+msgid "Save As…"
+msgstr ""
+
+#. Label in save dialog beside combo box to choose the file format
+#: ../lib/save_dialog.rb:128
+msgid "File format"
+msgstr ""
+
+#. Label in save dialog beside the compression slider
+#: ../lib/save_dialog.rb:136
+msgid "Compression"
+msgstr ""
+
+#. Save dialog: filter name to show only supported image files
+#: ../lib/save_dialog.rb:184
+msgid "Image Files"
+msgstr ""
+
+#. Save dialog: filter name to show all files
+#: ../lib/save_dialog.rb:192
+msgid "All Files"
+msgstr ""
+
+#. Each scan type's label, the icon the Scan button takes while it is
+#. selected, and its tooltip, from the UI file.
+#: ../lib/scan_options_popover.rb:29
+msgid "_Single Page"
+msgstr ""
+
+#: ../lib/scan_options_popover.rb:30
+msgid "All Pages From _Feeder"
+msgstr ""
+
+#: ../lib/scan_options_popover.rb:31
+msgid "_Multiple Pages From Flatbed"
+msgstr ""
+
+#: ../lib/scan_options_popover.rb:35
+msgid "_Text"
+msgstr ""
+
+#: ../lib/scan_options_popover.rb:36
+msgid "_Image"
+msgstr ""
+
+#. Tooltip for refresh button
+#: ../lib/scanner_status_page.rb:110
+msgid "Refresh device list"
+msgstr ""
+
+#. Upstream's "Contacting Scanner…", set when a scan starts.
+#: ../lib/scanner_status_page.rb:164
+msgid "Contacting Scanner…"
+msgstr ""
+
+#. Label shown when searching for scanners
+#: ../lib/scanner_status_page.rb:221
+msgid "Searching for Scanners…"
+msgstr ""
+
+#. Label shown when a scanner was detected
+#: ../lib/scanner_status_page.rb:228
+msgid "Ready to Scan"
+msgstr ""
+
+#. Warning displayed when no drivers are installed but a compatible scanner is detected
+#: ../lib/scanner_status_page.rb:238
+msgid "Additional Software Needed"
+msgstr ""
+
+#. Instructions to install driver software
+#: ../lib/scanner_status_page.rb:240
+msgid ""
+"You need to <a href=\"install-firmware\">install driver software</a> for your sc"
+"anner."
+msgstr ""
+
+#. Warning displayed when no scanners are detected
+#: ../lib/scanner_status_page.rb:247
+msgid "No Scanners Detected"
+msgstr ""
+
+#. Hint to the user on why there are no scanners detected
+#: ../lib/scanner_status_page.rb:249
+msgid "Please check your scanner is connected and powered on."
+msgstr ""
+
+#. ShortcutsDialog lists the keyboard shortcuts.
+#.
+#. Ported from upstream's data/ui/help-overlay.ui, a GtkShortcutsWindow with
+#. four groups. GtkShortcutsWindow cannot be constructed through the Ruby
+#. bindings — Gtk::ShortcutsWindow.new raises "GtkWindow is not subtype of
+#. GtkShortcutsWindow" — so this is the Adwaita equivalent, which takes the
+#. same titles and accelerators.
+#: ../lib/shortcuts_dialog.rb:19
+msgctxt "shortcut window"
+msgid "Scanning"
+msgstr ""
+
+#: ../lib/shortcuts_dialog.rb:20
+msgctxt "shortcut window"
+msgid "Scan a single page"
+msgstr ""
+
+#: ../lib/shortcuts_dialog.rb:21
+msgctxt "shortcut window"
+msgid "Scan all pages from document feeder"
+msgstr ""
+
+#: ../lib/shortcuts_dialog.rb:22
+msgctxt "shortcut window"
+msgid "Scan continuously from a flatbed scanner"
+msgstr ""
+
+#: ../lib/shortcuts_dialog.rb:23
+msgctxt "shortcut window"
+msgid "Stop scan in progress"
+msgstr ""
+
+#: ../lib/shortcuts_dialog.rb:25
+msgctxt "shortcut window"
+msgid "Document Modification"
+msgstr ""
+
+#: ../lib/shortcuts_dialog.rb:26
+msgctxt "shortcut window"
+msgid "Move page left"
+msgstr ""
+
+#: ../lib/shortcuts_dialog.rb:27
+msgctxt "shortcut window"
+msgid "Move page right"
+msgstr ""
+
+#: ../lib/shortcuts_dialog.rb:28
+msgctxt "shortcut window"
+msgid "Rotate page to the left (anti-clockwise)"
+msgstr ""
+
+#: ../lib/shortcuts_dialog.rb:29
+msgctxt "shortcut window"
+msgid "Rotate page to the right (clockwise)"
+msgstr ""
+
+#: ../lib/shortcuts_dialog.rb:30
+msgctxt "shortcut window"
+msgid "Delete page"
+msgstr ""
+
+#: ../lib/shortcuts_dialog.rb:32
+msgctxt "shortcut window"
+msgid "Document Management"
+msgstr ""
+
+#: ../lib/shortcuts_dialog.rb:33
+msgctxt "shortcut window"
+msgid "Start new document"
+msgstr ""
+
+#: ../lib/shortcuts_dialog.rb:34
+msgctxt "shortcut window"
+msgid "Save scanned document"
+msgstr ""
+
+#: ../lib/shortcuts_dialog.rb:35
+msgctxt "shortcut window"
+msgid "Email scanned document"
+msgstr ""
+
+#: ../lib/shortcuts_dialog.rb:36
+msgctxt "shortcut window"
+msgid "Print scanned document"
+msgstr ""
+
+#: ../lib/shortcuts_dialog.rb:37
+msgctxt "shortcut window"
+msgid "Copy current page to clipboard"
+msgstr ""
+
+#: ../lib/shortcuts_dialog.rb:39
+msgctxt "shortcut window"
+msgid "General"
+msgstr ""
+
+#: ../lib/shortcuts_dialog.rb:40
+msgctxt "shortcut window"
+msgid "Show help"
+msgstr ""
+
+#: ../lib/shortcuts_dialog.rb:41
+msgctxt "shortcut window"
+msgid "Open menu"
+msgstr ""
+
+#: ../lib/shortcuts_dialog.rb:42
+msgctxt "shortcut window"
+msgid "Keyboard shortcuts"
+msgstr ""
+
+#: ../lib/shortcuts_dialog.rb:43
+msgctxt "shortcut window"
+msgid "Quit"
+msgstr ""
+
+#: ../lib/shortcuts_dialog.rb:49
+msgid "Keyboard Shortcuts"
+msgstr ""

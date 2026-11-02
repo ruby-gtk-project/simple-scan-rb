@@ -1,0 +1,1161 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Gnome Nepali Translation Project\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/simple-scan/issues\n"
+"POT-Creation-Date: 2021-02-12 14:16+0000\n"
+"PO-Revision-Date: 2021-04-08 21:34+0545\n"
+"Last-Translator: Pawan Chitrakar <chautari@gmail.com>\n"
+"Language-Team: Nepali Translation Team <chautari@gmail.com>\n"
+"Language: ne\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 2.4.2\n"
+
+#: data/org.gnome.SimpleScan.gschema.xml:11
+#, fuzzy
+msgid "Device to scan from"
+msgstr "समतल गरिएको स्क्यानरबाट निरन्तर स्क्यान गर्नुहोस्"
+
+#: data/org.gnome.SimpleScan.gschema.xml:12
+#, fuzzy
+msgid "SANE device to acquire images from."
+msgstr "तपाईँको क्यामेरा यन्त्रबाट छविहरू प्रदर्शन गर्नुहोस्"
+
+#: data/org.gnome.SimpleScan.gschema.xml:20
+msgid "Type of document being scanned"
+msgstr "स्क्यान गरिँदै कागजातको प्रकार"
+
+#: data/org.gnome.SimpleScan.gschema.xml:21
+msgid "Type of document being scanned. This setting decides on the scan resolution, colors and post-processing."
+msgstr "कागजात स्क्यान गरिँदैछ। यो सेटिङ स्क्यान रिजोल्युसन, रङ र पोष्ट प्रसोधनमा निर्णय गर्दछ।"
+
+#: data/org.gnome.SimpleScan.gschema.xml:25
+msgid "Width of paper in tenths of a mm"
+msgstr "कागजको चौडाइ मिमी को दसौं भाग"
+
+#: data/org.gnome.SimpleScan.gschema.xml:26
+msgid "The width of the paper in tenths of a mm (or 0 for automatic paper detection)."
+msgstr "एक मिमी को दसौं पानामा कागजको चौडाई (वा स्वचालित कागज अन्वेषणको लागि ०)"
+
+#: data/org.gnome.SimpleScan.gschema.xml:30
+msgid "Height of paper in tenths of a mm"
+msgstr "कागजको उचाइ मिमी को दसौं भाग"
+
+#: data/org.gnome.SimpleScan.gschema.xml:31
+msgid "The height of the paper in tenths of a mm (or 0 for automatic paper detection)."
+msgstr "एक मिमी को दसौं पानामा कागजको उचाई (वा स्वचालित कागज अन्वेषणको लागि ०)।"
+
+#: data/org.gnome.SimpleScan.gschema.xml:35
+#, fuzzy
+msgid "Brightness of scan"
+msgstr "स्क्यान"
+
+#: data/org.gnome.SimpleScan.gschema.xml:36
+msgid "The brightness adjustment from -100 to 100 (0 being none)."
+msgstr "-१०० देखि १०० सम्म चमक समायोजन (० कुनै पनि होइन)।"
+
+#: data/org.gnome.SimpleScan.gschema.xml:40
+msgid "Contrast of scan"
+msgstr "स्क्यानको व्यतिरेक"
+
+#: data/org.gnome.SimpleScan.gschema.xml:41
+msgid "The contrast adjustment from -100 to 100 (0 being none)."
+msgstr "-१०० देखि १०० सम्मको विषमता समायोजन (० कुनै पनि होइन)।"
+
+#: data/org.gnome.SimpleScan.gschema.xml:45
+msgid "Resolution for text scans"
+msgstr "स्क्या‍न पाठ रिजोल्युसन"
+
+#: data/org.gnome.SimpleScan.gschema.xml:46
+msgid "The resolution in dots-per-inch to use when scanning text."
+msgstr "पाठ स्क्यान गर्दा थोप्लो-प्रति-इन्चमा प्रयोग गर्नुहोस्।"
+
+#: data/org.gnome.SimpleScan.gschema.xml:50
+#, fuzzy
+#| msgid "Resolution for text scans"
+msgid "Resolution for image scans"
+msgstr "स्क्या‍न पाठ रिजोल्युसन"
+
+#: data/org.gnome.SimpleScan.gschema.xml:51
+#, fuzzy
+#| msgid "The resolution in dots-per-inch to use when scanning text."
+msgid "The resolution in dots-per-inch to use when scanning images."
+msgstr "पाठ स्क्यान गर्दा थोप्लो-प्रति-इन्चमा प्रयोग गर्नुहोस्।"
+
+#: data/org.gnome.SimpleScan.gschema.xml:55
+#, fuzzy
+msgid "Page side to scan"
+msgstr "एकल पृष्ठ स्क्यान"
+
+#: data/org.gnome.SimpleScan.gschema.xml:56
+#, fuzzy
+msgid "The page side to scan."
+msgstr "एकल पृष्ठ स्क्यान"
+
+#: data/org.gnome.SimpleScan.gschema.xml:60
+msgid "Directory to save files to"
+msgstr "फाइल बचत गर्ने निर्देशिका"
+
+#: data/org.gnome.SimpleScan.gschema.xml:61
+#, fuzzy
+msgid "The directory to save files to. Defaults to the documents directory if unset."
+msgstr "फाइलहरू बचत गर्न डाइरेक्टरी। यदि कागजात सेट गर्नुहोस् कागजात डाइरेक्टरीमा पूर्वनिर्धारित।"
+
+#: data/org.gnome.SimpleScan.gschema.xml:65
+msgid "File format that is used for saving image files"
+msgstr "छवि फाइल बचत गर्नका लागि प्रयोग गरिने फाइल ढाँचा"
+
+#: data/org.gnome.SimpleScan.gschema.xml:66
+msgid "MIME type that is used for saving image files. Examples of supported MIME types: image/jpeg, image/png, application/pdf"
+msgstr ""
+
+#: data/org.gnome.SimpleScan.gschema.xml:71
+#, fuzzy
+msgid "Quality value to use for JPEG compression"
+msgstr "JPEG सङ्कुचन गुण:"
+
+#: data/org.gnome.SimpleScan.gschema.xml:72
+#, fuzzy
+msgid "Quality value to use for JPEG compression."
+msgstr "JPEG सङ्कुचन गुण:"
+
+#: data/org.gnome.SimpleScan.gschema.xml:77
+#, fuzzy
+msgid "Delay in millisecond between pages"
+msgstr "फोटोहरूको बीचमा समय"
+
+#: data/org.gnome.SimpleScan.gschema.xml:78
+#, fuzzy
+msgid "Delay in millisecond between pages."
+msgstr "फोटोहरूको बीचमा समय"
+
+#. Title of scan window
+#. Set HeaderBar title here because Glade doesn't keep it translated
+#. https://bugzilla.gnome.org/show_bug.cgi?id=782753
+#. Title of scan window
+#: data/simple-scan.appdata.xml.in:6 data/simple-scan.desktop.in:3 data/ui/app-window.ui:498 src/app-window.vala:1582 src/app-window.vala:1862
+msgid "Document Scanner"
+msgstr "कागजात स्क्यानर"
+
+#: data/simple-scan.appdata.xml.in:7 data/simple-scan.desktop.in:4
+msgid "Make a digital copy of your photos and documents"
+msgstr "तपाईँको फोटो र कागजातको डिजिटल प्रतिलिपि बनाउनुहोस्"
+
+#: data/simple-scan.appdata.xml.in:9
+msgid ""
+"A really easy way to scan both text and images. You can crop out the bad parts of an image and rotate it if it is the wrong way round. You can print your scans, export them to "
+"pdf, or save them in a range of image formats."
+msgstr ""
+"पाठ र छवि दुबै स्क्यान गर्न एक साँच्चै सजिलो तरिका। यदि यो गलत तरिकाले घुमाइएको छ भने तपाईँले छविको खराब भाग काटछाँट गर्न र घुमाउन सक्नुहुन्छ । तपाईँले आफ्नो स्क्यान मुद्रण गर्न, तिनीहरूलाई pdf मा निर्यात "
+"गर्न, वा तिनीहरूलाई छवि ढाँचाको दायरामा बचत गर्न सक्नुहुन्छ ।"
+
+#: data/simple-scan.appdata.xml.in:14
+msgid "This app uses the SANE framework to support most existing scanners."
+msgstr "यो अनुप्रयोगले धेरै अवस्थित स्क्यानर समर्थन गर्न SANE फ्रेमवर्क प्रयोग गर्दछ ।"
+
+#: data/simple-scan.appdata.xml.in:26
+msgid "The GNOME Project"
+msgstr "जिनोम परियोजना"
+
+#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+#: data/simple-scan.desktop.in:6
+msgid "scan;scanner;flatbed;adf;"
+msgstr "स्क्यानर;स्क्यानर;समतल;adf;"
+
+#. Menu item to rotate page to left (anti-clockwise)
+#: data/ui/app-window.ui:12
+msgid "Rotate _Left"
+msgstr "बायाँ घुमाउनुहोस्"
+
+#. Menu item to rotate page to right (clockwise)
+#: data/ui/app-window.ui:22
+msgid "Rotate _Right"
+msgstr "दायाँ घुमाउनुहोस्"
+
+#. Label for page crop submenu
+#: data/ui/app-window.ui:32
+msgid "_Crop"
+msgstr "काटछाँट गर्नुहोस्"
+
+#. Radio button for no crop
+#: data/ui/app-window.ui:42
+msgid "_None"
+msgstr "केही छैन"
+
+#. Radio button for cropping page to A4 size
+#: data/ui/app-window.ui:53
+msgid "A_4"
+msgstr "A_4"
+
+#. Radio button for cropping page to A5 size
+#: data/ui/app-window.ui:64
+msgid "A_5"
+msgstr "A_5"
+
+#. Radio button for cropping page to A6 size
+#: data/ui/app-window.ui:75
+msgid "A_6"
+msgstr "A_6"
+
+#. Radio button for cropping page to US letter size
+#: data/ui/app-window.ui:86
+msgid "_Letter"
+msgstr "अक्षर"
+
+#. Radio button for cropping to page to US legal size
+#: data/ui/app-window.ui:97
+msgid "Le_gal"
+msgstr "कानूनी"
+
+#. Radio button for cropping page to 4x6 inch
+#: data/ui/app-window.ui:108
+msgid "4×6"
+msgstr "४×६"
+
+#. Radio button for cropping page to A3
+#: data/ui/app-window.ui:119
+#| msgid "A_4"
+msgid "A_3"
+msgstr "A_3"
+
+#. Radio button for cropping to custom page size
+#: data/ui/app-window.ui:130
+msgid "_Custom"
+msgstr "अनुकूलन गर्नुहोस्"
+
+#. Menu item to rotate the crop area
+#: data/ui/app-window.ui:148
+#, fuzzy
+msgid "_Rotate Crop"
+msgstr "काटछाँट गर्नुहोस्"
+
+#. Menu item to move the selected page to the left
+#: data/ui/app-window.ui:161
+msgid "Move Left"
+msgstr "बाँया सार्नुहोस्"
+
+#. Menu item to move the selected page to the right
+#: data/ui/app-window.ui:170
+msgid "Move Right"
+msgstr "दाँया सार्नुहोस्"
+
+#: data/ui/app-window.ui:252
+msgid "_Single Page"
+msgstr "एकल पृष्ठ"
+
+#: data/ui/app-window.ui:303
+msgid "All Pages From _Feeder"
+msgstr "कागजात फिडरबाट सबै पृष्ठ स्क्यान गर्नुहोस्"
+
+#: data/ui/app-window.ui:354
+#, fuzzy
+msgid "_Multiple Pages From Flatbed"
+msgstr "समतल गरिएको स्क्यानरबाट निरन्तर स्क्यान गर्नुहोस्"
+
+#: data/ui/app-window.ui:405
+msgid "_Text"
+msgstr "पाठ"
+
+#: data/ui/app-window.ui:456
+msgid "_Image"
+msgstr "सबै छविहरू"
+
+#: data/ui/app-window.ui:476
+msgid "_Preferences"
+msgstr "प्राथमिकता"
+
+#. Tooltip for stop button
+#: data/ui/app-window.ui:520
+msgid "Stop the current scan"
+msgstr "हालको स्क्यान रोक्नुहोस्"
+
+#: data/ui/app-window.ui:544
+msgid "S_top"
+msgstr "रोक्नुहोस्"
+
+#. Tooltip for scan toolbar button
+#: data/ui/app-window.ui:574
+#, fuzzy
+msgid "Scan a single page from the scanner"
+msgstr "समतल गरिएको स्क्यानरबाट निरन्तर स्क्यान गर्नुहोस्"
+
+#: data/ui/app-window.ui:599
+msgid "_Scan"
+msgstr "स्क्यान"
+
+#. Tooltip for save toolbar button
+#: data/ui/app-window.ui:702
+msgid "Save document to a file"
+msgstr "फाइल बचत गर्नुहोस्"
+
+#. Tooltip for stop button
+#: data/ui/app-window.ui:779
+#, fuzzy
+msgid "Refresh device list"
+msgstr "ताजा पार्नुहोस्"
+
+#. Button to submit authorization dialog
+#: data/ui/authorize-dialog.ui:22
+msgid "_Authorize"
+msgstr "अधिकार दिनुहोस्"
+
+#. Label beside username entry
+#: data/ui/authorize-dialog.ui:80
+#, fuzzy
+msgid "_Username for resource:"
+msgstr "प्रयोगकर्ता नाम :"
+
+#. Label beside password entry
+#: data/ui/authorize-dialog.ui:92
+msgid "_Password:"
+msgstr "_पासवर्ड:"
+
+#: data/ui/help-overlay.ui:12
+msgctxt "shortcut window"
+msgid "Scanning"
+msgstr "स्क्यान गर्दै"
+
+#: data/ui/help-overlay.ui:17
+msgctxt "shortcut window"
+msgid "Scan a single page"
+msgstr "एकल पृष्ठ स्क्यान"
+
+#: data/ui/help-overlay.ui:24
+msgctxt "shortcut window"
+msgid "Scan all pages from document feeder"
+msgstr "कागजात फिडरबाट सबै पृष्ठ स्क्यान गर्नुहोस्"
+
+#: data/ui/help-overlay.ui:31
+msgctxt "shortcut window"
+msgid "Scan continuously from a flatbed scanner"
+msgstr "समतल गरिएको स्क्यानरबाट निरन्तर स्क्यान गर्नुहोस्"
+
+#: data/ui/help-overlay.ui:38
+msgctxt "shortcut window"
+msgid "Stop scan in progress"
+msgstr "हालको स्क्यान रोक्नुहोस्"
+
+#: data/ui/help-overlay.ui:46
+msgctxt "shortcut window"
+msgid "Document Modification"
+msgstr "परिमार्जन कागजात"
+
+#: data/ui/help-overlay.ui:51
+msgctxt "shortcut window"
+msgid "Move page left"
+msgstr "पृष्ठ बाँया सार्नुहोस्"
+
+#: data/ui/help-overlay.ui:58
+msgctxt "shortcut window"
+msgid "Move page right"
+msgstr "पृष्ठ दाँया सार्नुहोस्"
+
+#: data/ui/help-overlay.ui:65
+#, fuzzy
+msgctxt "shortcut window"
+msgid "Rotate page to the left (anti-clockwise)"
+msgstr "९०° घडीसरह पृष्ठ घुमाउनुहोस्"
+
+#: data/ui/help-overlay.ui:72
+#, fuzzy
+msgctxt "shortcut window"
+msgid "Rotate page to the right (clockwise)"
+msgstr "९०° घडीसरह पृष्ठ घुमाउनुहोस्"
+
+#: data/ui/help-overlay.ui:79
+msgctxt "shortcut window"
+msgid "Delete page"
+msgstr "पृष्ठ मेट्नुहोस्"
+
+#: data/ui/help-overlay.ui:87
+msgctxt "shortcut window"
+msgid "Document Management"
+msgstr "कागजात प्रबन्ध"
+
+#: data/ui/help-overlay.ui:92
+msgctxt "shortcut window"
+msgid "Start new document"
+msgstr "नयाँ कागजात सुरु गर्नुहोस्"
+
+#: data/ui/help-overlay.ui:99
+#, fuzzy
+msgctxt "shortcut window"
+msgid "Save scanned document"
+msgstr "स्क्यान गरिँदै कागजातको प्रकार"
+
+#: data/ui/help-overlay.ui:106
+#, fuzzy
+msgctxt "shortcut window"
+msgid "Email scanned document"
+msgstr "इमेल कागजात"
+
+#: data/ui/help-overlay.ui:113
+#, fuzzy
+msgctxt "shortcut window"
+msgid "Print scanned document"
+msgstr "स्क्यान गरिँदै कागजातको प्रकार"
+
+#: data/ui/help-overlay.ui:120
+#, fuzzy
+msgctxt "shortcut window"
+msgid "Copy current page to clipboard"
+msgstr "स्क्रीनको तस्बिरलाई क्लिप्बोर्डमा कपी गर्ने"
+
+#: data/ui/help-overlay.ui:128
+msgctxt "shortcut window"
+msgid "General"
+msgstr "साधारण"
+
+#: data/ui/help-overlay.ui:133
+msgctxt "shortcut window"
+msgid "Show help"
+msgstr "मद्दत देखाउनुहोस्"
+
+#: data/ui/help-overlay.ui:140
+msgctxt "shortcut window"
+msgid "Open menu"
+msgstr "मेनु खोल्नुहोस्"
+
+#: data/ui/help-overlay.ui:147
+msgctxt "shortcut window"
+msgid "Keyboard shortcuts"
+msgstr "किबोर्स सर्टकटहरू"
+
+#: data/ui/help-overlay.ui:154
+msgctxt "shortcut window"
+msgid "Quit"
+msgstr "अन्त्य गर्नुहोस्"
+
+#. Preferences Dialog: Section label for scanning settings
+#: data/ui/preferences-dialog.ui:53
+msgid "Scanning"
+msgstr "स्क्यान गर्दै"
+
+#. Label beside scan side combo box
+#: data/ui/preferences-dialog.ui:57
+#, fuzzy
+msgid "Scan _Sides"
+msgstr "साइड"
+
+#. Preferences Dialog: Toggle button to select scanning on front side of a page
+#: data/ui/preferences-dialog.ui:68
+msgid "Front"
+msgstr "अगाडी ल्याउनुहोस्"
+
+#. Preferences Dialog: Toggle button to select scanning on the back side of a page
+#: data/ui/preferences-dialog.ui:78
+msgid "Back"
+msgstr "पछाडि"
+
+#. Preferences Dialog: Toggle button to select scanning on both sides of a page
+#: data/ui/preferences-dialog.ui:88
+msgid "Both"
+msgstr "दुवै"
+
+#. Label beside page size combo box
+#: data/ui/preferences-dialog.ui:106
+msgid "_Page Size"
+msgstr "पृष्ठ साइज"
+
+#. Label beside page delay scale
+#: data/ui/preferences-dialog.ui:123
+#, fuzzy
+msgid "_Delay in Seconds"
+msgstr "अर्को छवि देखाउन्जेल सम्ममा केहि सेकेण्ड विलम्ब"
+
+#. Provides context for the page delay scale
+#: data/ui/preferences-dialog.ui:124
+#, fuzzy
+msgid "Interval to scan multiple pages"
+msgstr "बहुविध पृष्ठहरू देखाउनुहोस्"
+
+#. Preferences Dialog: Toggle button to select scanning on front side of a page
+#: data/ui/preferences-dialog.ui:135
+msgid "0"
+msgstr "0"
+
+#. Preferences Dialog: Toggle button to select scanning on front side of a page
+#: data/ui/preferences-dialog.ui:145
+msgid "3"
+msgstr "३"
+
+#. Preferences Dialog: Toggle button to select scanning on front side of a page
+#: data/ui/preferences-dialog.ui:156
+msgid "6"
+msgstr "६"
+
+#. Preferences Dialog: Toggle button to select scanning on front side of a page
+#: data/ui/preferences-dialog.ui:167
+msgid "10"
+msgstr "१०"
+
+#. Preferences Dialog: Toggle button to select scanning on front side of a page
+#: data/ui/preferences-dialog.ui:178
+msgid "15"
+msgstr "१५"
+
+#. Preferences Dialog: Section label for quality settings
+#: data/ui/preferences-dialog.ui:199
+msgid "Quality"
+msgstr "गुणस्तर"
+
+#. Label beside scan resolution combo box
+#: data/ui/preferences-dialog.ui:203
+msgid "_Text Resolution"
+msgstr "पाठ रिजोल्युसन"
+
+#. Label beside scan resolution combo box
+#: data/ui/preferences-dialog.ui:219
+msgid "_Image Resolution"
+msgstr "फोटो रिजोल्युसन"
+
+#. Label beside brightness scale
+#: data/ui/preferences-dialog.ui:236
+msgid "_Brightness"
+msgstr "चम्किलोपन"
+
+#. Label beside contrast scale
+#: data/ui/preferences-dialog.ui:255
+#, fuzzy
+#| msgid "Contrast"
+msgid "_Contrast"
+msgstr "व्यतिरेक:"
+
+#: src/app-window.vala:229 src/app-window.vala:1690
+msgid "_Close"
+msgstr "_Close"
+
+#. Label in authorization dialog.  “%s” is replaced with the name of the resource requesting authorization
+#: src/app-window.vala:238
+#, fuzzy, c-format
+msgid "Username and password required to access “%s”"
+msgstr "“%s” जडान गर्न पासवर्ड चाहिने छ"
+
+#. Label shown when searching for scanners
+#: src/app-window.vala:255
+#, fuzzy
+msgid "Searching for Scanners…"
+msgstr "खोजी हुदैछ..."
+
+#. Label shown when detected a scanner
+#: src/app-window.vala:263
+msgid "Ready to Scan"
+msgstr "स्क्यान गर्न तयार"
+
+#. Warning displayed when no drivers are installed but a compatible scanner is detected
+#: src/app-window.vala:273
+msgid "Additional Software Needed"
+msgstr "थप सफ्टवेयर आवश्यक"
+
+#. Instructions to install driver software
+#: src/app-window.vala:275
+msgid "You need to <a href=\"install-firmware\">install driver software</a> for your scanner."
+msgstr ""
+
+#. Warning displayed when no scanners are detected
+#: src/app-window.vala:282
+#, fuzzy
+#| msgid "No scanners detected"
+msgid "No Scanners Detected"
+msgstr "ट्याबलेट फेला परेन"
+
+#. Hint to user on why there are no scanners detected
+#: src/app-window.vala:284
+msgid "Please check your scanner is connected and powered on."
+msgstr "कृपया तपाईँको स्क्यानर जडान गरिएको छ छैन जाँच गर्नुहोस् र पावर अन गर्नुहोस् ।"
+
+#. Contents of dialog that shows if autosaved book should be loaded.
+#: src/app-window.vala:388
+#, fuzzy
+msgid "An autosaved book exists. Do you want to open it?"
+msgstr "फाइल नाम \"%s\" पहिल्यै अवस्थित छ। के तपाईँ यसलाई बदल्नु चाहनुहुन्छ ?"
+
+#. Save dialog: Dialog title
+#: src/app-window.vala:462
+msgid "Save As…"
+msgstr "यस रुपमा बचत गर्नुहोस् …"
+
+#: src/app-window.vala:465 src/app-window.vala:761
+msgid "_Save"
+msgstr "बचत गर्नुहोस्"
+
+#: src/app-window.vala:466 src/app-window.vala:648 src/app-window.vala:760
+msgid "_Cancel"
+msgstr "_रद्द गर्नुहोस्"
+
+#. Default filename to use when saving document.
+#. To that filename the extension will be added, eg. "Scanned Document.pdf"
+#: src/app-window.vala:476
+#, fuzzy
+msgid "Scanned Document"
+msgstr "स्क्यान गरिँदै कागजातको प्रकार"
+
+#. Save dialog: Filter name to show only supported image files
+#: src/app-window.vala:482
+msgid "Image Files"
+msgstr "छवि फाइल"
+
+#. Save dialog: Filter name to show all files
+#: src/app-window.vala:492
+msgid "All Files"
+msgstr "सबै फाइल"
+
+#. Save dialog: Label for saving in PDF format
+#: src/app-window.vala:501
+msgid "PDF (multi-page document)"
+msgstr "पि डि एफ(बहु पृष्ठ कागजात)"
+
+#. Save dialog: Label for saving in JPEG format
+#: src/app-window.vala:507
+msgid "JPEG (compressed)"
+msgstr "जेपीजी(सङ्कुचित)"
+
+#. Save dialog: Label for saving in PNG format
+#: src/app-window.vala:513
+#, fuzzy
+msgid "PNG (lossless)"
+msgstr "बदलिएको PNG RGB वा RGBA होइन।"
+
+#. Save dialog: Label for sabing in WEBP format
+#: src/app-window.vala:520
+#, fuzzy
+msgid "WebP (compressed)"
+msgstr "जेपीजी(सङ्कुचित)"
+
+#. Label in save dialog beside combo box to choose file format (PDF, JPEG, PNG, WEBP)
+#: src/app-window.vala:531
+msgid "File format:"
+msgstr "फाइल ढाँचा"
+
+#. Label in save dialog beside compression slider
+#: src/app-window.vala:554
+#, fuzzy
+msgid "Compression:"
+msgstr "सङ्कुचन तह:"
+
+#: src/app-window.vala:561
+msgid "Minimum size"
+msgstr "न्यूनतम साइज"
+
+#: src/app-window.vala:565
+msgid "Full detail"
+msgstr "सम्पुर्ण वर्णन"
+
+#. Contents of dialog that shows if saving would overwrite and existing file. %s is replaced with the name of the file.
+#: src/app-window.vala:647
+#, c-format
+msgid "A file named “%s” already exists.  Do you want to replace it?"
+msgstr "\"%s\" नाम गरिएको फाइल पहिले नै अवस्थित छ ।  तपाईँ यसलाई प्रतिस्थापन गर्न चाहनुहुन्छ?"
+
+#. Button in dialog that shows if saving would overwrite and existing file. Clicking the button allows simple-scan to overwrite the file.
+#: src/app-window.vala:650
+msgid "_Replace"
+msgstr "प्रतिस्थापन गर्नुहोस्"
+
+#: src/app-window.vala:717
+msgid "Saving"
+msgstr "फाइल बचत गर्दै"
+
+#. Title of error dialog when save failed
+#: src/app-window.vala:734
+msgid "Failed to save file"
+msgstr "फाइल बचत गर्न असफल भयो"
+
+#. Text in dialog warning when a document is about to be lost
+#: src/app-window.vala:758
+#, fuzzy
+msgid "If you don’t save, changes will be permanently lost."
+msgstr "यदि तपाईंले प्रतिलिपि बचत गर्नुभएन भने, परिवर्तनहरू स्थायी रूपमा हराउनेछन्।"
+
+#. Text in dialog warning when a document is about to be lost
+#: src/app-window.vala:794
+#, fuzzy
+msgid "Save current document?"
+msgstr "हालको कागजातको प्रतिलिपी बचत गर्नुहोस्"
+
+#. Button in dialog to create new document and discard unsaved document
+#: src/app-window.vala:796
+msgid "Discard Changes"
+msgstr "परिवर्तनहरू छोड्नुहोस्"
+
+#. Label shown when scan started
+#: src/app-window.vala:836
+#, fuzzy
+msgid "Contacting Scanner…"
+msgstr "कागजात स्क्यानर"
+
+#. Error message display when unable to save image for preview
+#: src/app-window.vala:1106
+#, fuzzy
+msgid "Unable to save image for preview"
+msgstr "स्रोत फाइल बचत गर्न असक्षम"
+
+#. Error message display when unable to preview image
+#: src/app-window.vala:1118
+msgid "Unable to open image preview application"
+msgstr "छवि पूर्वावलोकन अनुप्रयोग खोल्न अक्षम ।"
+
+#. Title of dialog to reorder pages
+#: src/app-window.vala:1280
+#, fuzzy
+msgctxt "dialog title"
+msgid "Reorder Pages"
+msgstr "कुनै खोलेको पृष्ठहरू छैन"
+
+#. Label on button for combining sides in reordering dialog
+#: src/app-window.vala:1303
+#, fuzzy
+msgid "Combine sides"
+msgstr "साइड"
+
+#. Label on button for combining sides in reverse order in reordering dialog
+#: src/app-window.vala:1313
+#, fuzzy
+msgid "Combine sides (reverse)"
+msgstr "साइड"
+
+#. Label on button for reversing in reordering dialog
+#: src/app-window.vala:1323
+msgid "Reverse"
+msgstr "उल्टाउनुहोस्"
+
+#. Label on button for cancelling page reordering dialog
+#: src/app-window.vala:1333
+#, fuzzy
+msgid "Keep unchanged"
+msgstr "परिवर्तनहरू राख्नुहोस्"
+
+#. Error message displayed when unable to launch help browser
+#: src/app-window.vala:1557
+msgid "Unable to open help file"
+msgstr "मद्दत फाइल खोल्न असक्षम भयो"
+
+#. The license this software is under (GPL3+)
+#: src/app-window.vala:1572
+#, fuzzy
+msgid ""
+"This program is free software: you can redistribute it and/or modify\n"
+"it under the terms of the GNU General Public License as published by\n"
+"the Free Software Foundation, either version 3 of the License, or\n"
+"(at your option) any later version.\n"
+"\n"
+"This program is distributed in the hope that it will be useful,\n"
+"but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
+"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n"
+"GNU General Public License for more details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License\n"
+"along with this program.  If not, see <http://www.gnu.org/licenses/>."
+msgstr ""
+"जेनियस %s\n"
+"%s\n"
+"\n"
+"    यो कार्यक्रम निशुल्क सफ्टवेयर हो: तपाईँ यसलाई स्वतन्त्र सफ्टवेयर संस्था मार्फत\n"
+"    प्रकाशन गरिएको रूपमा जीएनयू साधरण सार्वजनिक इजाजतपत्रको शर्त अन्तर्गत\n"
+"    पुन: वितरण र/वा परिमार्जन गर्न सक्नुहुन्छ, या त इजाजतपत्रको संस्करण ३, वा\n"
+"    (तपाईँको विकल्पमा) पछिल्लो कुनै संस्करण ।\n"
+"\n"
+"    यो कार्यक्रम पछि उपयोगी होला भन्ने आशामा वितरण गरिएको हो,\n"
+"    तर कुनै निश्चितता बिना; निश्चित उद्देश्यका लागि मर्कान्ट्याबिलिटी वा फिट्नेसको\n"
+"    उपलक्षित निश्चितता बिना वितरण गरिएको हो । विस्तृत विवरणका लागि\n"
+"    जीएनयू साधरण सार्वजनिक इजाजतपत्र हेर्नुहोस् ।\n"
+"\n"
+"    तपाईँले यो कार्यक्रमको साथसाथै जीएनयू साधारण सार्वजनिक इजाजतपत्रको प्रतिलिपि\n"
+"    प्राप्त गर्नुपर्छ ।  यदि छैन भने, <http://www.gnu.org/licenses/> हेर्नुहोस् ।\n"
+
+#. Title of about dialog
+#: src/app-window.vala:1575 src/app-window.vala:1895
+msgid "About Document Scanner"
+msgstr "कागजात स्क्यानर बारेमा"
+
+#. Description of program
+#: src/app-window.vala:1578
+msgid "Simple document scanning tool"
+msgstr "साधारण कागजात स्क्यानिङ उपकरण"
+
+#: src/app-window.vala:1587
+msgid "translator-credits"
+msgstr "pawan chitrakar < chautari@gmail.com >"
+
+#. Text in dialog warning when a document is about to be lost
+#: src/app-window.vala:1603
+#, fuzzy
+msgid "Save document before quitting?"
+msgstr "बन्द गर्नु अघि कागजात \"%s\" प्रतिलिपी बचत गर्नहुन्छ ?"
+
+#. Text in dialog warning when a document is about to be lost
+#: src/app-window.vala:1605
+msgid "Quit without Saving"
+msgstr "बचत नगरी बन्द गर्नुहोस्"
+
+#. Message to indicate a Brother scanner has been detected
+#: src/app-window.vala:1646
+msgid "You appear to have a Brother scanner."
+msgstr ""
+
+#. Instructions on how to install Brother scanner drivers
+#: src/app-window.vala:1648
+msgid "Drivers for this are available on the <a href=\"http://support.brother.com\">Brother website</a>."
+msgstr ""
+
+#. Message to indicate a Canon Pixma scanner has been detected
+#: src/app-window.vala:1652
+msgid "You appear to have a Canon scanner, which is supported by the <a href=\"http://www.sane-project.org/man/sane-pixma.5.html\">Pixma SANE backend</a>."
+msgstr ""
+
+#. Instructions on how to resolve issue with SANE scanner drivers
+#: src/app-window.vala:1654
+msgid ""
+"Please check if your <a href=\"http://www.sane-project.org/sane-supported-devices.html\">scanner is supported by SANE</a>, otherwise report the issue to the <a href=\"https://"
+"alioth-lists.debian.net/cgi-bin/mailman/listinfo/sane-devel\">SANE mailing list</a>."
+msgstr ""
+"कृपया जाँच्नुहोस् यदि तपाईँको <a href=\"http://www.sane-project.org/sane-supported-devices.html\">स्क्यानर SANE द्वारा समर्थित छ</a>भने , अन्यथा <a href=\"https://alioth-lists.debian.net/cgi-"
+"bin/mailman/listinfo/sane-devel\">साने पत्राचार सूचीमा</a>यो मुद्दा रिपोर्ट गर्नुहोस् ।"
+
+#. Message to indicate a Samsung scanner has been detected
+#: src/app-window.vala:1658
+msgid "You appear to have a Samsung scanner."
+msgstr "तपाईँसँग सामसुङ स्क्यानर भएको देखिन्छ ।"
+
+#. Instructions on how to install Samsung scanner drivers.
+#. Because HP acquired Samsung's global printing business in 2017, the support is made on HP site.
+#: src/app-window.vala:1661
+msgid "Drivers for this are available on the <a href=\"https://support.hp.com\">HP website</a> (HP acquired Samsung's printing business)."
+msgstr ""
+
+#. Message to indicate a HP scanner has been detected
+#: src/app-window.vala:1666
+msgid "You appear to have an HP scanner."
+msgstr "तपाईँसँग HP स्क्यानर भएको देखिन्छ ।"
+
+#. Instructions on how to install HP scanner drivers.
+#. smfp is rebranded and slightly modified Samsung devices,
+#. for example: HP Laser MFP 135a is rebranded Samsung Xpress SL-M2070.
+#. It require custom drivers, not available in hpaio package
+#: src/app-window.vala:1674
+msgid "Drivers for this are available on the <a href=\"https://support.hp.com\">HP website</a>."
+msgstr ""
+
+#. Message to indicate an Epson scanner has been detected
+#: src/app-window.vala:1678
+msgid "You appear to have an Epson scanner."
+msgstr "तपाईँसँग इप्सन स्क्यानर भएको देखिन्छ ।"
+
+#. Instructions on how to install Epson scanner drivers
+#: src/app-window.vala:1680
+msgid "Drivers for this are available on the <a href=\"http://support.epson.com\">Epson website</a>."
+msgstr ""
+
+#. Message to indicate an Lexmark scanner has been detected
+#: src/app-window.vala:1684
+msgid "You appear to have an Lexmark scanner."
+msgstr "तपाईँसँग लेक्समार्क स्क्यानर भएको देखिन्छ ।"
+
+#. Instructions on how to install Lexmark scanner drivers
+#: src/app-window.vala:1686
+msgid "Drivers for this are available on the <a href=\"http://support.lexmark.com\">Lexmark website</a>."
+msgstr ""
+
+#. Title of dialog giving instructions on how to install drivers
+#: src/app-window.vala:1690
+msgid "Install drivers"
+msgstr "ड्राइभर स्थापना गर्नुहोस्"
+
+#. Message in driver install dialog
+#: src/app-window.vala:1724
+msgid "Once installed you will need to restart this app."
+msgstr "स्थापना भएपछि तपाईँले यो अनुप्रयोग पुन: सुरु गर्नुपर्नेछ ।"
+
+#. Label shown while installing drivers
+#: src/app-window.vala:1737
+msgid "Installing drivers…"
+msgstr "ड्राइभर स्थापना गर्नु…"
+
+#. Label shown once drivers successfully installed
+#: src/app-window.vala:1745
+msgid "Drivers installed successfully!"
+msgstr "ड्राइभर स्थापना सफल!"
+
+#. Label shown if failed to install drivers
+#: src/app-window.vala:1755
+#, c-format
+msgid "Failed to install drivers (error code %d)."
+msgstr "(त्रुटि सङ्केत %d) ड्राइभर स्थापना गर्न असफल भयो ।"
+
+#. Label shown if failed to install drivers
+#: src/app-window.vala:1761
+msgid "Failed to install drivers."
+msgstr "ड्राइभर स्थापन असफल"
+
+#. Label shown to prompt user to install packages (when PackageKit not available)
+#: src/app-window.vala:1768
+#, c-format
+msgid "You need to install the %s package."
+msgid_plural "You need to install the %s packages."
+msgstr[0] "तपाईँले %s प्याकेज स्थापना गर्न आवश्यक छ ।"
+msgstr[1] "तपाईँले %s प्याकेज स्थापना गर्न आवश्यक छ ।"
+
+#: src/app-window.vala:1887
+msgid "Email"
+msgstr "इमेल"
+
+#: src/app-window.vala:1888
+msgid "Print"
+msgstr "मुद्रण गर्नुहोस्"
+
+#: src/app-window.vala:1889
+#, fuzzy
+msgctxt "menu"
+msgid "Reorder Pages"
+msgstr "कुनै खोलेको पृष्ठहरू छैन"
+
+#: src/app-window.vala:1892
+msgid "Preferences"
+msgstr "प्राथमिकताहरू"
+
+#: src/app-window.vala:1893
+msgid "Keyboard Shortcuts"
+msgstr "कुञ्जीपाटी सर्टकटहरू"
+
+#: src/app-window.vala:1894
+msgid "Help"
+msgstr "मद्दत"
+
+#. Populate ActionBar (not supported in Glade)
+#. https://bugzilla.gnome.org/show_bug.cgi?id=769966
+#. Label on new document button
+#: src/app-window.vala:1903
+msgid "New Document"
+msgstr "नयाँ कागजात"
+
+#. Tooltip for rotate left (counter-clockwise) button
+#: src/app-window.vala:1922
+#, fuzzy
+msgid "Rotate the page to the left (counter-clockwise)"
+msgstr "९०° उल्टो घडी दिशामा पृष्ठ घुमाउनुहोस्"
+
+#. Tooltip for rotate right (clockwise) button
+#: src/app-window.vala:1931
+#, fuzzy
+msgid "Rotate the page to the right (clockwise)"
+msgstr "९०° घडीसरह पृष्ठ घुमाउनुहोस्"
+
+#. Tooltip for crop button
+#: src/app-window.vala:1943
+msgid "Crop the selected page"
+msgstr "छानिएको पृष्ठलाई काँटछाँट गर्नुहोस्"
+
+#. Tooltip for delete button
+#: src/app-window.vala:1961
+#, fuzzy
+msgid "Delete the selected page"
+msgstr "चयन गरेको प्रयोगकर्ता खाता मेट्नुहोस्"
+
+#. Text of button for cancelling save
+#: src/app-window.vala:2135
+msgid "Cancel"
+msgstr "रद्द गर्ने"
+
+#: src/book.vala:331 src/book.vala:337
+#, fuzzy, c-format
+msgid "Unable to encode page %i"
+msgstr "पृष्ठ: %i/%i"
+
+#. Combo box value for automatic paper size
+#: src/preferences-dialog.vala:63
+msgid "Automatic"
+msgstr "स्वाचालित"
+
+#: src/preferences-dialog.vala:100
+msgid "Darker"
+msgstr "अँध्यारो"
+
+#: src/preferences-dialog.vala:102
+msgid "Lighter"
+msgstr "उज्यालो"
+
+#: src/preferences-dialog.vala:110
+msgid "Less"
+msgstr "भन्दा सानो"
+
+#: src/preferences-dialog.vala:112
+msgid "More"
+msgstr "बढि"
+
+#. Preferences dialog: Label for default resolution in resolution list
+#: src/preferences-dialog.vala:283
+#, c-format
+msgid "%d dpi (default)"
+msgstr "%d dpi(पुर्वनिर्धारित"
+
+#. Preferences dialog: Label for minimum resolution in resolution list
+#: src/preferences-dialog.vala:286
+#, c-format
+msgid "%d dpi (draft)"
+msgstr "%d dpi (ड्राफ्ट)"
+
+#. Preferences dialog: Label for maximum resolution in resolution list
+#: src/preferences-dialog.vala:289
+#, c-format
+msgid "%d dpi (high resolution)"
+msgstr "%d dpi (उच्च-रिजोल्युसन)"
+
+#. Preferences dialog: Label for resolution value in resolution list (dpi = dots per inch)
+#: src/preferences-dialog.vala:292
+#, c-format
+msgid "%d dpi"
+msgstr "%d dpi"
+
+#. Error displayed when no scanners to scan with
+#: src/scanner.vala:870
+msgid "No scanners available.  Please connect a scanner."
+msgstr "कुनै स्क्यानर उपलब्ध छैन ।  कृपया एउटा स्क्यानर जडान गर्नुहोस् ।"
+
+#. Error displayed when cannot connect to scanner
+#: src/scanner.vala:900
+#, fuzzy
+msgid "Unable to connect to scanner"
+msgstr "कुनै स्क्यानर उपलब्ध छैन ।  कृपया एउटा स्क्यानर जडान गर्नुहोस् ।"
+
+#. Error displayed when no documents at the start of scanning
+#: src/scanner.vala:1297 src/scanner.vala:1432
+#, fuzzy
+msgid "Document feeder empty"
+msgstr "कागजात खाली छ वा ‍खाली पूष्ठ स्थान मात्र राखिएको छ"
+
+#. Out of memory error message with help instruction.
+#. Message written in Pango text markup language,
+#. A carriage return makes a line break, <tt> tag makes a monospace font
+#: src/scanner.vala:1305
+msgid ""
+"Insufficient memory to perform scan.\n"
+"Try to decrease <tt>Resolution</tt> or <tt>Page Size</tt> in <tt>Preferences</tt> menu. For some scanners when scanning in high resolution, the scan size is restricted."
+msgstr ""
+
+#. Error display when unable to start scan
+#: src/scanner.vala:1318
+#, fuzzy
+msgid "Unable to start scan"
+msgstr "सुरु गर्न अक्षम: “%s”"
+
+#. Error displayed when communication with scanner broken
+#: src/scanner.vala:1331 src/scanner.vala:1442
+msgid "Error communicating with scanner"
+msgstr "स्क्यानर जडानमा त्रुटि"
+
+#. Help string for command line --version flag
+#: src/simple-scan.vala:21
+msgid "Show release version"
+msgstr "रिलिज भर्जन देखाउने"
+
+#. Help string for command line --debug flag
+#: src/simple-scan.vala:24
+msgid "Print debugging messages"
+msgstr "डिबग सन्देशहरु प्रिन्ट गर्ने।"
+
+#: src/simple-scan.vala:26
+msgid "Fix PDF files generated with older versions of this app"
+msgstr "यो अनुप्रयोगको पुरानो संस्करणहरू संग उत्पन्न पीडीएफ फाइलहरू फिक्स गर्नुहोस्"
+
+#. Title of error dialog when scan failed
+#: src/simple-scan.vala:1757
+msgid "Failed to scan"
+msgstr "स्क्यान असफल"
+
+#. Attempt to inhibit the screensaver when scanning
+#: src/simple-scan.vala:1772
+msgid "Scan in progress"
+msgstr "स्क्यान प्रगति"
+
+#. Arguments and description for --help text
+#: src/simple-scan.vala:1956
+msgid "[DEVICE…] — Scanning utility"
+msgstr "[यन्त्र...] — स्क्यानिङ युटिलिटी"
+
+#. Text printed out when an unknown command-line argument provided
+#: src/simple-scan.vala:1967
+#, fuzzy, c-format
+msgid "Run “%s --help” to see a full list of available command line options."
+msgstr ""
+"%s\n"
+"उपलब्ध आदेश लाइन विकल्पको पूरै सुची हेर्न '%s --मद्दत' चलाउनुहोस् ।\n"
+
+#~ msgid "Resolution for photo scans"
+#~ msgstr "स्क्यान फोटो रिजोल्युसन"
+
+#~ msgid "The resolution in dots-per-inch to use when scanning photos."
+#~ msgstr "तस्विर स्क्यान गर्दै गर्दा थोप्लो-प्रति-इन्चमा रिजोल्युसन प्रयोग गर्दछ।"
+
+#~ msgid "Simple Scan"
+#~ msgstr "सरल स्क्यान"
+
+#~ msgid "Scan Documents"
+#~ msgstr "कागजात स्क्यान"
+
+#~ msgid "scanner"
+#~ msgstr "scanner"
+
+#~ msgid "Photo"
+#~ msgstr "तस्वीर"
+
+#~ msgid "Sc_an"
+#~ msgstr "स्क्यान"
+
+#~ msgid "_Stop Scan"
+#~ msgstr "स्क्यान रोक्नुहोस्"
+
+#~ msgid "_Email"
+#~ msgstr "इमेल"
+
+#~ msgid "_Page"
+#~ msgstr "पृष्ठ"
+
+#~ msgid "_Help"
+#~ msgstr "मद्दत गर्नुहोस्"
+
+#~ msgid "_Contents"
+#~ msgstr "सामग्री"
+
+#~ msgid "Save"
+#~ msgstr "बचत गर्नुहोस्"
+
+#~ msgid "Stop"
+#~ msgstr "रोक्नुहोस्"
+
+#~ msgid "About Simple Scan"
+#~ msgstr "सरल स्क्यान बारेमा"
+
+#~ msgid "About"
+#~ msgstr "बारेमा"
+
+#~ msgid "Start Again…"
+#~ msgstr "फेरि सुरु गर्नुहोस्…"
+
+#~ msgid "_Scanner"
+#~ msgstr "स्क्यानर"
+
+#~ msgid "Delay"
+#~ msgstr "ढिलाई"
+
+#, fuzzy
+#~ msgid "Multiple pages from flatbed"
+#~ msgstr "बहुविध पृष्ठहरू देखाउनुहोस्"
+
+#~ msgid "5"
+#~ msgstr "५"
+
+#~ msgid "7"
+#~ msgstr "७"
+
+#~ msgid "Seconds"
+#~ msgstr "सेकेन्ड"
+
+#~ msgid "_Photo Resolution"
+#~ msgstr "फोटो रिजोल्युसन"

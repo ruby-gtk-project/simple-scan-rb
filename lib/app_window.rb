@@ -27,6 +27,7 @@ require_relative 'screensaver'
 require_relative 'settings'
 require_relative 'shortcuts_dialog'
 require_relative 'simple/scan/rb/version'
+require_relative 'translations'
 
 # AppWindow is the main window: the header bar with the Scan and Save buttons,
 # the status page shown before there is a document, the book view and the
@@ -44,6 +45,9 @@ require_relative 'simple/scan/rb/version'
 # start_scan, stop_scan and redetect and lets src/simple-scan.vala connect
 # them to the Scanner, and so does this.
 class AppWindow
+  include Translations
+  extend Translations
+
   include Signals
 
   # The app-scoped actions and their accelerators, from the action_entries
@@ -202,7 +206,7 @@ class AppWindow
   def window
     @window ||= Adwaita::ApplicationWindow.new(@app).tap do |win|
       # Title of the scan window
-      win.title = 'Document Scanner'
+      win.title = _('Document Scanner')
       win.set_default_size(@settings.window_width, @settings.window_height)
     end
   end
@@ -211,7 +215,7 @@ class AppWindow
   def header_bar = @header_bar ||= Adwaita::HeaderBar.new
 
   def window_title
-    @window_title ||= Adwaita::WindowTitle.new('Document Scanner', '')
+    @window_title ||= Adwaita::WindowTitle.new(_('Document Scanner'), '')
   end
 
   def scan_box
@@ -222,14 +226,14 @@ class AppWindow
     @scan_button ||= Gtk::Button.new.tap do |button|
       button.child = scan_button_content
       # Tooltip for the scan toolbar button
-      button.tooltip_text = 'Scan a single page from the scanner'
+      button.tooltip_text = _('Scan a single page from the scanner')
     end
   end
 
   def scan_button_content
     @scan_button_content ||= Adwaita::ButtonContent.new.tap do |content|
       content.icon_name = 'scanner-symbolic'
-      content.label = '_Scan'
+      content.label = _('_Scan')
       content.use_underline = true
     end
   end
@@ -237,7 +241,7 @@ class AppWindow
   def scan_options_button
     @scan_options_button ||= Gtk::MenuButton.new.tap do |button|
       # Tooltip for the scan options button
-      button.tooltip_text = 'Choose what to scan'
+      button.tooltip_text = _('Choose what to scan')
     end
   end
 
@@ -245,7 +249,7 @@ class AppWindow
     @stop_button ||= Gtk::Button.new.tap do |button|
       button.child = stop_button_box
       # Tooltip for the stop button
-      button.tooltip_text = 'Stop the current scan'
+      button.tooltip_text = _('Stop the current scan')
       button.visible = false
     end
   end
@@ -253,7 +257,7 @@ class AppWindow
   def stop_button_box
     @stop_button_box ||= Gtk::Box.new(:horizontal, 6).tap do |box|
       box.append(stop_button_spinner)
-      box.append(Gtk::Label.new('S_top').tap { |label| label.use_underline = true })
+      box.append(Gtk::Label.new(_('S_top')).tap { |label| label.use_underline = true })
     end
   end
 
@@ -263,7 +267,7 @@ class AppWindow
     @scan_hint_button ||= Gtk::Button.new.tap do |button|
       button.icon_name = 'image-x-generic-symbolic'
       # Tooltip for the document type button
-      button.tooltip_text = 'Choose the type of document being scanned'
+      button.tooltip_text = _('Choose the type of document being scanned')
     end
   end
 
@@ -271,7 +275,7 @@ class AppWindow
     @save_button ||= Gtk::Button.new.tap do |button|
       button.icon_name = 'document-save-symbolic'
       # Tooltip for the save toolbar button
-      button.tooltip_text = 'Save document to a file'
+      button.tooltip_text = _('Save document to a file')
       button.sensitive = false
     end
   end
@@ -281,7 +285,7 @@ class AppWindow
       button.icon_name = 'open-menu-symbolic'
       button.menu_model = gear_menu
       # Tooltip for the main menu button
-      button.tooltip_text = 'Menu'
+      button.tooltip_text = _('Menu')
     end
   end
 
@@ -295,18 +299,18 @@ class AppWindow
 
   def document_menu_section
     @document_menu_section ||= Gio::Menu.new.tap do |section|
-      section.append('_Email', 'app.email')
-      section.append('Pri_nt', 'app.print')
-      section.append('_Reorder Pages', 'app.reorder')
+      section.append(_('_Email'), 'app.email')
+      section.append(_('Pri_nt'), 'app.print')
+      section.append(p_('menu', '_Reorder Pages'), 'app.reorder')
     end
   end
 
   def application_menu_section
     @application_menu_section ||= Gio::Menu.new.tap do |section|
-      section.append('_Preferences', 'app.preferences')
-      section.append('_Keyboard Shortcuts', 'app.shortcuts')
-      section.append('_Help', 'app.help')
-      section.append('_About Document Scanner', 'app.about')
+      section.append(_('_Preferences'), 'app.preferences')
+      section.append(_('_Keyboard Shortcuts'), 'app.shortcuts')
+      section.append(_('_Help'), 'app.help')
+      section.append(_('_About Document Scanner'), 'app.about')
     end
   end
 
@@ -358,7 +362,7 @@ class AppWindow
     stop_button.visible = @scanning
 
     if @scanning
-      @screensaver.inhibit('Document Scanner', 'Scanning')
+      @screensaver.inhibit(_('Document Scanner'), _('Scanning'))
     else
       @screensaver.uninhibit
     end
@@ -405,7 +409,7 @@ class AppWindow
   # credentials go to the block, because GTK4 cannot run a dialog modally.
   def authorize(resource, &on_credentials)
     # Label in authorization dialog. “%s” is replaced with the name of the resource requesting authorization
-    format('Username and password required to access “%s”', resource).then do |description|
+    format(_('Username and password required to access “%s”'), resource).then do |description|
       AuthorizeDialog.new(description, &on_credentials).build.present(window)
     end
   end
@@ -649,7 +653,7 @@ class AppWindow
 
     def new_document
       # Text in dialog warning when a document is about to be lost
-      prompt_to_save('Save current document?', '_Discard Changes') do
+      prompt_to_save(_('Save current document?'), _('_Discard Changes')) do
         if @scanning
           emit(:stop_scan)
         end
@@ -708,7 +712,7 @@ class AppWindow
 
     def save_progress_bar(cancellable)
       # Text on the progress bar while saving
-      CancellableProgressBar.new('Saving', cancellable).build.tap { |bar| action_bar.pack_end(bar) }
+      CancellableProgressBar.new(_('Saving'), cancellable).build.tap { |bar| action_bar.pack_end(bar) }
     end
 
     def document_written(error, path, progress, &on_saved)
@@ -723,7 +727,7 @@ class AppWindow
         action_bar.remove(progress)
         warn "Error saving file: #{error.message}"
         # Title of error dialog when a save failed
-        show_error_dialog('Failed to save file', error.message)
+        show_error_dialog(_('Failed to save file'), error.message)
       end
     end
 
@@ -811,7 +815,7 @@ class AppWindow
       end
     rescue StandardError, GLib::Error => e
       # Error message displayed when unable to save an image for preview
-      show_error_dialog('Unable to save image for preview', e.message)
+      show_error_dialog(_('Unable to save image for preview'), e.message)
       nil
     end
 
@@ -832,7 +836,7 @@ class AppWindow
         source.launch_finish(result)
       rescue GLib::Error => e
         # Error message displayed when unable to launch the help browser
-        show_error_dialog('Unable to open help file', e.message)
+        show_error_dialog(_('Unable to open help file'), e.message)
       end
     end
 
@@ -844,7 +848,7 @@ class AppWindow
 
     def quit
       # Text in dialog warning when a document is about to be lost
-      prompt_to_save('Save document before quitting?', '_Quit without Saving') do
+      prompt_to_save(_('Save document before quitting?'), _('_Quit without Saving')) do
         if @settings.state_write_pending?
           @settings.save_state(force: true)
         end

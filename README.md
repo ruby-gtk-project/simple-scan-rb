@@ -120,6 +120,27 @@ gem install simple-scan-rb
 
 ## 🔧 Basic Usage
 
+## 🌍 Translations
+
+The app is translated through gettext. The 76 message catalogues in `po/` are
+upstream's, carried across unchanged, and `lib/translations.rb` binds the
+`simple-scan` domain to the compiled copies in `data/locale`, which are kept in
+the repository so a fresh checkout is localised without a build step.
+
+| Task | What it does |
+|------|--------------|
+| `rake i18n:pot` | Re-extracts `po/simple-scan.pot` and `po/POTFILES.in` from `lib/**/*.rb` |
+| `rake i18n:merge` | Merges each `po/<lang>.po` against the current pot, keeping existing translations |
+| `rake i18n:mo` | Compiles `po/*.po` into `data/locale/<lang>/LC_MESSAGES/simple-scan.mo` |
+| `rake i18n:clean` | Removes the compiled catalogues |
+
+Run the app under another locale with `LANGUAGE=de xvfb-run ruby exe/simple-scan`.
+
+The desktop entry (`data/simple-scan.desktop.in`) and the AppStream metadata
+(`data/simple-scan.appdata.xml.in`) carry upstream's translatable fields; a
+packager merges the catalogues into them at install time, which is why their
+msgids are in `po/` but not in the pot this port extracts.
+
 ## 🤝 Contributing
 
 If you need some ideas of where to help, you could work on adding more code coverage,

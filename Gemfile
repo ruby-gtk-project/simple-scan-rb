@@ -62,6 +62,9 @@ gem "irb", "~> 1.17" # ruby >= 2.7
 gem "gem_kit"
 gem "gtk4"
 
+# The message catalogues in po/ are looked up through this at runtime.
+gem "gettext"
+
 group :development do
   gem "rubocop"
 end

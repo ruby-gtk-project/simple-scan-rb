@@ -4,6 +4,7 @@ require 'adwaita'
 require 'gtk4'
 
 require_relative 'page'
+require_relative 'translations'
 
 # ScannerStatusPage is the page the window shows before there is a document:
 # it says whether a scanner was found, lets the user pick between several, and
@@ -18,6 +19,9 @@ require_relative 'page'
 # The device names sit in a parallel array, so the labels can be re-read from
 # a redetect without disturbing the selection.
 class ScannerStatusPage < Adwaita::Bin
+  include Translations
+  extend Translations
+
   include Signals
 
   def initialize
@@ -103,7 +107,7 @@ class ScannerStatusPage < Adwaita::Bin
     @refresh_button ||= Gtk::Button.new.tap do |button|
       button.icon_name = 'view-refresh-symbolic'
       # Tooltip for refresh button
-      button.tooltip_text = 'Refresh device list'
+      button.tooltip_text = _('Refresh device list')
     end
   end
 
@@ -157,7 +161,7 @@ class ScannerStatusPage < Adwaita::Bin
 
   # Upstream's "Contacting Scanner…", set when a scan starts.
   def contacting_scanner
-    status_page.title = 'Contacting Scanner…'
+    status_page.title = _('Contacting Scanner…')
     device_buttons_box.visible = true
     device_buttons_box.sensitive = false
   end
@@ -214,14 +218,14 @@ class ScannerStatusPage < Adwaita::Bin
 
     def searching_state
       # Label shown when searching for scanners
-      status_page.title = 'Searching for Scanners…'
+      status_page.title = _('Searching for Scanners…')
       secondary_label.visible = false
       device_buttons_box.visible = false
     end
 
     def ready_state
       # Label shown when a scanner was detected
-      status_page.title = 'Ready to Scan'
+      status_page.title = _('Ready to Scan')
       secondary_label.label = selected_device_label.to_s
       secondary_label.visible = false
       device_buttons_box.visible = true
@@ -231,18 +235,18 @@ class ScannerStatusPage < Adwaita::Bin
 
     def missing_driver_state
       # Warning displayed when no drivers are installed but a compatible scanner is detected
-      status_page.title = 'Additional Software Needed'
+      status_page.title = _('Additional Software Needed')
       # Instructions to install driver software
-      secondary_label.label = 'You need to <a href="install-firmware">install driver software</a> for your scanner.'
+      secondary_label.label = _('You need to <a href="install-firmware">install driver software</a> for your scanner.')
       secondary_label.visible = true
       device_buttons_box.visible = false
     end
 
     def no_scanners_state
       # Warning displayed when no scanners are detected
-      status_page.title = 'No Scanners Detected'
+      status_page.title = _('No Scanners Detected')
       # Hint to the user on why there are no scanners detected
-      secondary_label.label = 'Please check your scanner is connected and powered on.'
+      secondary_label.label = _('Please check your scanner is connected and powered on.')
       secondary_label.visible = true
       device_buttons_box.visible = true
       device_buttons_box.sensitive = true

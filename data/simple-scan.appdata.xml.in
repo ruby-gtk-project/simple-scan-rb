@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop">
+  <id>simple-scan.desktop</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0+ and CC-BY-SA-3.0</project_license>
+  <name>Document Scanner</name>
+  <summary>Make a digital copy of your photos and documents</summary>
+  <description>
+    <p>
+      A really easy way to scan both text and images.
+      You can crop out the bad parts of an image and rotate it if it is the wrong way round.
+      You can print your scans, export them to pdf, or save them in a range of image formats.
+    </p>
+    <p>
+      This app uses the SANE framework to support most existing scanners.
+    </p>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <image type="source">https://gitlab.gnome.org/GNOME/simple-scan/raw/master/data/screenshots/simple-scan-1.png</image>
+    </screenshot>
+  </screenshots>
+  <url type="homepage">https://gitlab.gnome.org/GNOME/simple-scan</url>
+  <url type="bugtracker">https://gitlab.gnome.org/GNOME/simple-scan/issues</url>
+  <url type="donation">https://www.gnome.org/friends/</url>
+  <developer_name>The GNOME Project</developer_name>
+  <releases>
+    <release date="2021-10-27" version="40.6">
+      <description>
+        <ul>
+          <li>Add duplex scanning support for Canon DR-C240.</li>
+          <li>Add missing centered ADF source option from Brother driver.</li>
+          <li>Updated translations.</li>
+        </ul>
+      </description>
+    </release>
+    <release date="2021-09-22" version="40.5">
+      <description>
+        <ul>
+          <li>Fix automatic size detection on Brother scanners.</li>
+          <li>Updated translations.</li>
+        </ul>
+      </description>
+    </release>
+    <release date="2021-05-25" version="40.1">
+      <description>
+        <p>
+          Updated translations.
+        </p>
+      </description>
+    </release>
+    <release date="2021-03-23" version="40.0">
+      <description>
+        <p>
+          Updated translations.
+        </p>
+      </description>
+    </release>
+    <release date="2021-02-25" version="40.beta" type="development">
+      <description>
+        <p>
+          This is an unstable release in the 40 development series,
+          with the following changes:
+        </p>
+        <ul>
+          <li>Don't repeat vendor name in the device name</li>
+          <li>GNOME 40 consistency updates</li>
+          <li>Fix crop size after decreasing page size</li>
+          <li>UI fixes: change crop icon, improve layout of buttons</li>
+          <li>Add redetect button to device list</li>
+          <li>Add new resolution 200 DPI</li>
+          <li>Add zero second delay for Multiple Pages from FlatBed</li>
+          <li>Display an error, when no documents found in the feeder</li>
+          <li>Rename 'Start again' button to 'New document'</li>
+          <li>Fix crash on lexmark backend</li>
+        </ul>
+        <p>This release also updates translations.</p>
+      </description>
+    </release>
+    <release date="2020-10-02" version="3.38.1">
+      <description>
+        <p>
+          Updated translations.
+        </p>
+      </description>
+    </release>
+    <release date="2020-09-11" version="3.38.0">
+      <description>
+        <p>
+          First stable release for GNOME 3.38, with the updated translations.
+        </p>
+      </description>
+    </release>
+    <release date="2020-09-04" version="3.37.92" type="development">
+      <description>
+        <p>
+          This is an unstable release in the 3.37 development series,
+          with the following improvements:
+        </p>
+        <ul>
+          <li>Display error message if simple-scan is unable to open simple-scan.log</li>
+          <li>Fix scanning on Epson devices, when Automatic Page Size is enabled</li>
+        </ul>
+        <p>This release also updates translations.</p>
+      </description>
+    </release>
+    <release date="2019-09-08" version="3.34.0"/>
+    <release date="2019-05-05" version="3.32.2.1"/>
+    <release date="2019-04-09" version="3.32.2"/>
+  </releases>
+  <content_rating type="oars-1.1" />
+  <update_contact>robert.ancell_AT_canonical.com</update_contact>
+  <translation type="gettext">simple-scan</translation>
+</component>

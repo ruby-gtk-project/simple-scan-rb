@@ -2,6 +2,8 @@
 
 require 'gtk4'
 
+require_relative 'translations'
+
 # PageMenu is the context menu a right click on a page raises.
 #
 # Ported from the GtkMenu with id page_menu at the top of upstream's
@@ -14,23 +16,26 @@ require 'gtk4'
 # and it also removes the updating_page_menu flag upstream needs to stop a
 # programmatic toggle from being read back as a user choice.
 class PageMenu
+  include Translations
+  extend Translations
+
   # The crop submenu, in upstream's order. The value is the crop name the
   # window's crop action takes; "none" and "custom" are upstream's two special
   # cases, the rest are paper sizes Page#set_named_crop knows.
   CROPS = [
     # Radio button for no crop
-    ['_None', 'none'],
-    ['A_4', 'A4'],
-    ['A_5', 'A5'],
-    ['A_6', 'A6'],
+    [_('_None'), 'none'],
+    [_('A_4'), 'A4'],
+    [_('A_5'), 'A5'],
+    [_('A_6'), 'A6'],
     # Radio button for cropping page to US letter size
-    ['_Letter', 'letter'],
+    [_('_Letter'), 'letter'],
     # Radio button for cropping page to US legal size
-    ['Le_gal', 'legal'],
-    ['4×6', '4x6'],
-    ['A_3', 'A3'],
+    [_('Le_gal'), 'legal'],
+    [_('4×6'), '4x6'],
+    [_('A_3'), 'A3'],
     # Radio button for cropping to a custom page size
-    ['_Custom', 'custom'],
+    [_('_Custom'), 'custom'],
   ].freeze
 
   def build
@@ -47,7 +52,7 @@ class PageMenu
       menu.append_section(nil, rotate_section)
       menu.append_submenu(
         # Label for page crop submenu
-        '_Crop',
+        _('_Crop'),
         crop_section,
       )
       menu.append_section(nil, move_section)
@@ -78,9 +83,9 @@ class PageMenu
     def rotate_section
       Gio::Menu.new.tap do |section|
         # Menu item to rotate page to left (anti-clockwise)
-        section.append('Rotate _Left', 'app.rotate_left')
+        section.append(_('Rotate _Left'), 'app.rotate_left')
         # Menu item to rotate page to right (clockwise)
-        section.append('Rotate _Right', 'app.rotate_right')
+        section.append(_('Rotate _Right'), 'app.rotate_right')
       end
     end
 
@@ -93,7 +98,7 @@ class PageMenu
 
         Gio::Menu.new.tap do |rotate|
           # Menu item to rotate the crop area
-          rotate.append('_Rotate Crop', 'win.rotate_crop')
+          rotate.append(_('_Rotate Crop'), 'win.rotate_crop')
           section.append_section(nil, rotate)
         end
       end
@@ -108,9 +113,9 @@ class PageMenu
     def move_section
       Gio::Menu.new.tap do |section|
         # Menu item to move the selected page to the left
-        section.append('Move Left', 'app.move_left')
+        section.append(_('Move Left'), 'app.move_left')
         # Menu item to move the selected page to the right
-        section.append('Move Right', 'app.move_right')
+        section.append(_('Move Right'), 'app.move_right')
       end
     end
 

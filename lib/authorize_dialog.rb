@@ -3,6 +3,8 @@
 require 'adwaita'
 require 'gtk4'
 
+require_relative 'translations'
+
 # AuthorizeDialog asks for the username and password a network scanner wants.
 #
 # Ported from upstream's src/authorize-dialog.vala and
@@ -10,12 +12,15 @@ require 'gtk4'
 # reading the two entries afterwards; GTK4 has no run, so the credentials go
 # to the block handed to build instead.
 class AuthorizeDialog < Adwaita::Dialog
+  include Translations
+  extend Translations
+
   def initialize(description, &on_authorized)
     super()
     @description = description
     @on_authorized = on_authorized
     # Title of the authorization dialog
-    self.title = 'Authorize'
+    self.title = _('Authorize')
     self.content_width = 420
   end
 
@@ -58,7 +63,7 @@ class AuthorizeDialog < Adwaita::Dialog
   def authorize_button
     @authorize_button ||= Gtk::Button.new.tap do |button|
       # Button to submit the authorization dialog
-      button.label = '_Authorize'
+      button.label = _('_Authorize')
       button.use_underline = true
       button.add_css_class('suggested-action')
     end
@@ -86,14 +91,14 @@ class AuthorizeDialog < Adwaita::Dialog
   def username_row
     @username_row ||= Adwaita::EntryRow.new.tap do |row|
       # Label beside username entry
-      row.title = 'Username for resource'
+      row.title = _('Username for resource')
     end
   end
 
   def password_row
     @password_row ||= Adwaita::PasswordEntryRow.new.tap do |row|
       # Label beside password entry
-      row.title = 'Password'
+      row.title = _('Password')
     end
   end
 

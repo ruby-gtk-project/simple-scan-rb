@@ -2,12 +2,17 @@
 
 require 'gtk4'
 
+require_relative 'translations'
+
 # CancellableProgressBar is the progress bar with a Cancel button beside it
 # that appears in the action bar while a document is being saved.
 #
 # Ported from the private class of the same name at the foot of upstream's
 # src/app-window.vala.
 class CancellableProgressBar < Gtk::Box
+  include Translations
+  extend Translations
+
   def initialize(text, cancellable)
     super(:horizontal, 6)
     @text = text
@@ -60,7 +65,7 @@ class CancellableProgressBar < Gtk::Box
   def cancel_button
     @cancel_button ||= Gtk::Button.new.tap do |button|
       # Text of button for cancelling save
-      button.label = 'Cancel'
+      button.label = _('Cancel')
       button.valign = :center
     end
   end

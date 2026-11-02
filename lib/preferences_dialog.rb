@@ -5,6 +5,7 @@ require 'gtk4'
 
 require_relative 'scan_options'
 require_relative 'settings'
+require_relative 'translations'
 
 # PreferencesDialog holds the scanning preferences: resolution for text and
 # for image scans, which side of a page to scan, the paper size, brightness,
@@ -20,6 +21,9 @@ require_relative 'settings'
 # radio group is a combo row too, because five radio buttons for one value is
 # not how Adwaita lays out a preferences page.
 class PreferencesDialog < Adwaita::PreferencesDialog
+  include Translations
+  extend Translations
+
   DEFAULT_TEXT_DPI = 150
   DEFAULT_PHOTO_DPI = 300
 
@@ -29,29 +33,29 @@ class PreferencesDialog < Adwaita::PreferencesDialog
   # paper_size_model.
   PAPER_SIZES = [
     # Combo box value for automatic paper size
-    [0, 0, 'Automatic'],
+    [0, 0, _('Automatic')],
     [1050, 1480, 'A6'],
     [1480, 2100, 'A5'],
     [2100, 2970, 'A4'],
     [2970, 4200, 'A3'],
     [2159, 2794, 'Letter'],
     [2159, 3556, 'Legal'],
-    [1016, 1524, '4×6'],
+    [1016, 1524, _('4×6')],
   ].freeze
 
   PAGE_SIDES = [
-    [ScanSide::FRONT, 'Front'],
-    [ScanSide::BACK, 'Back'],
-    [ScanSide::BOTH, 'Both'],
+    [ScanSide::FRONT, _('Front')],
+    [ScanSide::BACK, _('Back')],
+    [ScanSide::BOTH, _('Both')],
   ].freeze
 
   # Milliseconds, and the label, from the five radio buttons in the UI file.
   PAGE_DELAYS = [
-    [0, 'No delay'],
-    [3000, '3 second delay'],
-    [6000, '6 second delay'],
-    [10000, '10 second delay'],
-    [15000, '15 second delay'],
+    [0, _('No delay')],
+    [3000, _('3 second delay')],
+    [6000, _('6 second delay')],
+    [10000, _('10 second delay')],
+    [15000, _('15 second delay')],
   ].freeze
 
   def initialize(settings)
@@ -59,7 +63,7 @@ class PreferencesDialog < Adwaita::PreferencesDialog
     @settings = settings
     @updating = false
     # Title of the preferences dialog
-    self.title = 'Preferences'
+    self.title = _('Preferences')
   end
 
   def build
@@ -93,7 +97,7 @@ class PreferencesDialog < Adwaita::PreferencesDialog
 
   def scanning_page
     @scanning_page ||= Adwaita::PreferencesPage.new.tap do |page|
-      page.title = 'Scanning'
+      page.title = _('Scanning')
       page.icon_name = 'scanner-symbolic'
     end
   end
@@ -101,41 +105,41 @@ class PreferencesDialog < Adwaita::PreferencesDialog
   def scanning_group
     @scanning_group ||= Adwaita::PreferencesGroup.new.tap do |group|
       # Preferences dialog: section label for scanning settings
-      group.title = 'Scanning'
+      group.title = _('Scanning')
     end
   end
 
   def quality_group
     @quality_group ||= Adwaita::PreferencesGroup.new.tap do |group|
       # Preferences dialog: section label for image quality settings
-      group.title = 'Quality'
+      group.title = _('Quality')
     end
   end
 
   def text_dpi_row
-    @text_dpi_row ||= combo_row('Text Resolution', dpi_labels(DEFAULT_TEXT_DPI))
+    @text_dpi_row ||= combo_row(_('Text Resolution'), dpi_labels(DEFAULT_TEXT_DPI))
   end
 
   def photo_dpi_row
-    @photo_dpi_row ||= combo_row('Image Resolution', dpi_labels(DEFAULT_PHOTO_DPI))
+    @photo_dpi_row ||= combo_row(_('Image Resolution'), dpi_labels(DEFAULT_PHOTO_DPI))
   end
 
   def page_side_row
-    @page_side_row ||= combo_row('Page Side', PAGE_SIDES.map(&:last))
+    @page_side_row ||= combo_row(_('Page Side'), PAGE_SIDES.map(&:last))
   end
 
   def paper_size_row
-    @paper_size_row ||= combo_row('Paper Size', PAPER_SIZES.map(&:last))
+    @paper_size_row ||= combo_row(_('Paper Size'), PAPER_SIZES.map(&:last))
   end
 
   def page_delay_row
-    @page_delay_row ||= combo_row('Delay Between Pages', PAGE_DELAYS.map(&:last))
+    @page_delay_row ||= combo_row(_('Delay Between Pages'), PAGE_DELAYS.map(&:last))
   end
 
   def brightness_row
     @brightness_row ||= Adwaita::ActionRow.new.tap do |row|
       # Preferences dialog: label for the brightness scale
-      row.title = 'Brightness'
+      row.title = _('Brightness')
       row.add_suffix(brightness_scale)
     end
   end
@@ -143,14 +147,14 @@ class PreferencesDialog < Adwaita::PreferencesDialog
   def contrast_row
     @contrast_row ||= Adwaita::ActionRow.new.tap do |row|
       # Preferences dialog: label for the contrast scale
-      row.title = 'Contrast'
+      row.title = _('Contrast')
       row.add_suffix(contrast_scale)
     end
   end
 
-  def brightness_scale = @brightness_scale ||= marked_scale('Darker', 'Lighter')
+  def brightness_scale = @brightness_scale ||= marked_scale(_('Darker'), _('Lighter'))
 
-  def contrast_scale = @contrast_scale ||= marked_scale('Less', 'More')
+  def contrast_scale = @contrast_scale ||= marked_scale(_('Less'), _('More'))
 
   # Accessors the window reads when it builds a ScanOptions
 
@@ -191,16 +195,16 @@ class PreferencesDialog < Adwaita::PreferencesDialog
     def dpi_label(dpi, default_dpi)
       if dpi == default_dpi
         # Preferences dialog: label for the default resolution in the resolution list
-        format('%d dpi (default)', dpi)
+        format(_('%d dpi (default)'), dpi)
       elsif dpi == 75
         # Preferences dialog: label for the minimum resolution in the resolution list
-        format('%d dpi (draft)', dpi)
+        format(_('%d dpi (draft)'), dpi)
       elsif dpi == 1200
         # Preferences dialog: label for the maximum resolution in the resolution list
-        format('%d dpi (high resolution)', dpi)
+        format(_('%d dpi (high resolution)'), dpi)
       else
         # Preferences dialog: label for a resolution value (dpi = dots per inch)
-        format('%d dpi', dpi)
+        format(_('%d dpi'), dpi)
       end
     end
 

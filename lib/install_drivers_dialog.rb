@@ -3,6 +3,8 @@
 require 'adwaita'
 require 'gtk4'
 
+require_relative 'translations'
+
 # InstallDriversDialog tells the user where the driver for the scanner they
 # have plugged in can be found.
 #
@@ -13,6 +15,9 @@ require 'gtk4'
 # built with it; there is no PackageKit binding in ruby-gnome, so the dialog
 # names the package to install the way upstream's non-PackageKit build does.
 class InstallDriversDialog < Adwaita::Dialog
+  include Translations
+  extend Translations
+
   # Message, instructions and packages per SANE backend, from upstream's
   # switch on missing_driver.
   DRIVERS = {
@@ -30,40 +35,48 @@ class InstallDriversDialog < Adwaita::Dialog
 
   MESSAGES = {
     # Message to indicate a Brother scanner has been detected
-    brother: ['You appear to have a Brother scanner.',
+    brother: [_('You appear to have a Brother scanner.'),
               # Instructions on how to install Brother scanner drivers
-              'Drivers for this are available on the ' \
-              '<a href="http://support.brother.com">Brother website</a>.'
+              _(
+                'Drivers for this are available on the ' \
+                                '<a href="http://support.brother.com">Brother website</a>.',
+              )
 ],
     # Message to indicate a Canon Pixma scanner has been detected
-    canon:   ['You appear to have a Canon scanner, which is supported by the ' \
-            '<a href="http://www.sane-project.org/man/sane-pixma.5.html">Pixma SANE backend</a>.',
+    canon:   [_(
+      'You appear to have a Canon scanner, which is supported by the ' \
+                    '<a href="http://www.sane-project.org/man/sane-pixma.5.html">Pixma SANE backend</a>.',
+    ),
             # Instructions on how to resolve an issue with SANE scanner drivers
-            'Please check if your <a href="http://www.sane-project.org/sane-supported-devices.html">scanner is ' \
-            'supported by SANE</a>, otherwise report the issue to the ' \
-            '<a href="https://alioth-lists.debian.net/cgi-bin/mailman/listinfo/sane-devel">SANE mailing list</a>.'
+            _(
+              'Please check if your <a href="http://www.sane-project.org/sane-supported-devices.html">scanner is ' \
+                            'supported by SANE</a>, otherwise report the issue to the ' \
+                            '<a href="https://alioth-lists.debian.net/cgi-bin/mailman/listinfo/sane-devel">SANE mailing list</a>.',
+            )
 ],
     # Message to indicate a Samsung scanner has been detected
-    samsung: ['You appear to have a Samsung scanner.',
+    samsung: [_('You appear to have a Samsung scanner.'),
               # Because HP acquired Samsung's global printing business in 2017, the support is on HP's site
-              'Drivers for this are available on the <a href="https://support.hp.com">HP website</a> ' \
-              '(HP acquired Samsung’s printing business).'
+              _(
+                'Drivers for this are available on the <a href="https://support.hp.com">HP website</a> ' \
+                                '(HP acquired Samsung’s printing business).',
+              )
 ],
     # Message to indicate an HP scanner has been detected
-    hpaio:   ['You appear to have an HP scanner.', nil],
+    hpaio:   [_('You appear to have an HP scanner.'), nil],
     # smfp devices are rebranded Samsung models and need drivers that are not in the hpaio package
-    smfp:    ['You appear to have an HP scanner.',
-           'Drivers for this are available on the <a href="https://support.hp.com">HP website</a>.'
+    smfp:    [_('You appear to have an HP scanner.'),
+           _('Drivers for this are available on the <a href="https://support.hp.com">HP website</a>.')
 ],
     # Message to indicate an Epson scanner has been detected
-    epson:   ['You appear to have an Epson scanner.',
+    epson:   [_('You appear to have an Epson scanner.'),
             # Instructions on how to install Epson scanner drivers
-            'Drivers for this are available on the <a href="http://support.epson.com">Epson website</a>.'
+            _('Drivers for this are available on the <a href="http://support.epson.com">Epson website</a>.')
 ],
     # Message to indicate a Lexmark scanner has been detected
-    lexmark: ['You appear to have an Lexmark scanner.',
+    lexmark: [_('You appear to have an Lexmark scanner.'),
               # Instructions on how to install Lexmark scanner drivers
-              'Drivers for this are available on the <a href="http://support.lexmark.com">Lexmark website</a>.'
+              _('Drivers for this are available on the <a href="http://support.lexmark.com">Lexmark website</a>.')
 ],
   }.freeze
 
@@ -73,7 +86,7 @@ class InstallDriversDialog < Adwaita::Dialog
     super()
     @driver = DRIVERS[missing_driver.to_s]
     # Title of dialog giving instructions on how to install drivers
-    self.title = 'Install drivers'
+    self.title = _('Install drivers')
     self.content_width = 460
   end
 
@@ -119,7 +132,7 @@ class InstallDriversDialog < Adwaita::Dialog
   def restart_label
     @restart_label ||= label_for(
       # Message in the driver install dialog
-      'Once installed you will need to restart this app.',
+      _('Once installed you will need to restart this app.'),
     )
   end
 
@@ -142,7 +155,7 @@ class InstallDriversDialog < Adwaita::Dialog
         else
           # Label shown to prompt the user to install packages
           format(
-            packages.length == 1 ? 'You need to install the %s package.' : 'You need to install the %s packages.',
+            n_('You need to install the %s package.', 'You need to install the %s packages.', packages.length),
             packages.join(', '),
           )
         end

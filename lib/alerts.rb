@@ -2,6 +2,8 @@
 
 require 'adwaita'
 
+require_relative 'translations'
+
 # Alerts builds the error and confirmation dialogs the window raises.
 #
 # Ported from show_error_dialog, prompt_to_save_async, check_overwrite and
@@ -9,6 +11,9 @@ require 'adwaita'
 # runs a Gtk.MessageDialog and blocks on the answer; GTK4 has no run, so each
 # of these takes the block to call with the response instead.
 module Alerts
+  include Translations
+  extend Translations
+
   SAVE = 'save'
   DISCARD = 'discard'
   CANCEL = 'cancel'
@@ -22,7 +27,7 @@ module Alerts
     Adwaita::AlertDialog.new(title, nil).tap do |dialog|
       dialog.body_use_markup = true
       dialog.body = text.to_s
-      dialog.add_response(CLOSE, '_Close')
+      dialog.add_response(CLOSE, _('_Close'))
       dialog.default_response = CLOSE
       dialog.close_response = CLOSE
       dialog.choose(parent, nil) { nil }
@@ -34,10 +39,10 @@ module Alerts
   def self.prompt_to_save(parent, title, discard_label, &on_response)
     Adwaita::AlertDialog.new(title, nil).tap do |dialog|
       # Text in dialog warning when a document is about to be lost
-      dialog.body = 'If you don’t save, changes will be permanently lost.'
+      dialog.body = _('If you don’t save, changes will be permanently lost.')
       dialog.add_response(DISCARD, discard_label)
-      dialog.add_response(CANCEL, '_Cancel')
-      dialog.add_response(SAVE, '_Save')
+      dialog.add_response(CANCEL, _('_Cancel'))
+      dialog.add_response(SAVE, _('_Save'))
       dialog.set_response_appearance(DISCARD, :destructive)
       dialog.set_response_appearance(SAVE, :suggested)
       dialog.default_response = SAVE
@@ -50,12 +55,12 @@ module Alerts
   def self.confirm_overwrite(parent, basename, &on_response)
     Adwaita::AlertDialog.new(
       # Contents of dialog that shows if saving would overwrite an existing file
-      format('A file named “%s” already exists.  Do you want to replace it?', basename),
+      format(_('A file named “%s” already exists.  Do you want to replace it?'), basename),
       nil,
     ).tap do |dialog|
-      dialog.add_response(CANCEL, '_Cancel')
+      dialog.add_response(CANCEL, _('_Cancel'))
       # Button in dialog that shows if saving would overwrite an existing file
-      dialog.add_response(REPLACE, '_Replace')
+      dialog.add_response(REPLACE, _('_Replace'))
       dialog.set_response_appearance(REPLACE, :destructive)
       dialog.default_response = CANCEL
       dialog.close_response = CANCEL
@@ -67,7 +72,7 @@ module Alerts
   def self.confirm_load_autosave(parent, &on_response)
     Adwaita::AlertDialog.new(
       # Contents of dialog that shows if an autosaved book should be loaded
-      'An autosaved book exists. Do you want to open it?',
+      _('An autosaved book exists. Do you want to open it?'),
       nil,
     ).tap do |dialog|
       dialog.add_response(NO, '_No')

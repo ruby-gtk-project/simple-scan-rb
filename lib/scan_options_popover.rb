@@ -5,6 +5,7 @@ require 'gtk4'
 
 require_relative 'page'
 require_relative 'scan_options'
+require_relative 'translations'
 
 # ScanOptionsPopover is the popover beside the Scan button: what to scan
 # (one page, the feeder, or page after page from the flatbed), whether the
@@ -17,19 +18,22 @@ require_relative 'scan_options'
 # Upstream's GtkRadioButtons become GTK4 check buttons sharing a group, which
 # is how GTK4 spells a radio group.
 class ScanOptionsPopover < Gtk::Popover
+  include Translations
+  extend Translations
+
   include Signals
 
   # Each scan type's label, the icon the Scan button takes while it is
   # selected, and its tooltip, from the UI file.
   SCAN_TYPES = {
-    ScanType::SINGLE => ['_Single Page', 'scanner-symbolic'],
-    ScanType::ADF    => ['All Pages From _Feeder', 'scan-type-adf-symbolic'],
-    ScanType::BATCH  => ['_Multiple Pages From Flatbed', 'scan-type-batch-symbolic'],
+    ScanType::SINGLE => [_('_Single Page'), 'scanner-symbolic'],
+    ScanType::ADF    => [_('All Pages From _Feeder'), 'scan-type-adf-symbolic'],
+    ScanType::BATCH  => [_('_Multiple Pages From Flatbed'), 'scan-type-batch-symbolic'],
   }.freeze
 
   DOCUMENT_HINTS = {
-    'text'  => ['_Text', 'x-office-document-symbolic'],
-    'photo' => ['_Image', 'image-x-generic-symbolic'],
+    'text'  => [_('_Text'), 'x-office-document-symbolic'],
+    'photo' => [_('_Image'), 'image-x-generic-symbolic'],
   }.freeze
 
   def initialize
@@ -107,7 +111,7 @@ class ScanOptionsPopover < Gtk::Popover
 
   def preferences_button
     @preferences_button ||= Gtk::Button.new.tap do |button|
-      button.label = '_Preferences'
+      button.label = _('_Preferences')
       button.use_underline = true
       button.add_css_class('flat')
     end

@@ -4,6 +4,7 @@ require 'gtk4'
 require 'adwaita'
 
 require_relative '../app_window'
+require_relative '../resources'
 require_relative '../scan_options'
 require_relative '../settings'
 
@@ -33,6 +34,11 @@ module SimpleScan
     def build
       app.tap do |a|
         a.signal_connect('activate') do
+          # The three action icons upstream installs into the hicolor theme
+          # ship in data/icons; the theme only finds them once the display
+          # exists, which it does by the time activate runs.
+          Resources.install_icon_search_path
+
           app_window.build
 
           app_window.on(:redetect) { detect_devices }

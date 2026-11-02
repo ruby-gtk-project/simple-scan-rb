@@ -4,6 +4,7 @@ require 'adwaita'
 require 'gtk4'
 
 require_relative 'page_icon'
+require_relative 'translations'
 
 # ReorderPagesDialog offers the four ways a double-sided or reversed scan can
 # be put back into reading order, each drawn as a before-and-after row of
@@ -13,17 +14,20 @@ require_relative 'page_icon'
 # upstream's src/app-window.vala, including the Tango colours it tints the
 # page icons with.
 class ReorderPagesDialog < Adwaita::Dialog
+  include Translations
+  extend Translations
+
   # Label, the before-and-after description make_reorder_box reads, and the
   # name of the reordering, in upstream's grid order.
   CHOICES = [
     # Label on button for combining sides in the reordering dialog
-    ['Combine sides', 'F1F2F3B1B2B3-F1B1F2B2F3B3', :combine_sides],
+    [_('Combine sides'), 'F1F2F3B1B2B3-F1B1F2B2F3B3', :combine_sides],
     # Label on button for combining sides in reverse order
-    ['Combine sides (reverse)', 'F1F2F3B3B2B1-F1B1F2B2F3B3', :combine_sides_reverse],
+    [_('Combine sides (reverse)'), 'F1F2F3B3B2B1-F1B1F2B2F3B3', :combine_sides_reverse],
     # Label on button for reversing in the reordering dialog
-    ['Reverse', 'C1C2C3C4C5C6-C6C5C4C3C2C1', :reverse],
+    [_('Reverse'), 'C1C2C3C4C5C6-C6C5C4C3C2C1', :reverse],
     # Label on button for cancelling page reordering
-    ['Keep unchanged', 'C1C2C3C4C5C6-C1C2C3C4C5C6', :keep],
+    [_('Keep unchanged'), 'C1C2C3C4C5C6-C1C2C3C4C5C6', :keep],
   ].freeze
 
   # Plum for a front side, orange for a back side, from the Tango palette.
@@ -34,7 +38,7 @@ class ReorderPagesDialog < Adwaita::Dialog
     super()
     @on_choice = on_choice
     # Title of dialog to reorder pages
-    self.title = 'Reorder Pages'
+    self.title = p_('dialog title', 'Reorder Pages')
     self.content_width = 640
   end
 

@@ -3,6 +3,7 @@
 require 'gtk4'
 
 require_relative 'page'
+require_relative 'translations'
 
 # DocumentActionBar is the bar under the document: a New Document button on
 # the left, and rotate, crop and delete in the middle.
@@ -11,6 +12,9 @@ require_relative 'page'
 # GtkActionBar in code, with the comment explaining that Glade could not do
 # it. The widgets and their tooltips are upstream's.
 class DocumentActionBar < Gtk::ActionBar
+  include Translations
+  extend Translations
+
   include Signals
 
   def initialize
@@ -54,7 +58,7 @@ class DocumentActionBar < Gtk::ActionBar
   def new_document_button
     @new_document_button ||= Gtk::Button.new.tap do |button|
       # Label on new document button
-      button.label = '_New Document'
+      button.label = _('_New Document')
       button.use_underline = true
     end
   end
@@ -69,7 +73,7 @@ class DocumentActionBar < Gtk::ActionBar
     @rotate_left_button ||= Gtk::Button.new.tap do |button|
       button.icon_name = 'object-rotate-left-symbolic'
       # Tooltip for rotate left (counter-clockwise) button
-      button.tooltip_text = 'Rotate the page to the left (counter-clockwise)'
+      button.tooltip_text = _('Rotate the page to the left (counter-clockwise)')
     end
   end
 
@@ -77,7 +81,7 @@ class DocumentActionBar < Gtk::ActionBar
     @rotate_right_button ||= Gtk::Button.new.tap do |button|
       button.icon_name = 'object-rotate-right-symbolic'
       # Tooltip for rotate right (clockwise) button
-      button.tooltip_text = 'Rotate the page to the right (clockwise)'
+      button.tooltip_text = _('Rotate the page to the right (clockwise)')
     end
   end
 
@@ -85,7 +89,7 @@ class DocumentActionBar < Gtk::ActionBar
     @crop_button ||= Gtk::ToggleButton.new.tap do |button|
       button.icon_name = 'crop-symbolic'
       # Tooltip for crop button
-      button.tooltip_text = 'Crop the selected page'
+      button.tooltip_text = _('Crop the selected page')
     end
   end
 
@@ -93,7 +97,7 @@ class DocumentActionBar < Gtk::ActionBar
     @delete_button ||= Gtk::Button.new.tap do |button|
       button.icon_name = 'user-trash-symbolic'
       # Tooltip for delete button
-      button.tooltip_text = 'Delete the selected page'
+      button.tooltip_text = _('Delete the selected page')
     end
   end
 

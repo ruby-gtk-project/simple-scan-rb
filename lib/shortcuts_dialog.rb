@@ -2,6 +2,8 @@
 
 require 'adwaita'
 
+require_relative 'translations'
+
 # ShortcutsDialog lists the keyboard shortcuts.
 #
 # Ported from upstream's data/ui/help-overlay.ui, a GtkShortcutsWindow with
@@ -10,38 +12,41 @@ require 'adwaita'
 # GtkShortcutsWindow" — so this is the Adwaita equivalent, which takes the
 # same titles and accelerators.
 class ShortcutsDialog < Adwaita::ShortcutsDialog
+  include Translations
+  extend Translations
+
   SECTIONS = {
-    'Scanning'              => [
-      ['Scan a single page', '<ctrl>1'],
-      ['Scan all pages from document feeder', '<ctrl>f'],
-      ['Scan continuously from a flatbed scanner', '<ctrl>m'],
-      ['Stop scan in progress', 'Escape'],
+    p_('shortcut window', 'Scanning')              => [
+      [p_('shortcut window', 'Scan a single page'), '<ctrl>1'],
+      [p_('shortcut window', 'Scan all pages from document feeder'), '<ctrl>f'],
+      [p_('shortcut window', 'Scan continuously from a flatbed scanner'), '<ctrl>m'],
+      [p_('shortcut window', 'Stop scan in progress'), 'Escape'],
     ],
-    'Document Modification' => [
-      ['Move page left', 'less'],
-      ['Move page right', 'greater'],
-      ['Rotate page to the left (anti-clockwise)', 'bracketleft'],
-      ['Rotate page to the right (clockwise)', 'bracketright'],
-      ['Delete page', 'Delete'],
+    p_('shortcut window', 'Document Modification') => [
+      [p_('shortcut window', 'Move page left'), 'less'],
+      [p_('shortcut window', 'Move page right'), 'greater'],
+      [p_('shortcut window', 'Rotate page to the left (anti-clockwise)'), 'bracketleft'],
+      [p_('shortcut window', 'Rotate page to the right (clockwise)'), 'bracketright'],
+      [p_('shortcut window', 'Delete page'), 'Delete'],
     ],
-    'Document Management'   => [
-      ['Start new document', '<ctrl>n'],
-      ['Save scanned document', '<ctrl>s'],
-      ['Email scanned document', '<ctrl>e'],
-      ['Print scanned document', '<ctrl>p'],
-      ['Copy current page to clipboard', '<ctrl>c'],
+    p_('shortcut window', 'Document Management')   => [
+      [p_('shortcut window', 'Start new document'), '<ctrl>n'],
+      [p_('shortcut window', 'Save scanned document'), '<ctrl>s'],
+      [p_('shortcut window', 'Email scanned document'), '<ctrl>e'],
+      [p_('shortcut window', 'Print scanned document'), '<ctrl>p'],
+      [p_('shortcut window', 'Copy current page to clipboard'), '<ctrl>c'],
     ],
-    'General'               => [
-      ['Show help', 'F1'],
-      ['Open menu', 'F10'],
-      ['Keyboard shortcuts', '<ctrl>question'],
-      ['Quit', '<ctrl>q'],
+    p_('shortcut window', 'General')               => [
+      [p_('shortcut window', 'Show help'), 'F1'],
+      [p_('shortcut window', 'Open menu'), 'F10'],
+      [p_('shortcut window', 'Keyboard shortcuts'), '<ctrl>question'],
+      [p_('shortcut window', 'Quit'), '<ctrl>q'],
     ],
   }.freeze
 
   def initialize
     super()
-    self.title = 'Keyboard Shortcuts'
+    self.title = _('Keyboard Shortcuts')
   end
 
   def build

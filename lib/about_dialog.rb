@@ -3,6 +3,7 @@
 require 'adwaita'
 
 require_relative 'simple/scan/rb/version'
+require_relative 'translations'
 
 # AboutDialog is the About window.
 #
@@ -11,6 +12,9 @@ require_relative 'simple/scan/rb/version'
 # which is the Adwaita equivalent and takes a developer list rather than an
 # authors list.
 class AboutDialog < Adwaita::AboutDialog
+  include Translations
+  extend Translations
+
   # The license this software is under (GPL3+)
   LICENSE = <<~LICENSE
     This program is free software: you can redistribute it and/or modify
@@ -33,14 +37,14 @@ class AboutDialog < Adwaita::AboutDialog
   def build
     tap do |dialog|
       # Title of the about dialog
-      dialog.title = 'About Document Scanner'
-      dialog.application_name = 'Document Scanner'
+      dialog.title = _('About Document Scanner')
+      dialog.application_name = _('Document Scanner')
       dialog.application_icon = 'scanner-symbolic'
       dialog.version = Simple::Scan::Rb::VERSION
       # Description of the program
-      dialog.comments = 'Simple document scanning tool'
+      dialog.comments = _('Simple document scanning tool')
       dialog.developers = DEVELOPERS
-      dialog.translator_credits = 'translator-credits'
+      dialog.translator_credits = _('translator-credits')
       dialog.website = WEBSITE
       dialog.copyright = 'Copyright © 2009-2018 Canonical Ltd.'
       dialog.license_type = :gpl_3_0
