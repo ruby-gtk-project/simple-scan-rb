@@ -1,54 +1,67 @@
 # frozen_string_literal: true
 
-require "gtk4"
-require "adwaita"
+require 'gtk4'
+require 'adwaita'
+
+require_relative '../app_window'
+require_relative '../scan_options'
+require_relative '../settings'
 
 module SimpleScan
-  # The port's application: one window, and a status page saying the port has
-  # not been written yet. Everything else grows from here — replace the status
-  # page with the real content, keep the shape.
+  # Application is the process: it registers the application, builds the
+  # window, and connects the window's scan signals to the backend.
   #
-  # House style (see .claude/skills/ruby-gtk): every widget is a memoized
-  # method, all configuration lives in its `tap`, assembly happens only in
-  # `build`, and the launcher is one expression.
+  # Ported from the application glue at the top of upstream's
+  # src/simple-scan.vala, which builds an AppWindow, builds a Scanner, and
+  # wires one to the other.
+  #
+  # There is no Scanner in this port yet — SANE has no ruby-gnome binding, so
+  # driving it needs an FFI layer that is not written. Until it is, the
+  # backend reports no devices, which is a state upstream's window already
+  # knows how to show: "No Scanners Detected", with the refresh button live.
+  # Nothing here pretends a scan happened.
   class Application
+    APP_ID = 'org.rubygtkproject.SimpleScan'
+
+    def initialize(app_id: APP_ID, flags: :default_flags, present: true)
+      @app_id = app_id
+      @flags = flags
+      @present = present
+      @settings = Settings.new
+    end
+
     def build
-      app.tap do
-        app.signal_connect("activate") do
-          window.tap do |win|
-            win.content = toolbar_view
+      app.tap do |a|
+        a.signal_connect('activate') do
+          app_window.build
+
+          app_window.on(:redetect) { detect_devices }
+
+          if @present
+            app_window.start
           end
 
-          toolbar_view.tap do |view|
-            view.add_top_bar(header_bar)
-            view.content = status_page
-          end
-
-          window.present
+          detect_devices
         end
       end
     end
 
-    # Adwaita::Application is broken in the Ruby bindings; the application
-    # object comes from Gtk and only the window is Adwaita.
-    def app = @app ||= Gtk::Application.new("org.rubygtkproject.SimpleScan", :default_flags)
+    def run(argv = []) = app.run(argv)
 
-    def window
-      @window ||= Adwaita::ApplicationWindow.new(app).tap do |win|
-        win.title = "simple-scan"
-        win.set_default_size(800, 600)
+    # Adwaita::Application is unreliable in these bindings, so the application
+    # object is a Gtk::Application and only the window is Adwaita.
+    def app = @app ||= Gtk::Application.new(@app_id, @flags)
+
+    def app_window = @app_window ||= AppWindow.new(app, settings: @settings)
+
+    private
+
+    # Upstream hands the window the device list the Scanner found. With no
+    # scanner backend the list is empty, which the window shows as "No
+    # Scanners Detected" — and which leaves the Scan button insensitive, so
+    # the window's start_scan signal is never raised.
+      def detect_devices
+        app_window.set_scan_devices([])
       end
-    end
-
-    def toolbar_view = @toolbar_view ||= Adwaita::ToolbarView.new
-    def header_bar = @header_bar ||= Adwaita::HeaderBar.new
-
-    def status_page
-      @status_page ||= Adwaita::StatusPage.new.tap do |page|
-        page.title = "simple-scan"
-        page.description = "The Ruby port has not been written yet."
-        page.icon_name = "applications-engineering-symbolic"
-      end
-    end
   end
 end
