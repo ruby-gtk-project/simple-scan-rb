@@ -52,15 +52,54 @@ Survey of `origin/main` (GNOME Simple Scan, Vala + GTK3 + libhandy) against the
 
 ## What `ruby` has today
 
+Refreshed after `77795d7f Port the document models, views, window and dialogs`.
+`lib/` now holds 26 component files, 6282 lines:
+
 ```
-lib/simple_scan.rb                 3 lines   requires application
-lib/simple_scan/application.rb    54 lines   placeholder window + StatusPage
-lib/simple/scan/rb/version.rb     15 lines   gem version
+lib/simple_scan.rb                  4   requires version + application
+lib/simple_scan/application.rb     67   Gtk::Application, actions, CLI options
+lib/app_window.rb                 901   main window, header bar, gear menu, actions
+lib/book.rb                       611   Book + BookSaver + PDFWriter
+lib/page.rb                       663   one scanned page
+lib/page_view.rb                  598   one page in the strip
+lib/book_view.rb                  545   the page strip / canvas
+lib/save_dialog.rb                319   save + format chooser
+lib/preferences_dialog.rb         302   Adwaita::PreferencesDialog
+lib/settings.rb                   268   GSettings keys + KeyFile state
+lib/autosave_manager.rb           267   cache-dir autosave + restore
+lib/scanner_status_page.rb        252   empty / no-device / scanning states
+lib/scan_options_popover.rb       178   scan-type popover
+lib/reorder_pages_dialog.rb       170   page reorder dialog
+lib/install_drivers_dialog.rb     160   driver install dialog
+lib/scan_options.rb               127   ScanDevice/ScanPageInfo/ScanLine/ScanOptions
+lib/page_menu.rb                  123   page context menu
+lib/document_action_bar.rb        113   bottom action bar
+lib/authorize_dialog.rb           106   SANE auth prompt
+lib/screensaver.rb                 99   D-Bus inhibit
+lib/alerts.rb                      89   error / confirm alert dialogs
+lib/page_icon.rb                   73   page icon drawing area
+lib/cancellable_progress_bar.rb    67   progress + cancel
+lib/shortcuts_dialog.rb            65   Adwaita::ShortcutsDialog
+lib/print_operation.rb             65   print + draw_page
+lib/about_dialog.rb                50   Adwaita::AboutDialog
+lib/simple/scan/rb/version.rb      15   gem version
 ```
 
-One component exists, and only as a stub: an `Adwaita::ApplicationWindow` with
-a `ToolbarView`, an empty `HeaderBar` and a `StatusPage` reading "The Ruby port
-has not been written yet." **No upstream component is ported.**
+**25 of 27 components now exist.** What is still missing:
+
+- **`lib/scanner.rb` (§23)** — the SANE driver thread. Nothing in the port
+  talks to a scanner; `lib/simple_scan/application.rb:18` records the omission
+  in its class comment, and `lib/scan_options.rb` carries only the plain-data
+  types (`ScanDevice`, `ScanPageInfo`, `ScanLine`, `ScanOptions`, `ScanType`)
+  that `scanner.vala` also defines. This is blocker 1, not a widget gap.
+- **§27 packaging / i18n** — the port has no `data/` and no `po/`. The three
+  bundled icons (`scan-type-adf-symbolic`, `scan-type-batch-symbolic`,
+  `crop-symbolic`), the gschema, the desktop and appdata files and the 76-locale
+  catalogue are all still upstream-only. Blockers 7 and 8 stand.
+
+`lib/scan_options.rb` is the one port file with no 1:1 upstream file: it is the
+non-SANE half of `src/scanner.vala`, split out so the rest of the app can be
+built before the scanning engine exists.
 
 Note the pilot port (`gnome-contacts-rb`) keeps widget classes flat in
 `lib/*.rb` with only `lib/<app>/application.rb` namespaced; the targets below
@@ -72,7 +111,7 @@ follow that.
 
 ### 1. `src/simple-scan.vala` → `lib/application.rb` — the application object
 
-Exists as `lib/simple_scan/application.rb` (stub only).
+Exists as `lib/simple_scan/application.rb` — full: actions, CLI options, window wiring.
 
 | Component | × | CSS | Signals / actions | Notes |
 |---|---:|---|---|---|
@@ -381,39 +420,43 @@ parity question.
 
 | # | Upstream | Port target | Kind | Exists |
 |---|---|---|---|---|
-| 1 | `src/simple-scan.vala` | `lib/application.rb` (today `lib/simple_scan/application.rb`) | application | partial — stub only |
-| 2 | `src/app-window.vala` + `data/ui/app-window.ui` | `lib/app_window.rb` | window | no |
-| 3 | `data/ui/app-window.ui` (`page_menu`) | `lib/page_menu.rb` | menu | no |
-| 4 | `src/app-window.vala` (gear menu) | part of `lib/app_window.rb` | menu | no |
-| 5 | `data/ui/app-window.ui` (`scan_options_popover`) | `lib/scan_options_popover.rb` | popover | no |
-| 6 | `data/ui/app-window.ui` (`status_page`) | `lib/scanner_status_page.rb` | empty/error state | no |
-| 7 | `src/app-window.vala` (ActionBar block) | `lib/document_action_bar.rb` | toolbar | no |
-| 8 | `src/app-window.vala` (`save_document`) | `lib/save_dialog.rb` | dialog | no |
-| 9 | `src/app-window.vala` (`reorder_document`) | `lib/reorder_pages_dialog.rb` | dialog | no |
-| 10 | `src/app-window.vala` (`show_about`) | `lib/about_dialog.rb` | dialog | no |
-| 11 | `src/app-window.vala` (`install_drivers`) | `lib/install_drivers_dialog.rb` | dialog | no |
-| 12 | `src/app-window.vala` (message dialogs) | `lib/alerts.rb` | error/confirm states | no |
-| 13 | `src/app-window.vala` (`CancellableProgressBar`) | `lib/cancellable_progress_bar.rb` | widget | no |
-| 14 | `src/app-window.vala` (`print_document`) | `lib/print_operation.rb` | dialog/print | no |
-| 15 | `src/preferences-dialog.vala` + `data/ui/preferences-dialog.ui` | `lib/preferences_dialog.rb` | preferences | no |
-| 16 | `src/authorize-dialog.vala` + `data/ui/authorize-dialog.ui` | `lib/authorize_dialog.rb` | dialog | no |
-| 17 | `data/ui/help-overlay.ui` | `lib/shortcuts_dialog.rb` | shortcuts | no |
-| 18 | `src/book-view.vala` | `lib/book_view.rb` | view | no |
-| 19 | `src/page-view.vala` | `lib/page_view.rb` | view | no |
-| 20 | `src/page-icon.vala` | `lib/page_icon.rb` | widget | no |
-| 21 | `src/book.vala` | `lib/book.rb` | model | no |
-| 22 | `src/page.vala` | `lib/page.rb` | model | no |
-| 23 | `src/scanner.vala` | `lib/scanner.rb` | service | no |
-| 24 | `src/autosave-manager.vala` | `lib/autosave_manager.rb` | service | no |
-| 25 | `src/screensaver.vala` | `lib/screensaver.rb` | service | no |
-| 26 | `data/org.gnome.SimpleScan.gschema.xml` | `lib/settings.rb` | settings | no |
+| 1 | `src/simple-scan.vala` | `lib/simple_scan/application.rb` | application | yes |
+| 2 | `src/app-window.vala` + `data/ui/app-window.ui` | `lib/app_window.rb` | window | yes |
+| 3 | `data/ui/app-window.ui` (`page_menu`) | `lib/page_menu.rb` | menu | yes |
+| 4 | `src/app-window.vala` (gear menu) | part of `lib/app_window.rb` | menu | yes |
+| 5 | `data/ui/app-window.ui` (`scan_options_popover`) | `lib/scan_options_popover.rb` | popover | yes |
+| 6 | `data/ui/app-window.ui` (`status_page`) | `lib/scanner_status_page.rb` | empty/error state | yes |
+| 7 | `src/app-window.vala` (ActionBar block) | `lib/document_action_bar.rb` | toolbar | yes |
+| 8 | `src/app-window.vala` (`save_document`) | `lib/save_dialog.rb` | dialog | yes |
+| 9 | `src/app-window.vala` (`reorder_document`) | `lib/reorder_pages_dialog.rb` | dialog | yes |
+| 10 | `src/app-window.vala` (`show_about`) | `lib/about_dialog.rb` | dialog | yes |
+| 11 | `src/app-window.vala` (`install_drivers`) | `lib/install_drivers_dialog.rb` | dialog | yes |
+| 12 | `src/app-window.vala` (message dialogs) | `lib/alerts.rb` | error/confirm states | yes |
+| 13 | `src/app-window.vala` (`CancellableProgressBar`) | `lib/cancellable_progress_bar.rb` | widget | yes |
+| 14 | `src/app-window.vala` (`print_document`) | `lib/print_operation.rb` | dialog/print | yes |
+| 15 | `src/preferences-dialog.vala` + `data/ui/preferences-dialog.ui` | `lib/preferences_dialog.rb` | preferences | yes |
+| 16 | `src/authorize-dialog.vala` + `data/ui/authorize-dialog.ui` | `lib/authorize_dialog.rb` | dialog | yes |
+| 17 | `data/ui/help-overlay.ui` | `lib/shortcuts_dialog.rb` | shortcuts | yes |
+| 18 | `src/book-view.vala` | `lib/book_view.rb` | view | yes |
+| 19 | `src/page-view.vala` | `lib/page_view.rb` | view | yes |
+| 20 | `src/page-icon.vala` | `lib/page_icon.rb` | widget | yes |
+| 21 | `src/book.vala` | `lib/book.rb` | model | yes |
+| 22 | `src/page.vala` | `lib/page.rb` | model | yes |
+| 23 | `src/scanner.vala` | `lib/scanner.rb` | service | no — blocker 1 |
+| 24 | `src/autosave-manager.vala` | `lib/autosave_manager.rb` | service | yes |
+| 25 | `src/screensaver.vala` | `lib/screensaver.rb` | service | yes |
+| 26 | `data/org.gnome.SimpleScan.gschema.xml` | `lib/settings.rb` | settings | yes |
 | 27 | `po/`, `desktop.in`, `appdata.xml.in` | packaging + gettext | i18n/packaging | no |
 
-27 components. One exists, as a stub.
+27 components. **25 exist**; `lib/scanner.rb` (§23) and the packaging/i18n
+unit (§27) do not. Existence here means the file is present with its widget
+tree built — not that it is at parity; `component-parity` is the step that
+checks widget counts, CSS classes and signals file by file.
 
 ## Blockers to resolve before the port can reach parity
 
-1. **No SANE binding in ruby-gnome.** `src/scanner.vala` (1802 lines) is the
+1. **No SANE binding in ruby-gnome — still open, and now the only widget-side
+   gap.** `src/scanner.vala` (1802 lines) is the
    whole scanning engine. Options: FFI to `libsane`, or drive the `scanimage`
    CLI. Every scan-related component downstream (status page states, progress,
    authorise dialog, driver install) depends on this choice.
@@ -429,8 +472,8 @@ parity question.
    / **libwebp** (optional upstream deps behind `#if`) have no ruby-gnome
    bindings. Decide per feature whether the port carries it, and record the
    omission in the class comment as the pilot port does.
-6. **No `Gtk::ShortcutsWindow`** in current GTK4/bindings — §17 must be
-   hand-built as an `Adwaita::Dialog`.
+6. ~~**No `Gtk::ShortcutsWindow`**~~ — resolved: `lib/shortcuts_dialog.rb`
+   uses `Adwaita::ShortcutsDialog`, which the fork's bindings do expose.
 7. **Three bundled icons** (`scan-type-adf-symbolic`, `scan-type-batch-symbolic`,
    `crop-symbolic`) must be carried into the port and registered with the icon
    theme; without them §5 and §7 render blank.
