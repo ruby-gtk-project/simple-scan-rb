@@ -12,8 +12,11 @@ require_relative 'translations'
 # per-backend messages and instructions, and the same closing line.
 #
 # Upstream can also install a package itself through PackageKit when it was
-# built with it; there is no PackageKit binding in ruby-gnome, so the dialog
-# names the package to install the way upstream's non-PackageKit build does.
+# built with it. The `packagekit-glib` gem this app depends on could drive
+# that the same way upstream's Pk.Task.resolve_async/install_packages_async
+# pair does; wiring that live D-Bus install flow is not done yet, so this
+# dialog still only names the package the way upstream's non-PackageKit
+# build does.
 class InstallDriversDialog < Adwaita::Dialog
   include Translations
   extend Translations

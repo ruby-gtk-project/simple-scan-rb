@@ -12,6 +12,19 @@
       let
         pkgs = nixpkgs.legacyPackages.${system};
 
+        # Scanner.scan is not a GObject-introspection binding — SANE has none
+        # — so lib/sane_api.rb talks to libsane.so.1 directly via the `ffi`
+        # gem. This is the library it dlopen's and the directory whose
+        # libsane-*.so backends it then loads.
+        saneBackends = pkgs.sane-backends;
+
+        # The dev shell and the drive/spec scripts have no real scanner
+        # attached, so SANE's own "test" backend stands in for one — it is
+        # the virtual-scanner backend sane-backends ships for exactly this.
+        # SANE_CONFIG_DIR replaces the default /etc/sane.d search path
+        # wholesale, so this is the dll.conf that enables just "test".
+        saneTestConfig = pkgs.writeTextDir "etc/sane.d/dll.conf" "test\n";
+
         # Shared libraries every ruby-gnome extension links against.
         gtkStack = with pkgs; [
           glib
@@ -132,7 +145,7 @@
           # the wrapper never looks. The wrapper below is built by hand and
           # points at both the pre- and post-move paths.
           nativeBuildInputs = [ pkgs.makeWrapper ];
-          buildInputs = [ gems ] ++ gtkStack;
+          buildInputs = [ gems saneBackends ] ++ gtkStack;
 
           dontBuild = true;
 
@@ -163,6 +176,7 @@
               --add-flags "-I$out/share/simple-scan/lib" \
               --add-flags "$out/share/simple-scan/exe/${launcher}" \
               --set GI_TYPELIB_PATH "${typelibPath}" \
+              --set SIMPLE_SCAN_SANE_LIB "${saneBackends}/lib/libsane.so.1" \
               --prefix XDG_DATA_DIRS : "$out/share" \
               --prefix XDG_DATA_DIRS : "$out/share/gsettings-schemas/simple-scan-0.1.0" \
               --prefix XDG_DATA_DIRS : "${pkgs.gsettings-desktop-schemas}/share/gsettings-schemas/${pkgs.gsettings-desktop-schemas.name}" \
@@ -204,6 +218,7 @@
             pkgs.xvfb-run
             pkgs.gsettings-desktop-schemas
             pkgs.adwaita-icon-theme
+            saneBackends
           ] ++ gtkStack;
 
           # Icons, GSettings schemas and the GTK portal all resolve through
@@ -214,6 +229,11 @@
             export RUBYLIB="$PWD/lib''${RUBYLIB:+:$RUBYLIB}"
             [ -d data/schemas ] && export GSETTINGS_SCHEMA_DIR="$PWD/data/schemas"
             unset BUNDLE_GEMFILE BUNDLE_FROZEN
+            # No real scanner is attached in this shell, so Scanner talks to
+            # SANE's own "test" backend — lib/sane_api.rb's dlopen target and
+            # the config dir that enables just that one backend.
+            export SIMPLE_SCAN_SANE_LIB="${saneBackends}/lib/libsane.so.1"
+            export SANE_CONFIG_DIR="${saneTestConfig}/etc/sane.d"
             echo "simple-scan devshell — ruby $(ruby -e 'print RUBY_VERSION')"
             echo "run the app:   xvfb-run ruby exe/simple-scan"
             echo "drive the app: xvfb-run ruby test/drive_*.rb"

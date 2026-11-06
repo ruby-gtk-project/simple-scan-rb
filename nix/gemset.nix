@@ -43,6 +43,16 @@
     };
     version = "4.4.0";
   };
+  ffi = {
+    groups = ["default"];
+    platforms = [];
+    source = {
+      remotes = ["https://rubygems.org"];
+      sha256 = "1kqasqvy8d7r09ri4n6bkdwbk63j7afd9ilsw34nzlgh0qp69ldw";
+      type = "gem";
+    };
+    version = "1.17.4";
+  };
   fiddle = {
     groups = ["default"];
     platforms = [];
@@ -208,10 +218,10 @@
     platforms = [];
     source = {
       remotes = ["https://rubygems.org"];
-      sha256 = "079fz8vkjrjjmid3k5a6bwp9vssvv3hxm4c8v5121vlmfs65517y";
+      sha256 = "02q7w7qp46gd1p2nxh5lwvxkmivjhl4yk90v1nk5bnlmhpvyy584";
       type = "gem";
     };
-    version = "1.6.6";
+    version = "1.6.7";
   };
   rake = {
     groups = ["default"];

@@ -112,6 +112,11 @@ Gem::Specification.new do |spec|
   # distribution's equivalents, which each gem's README names.
   spec.add_dependency("packagekit-glib", "~> 1.0")
 
+  # SANE itself has no GObject-Introspection binding, so lib/sane_api.rb talks
+  # to libsane.so.1 directly through this: the general-purpose C FFI gem,
+  # not a hand-rolled Fiddle layer.
+  spec.add_dependency("ffi", "~> 1.17")
+
   # NOTE: It is preferable to list development dependencies in the gemspec due to increased
   #       visibility and discoverability.
   #       However, development dependencies in gemspec will install on
