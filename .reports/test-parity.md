@@ -51,6 +51,28 @@ not assumed — and it is reported as `## Extra`, not as test parity, because
 that is what it is: a script written for the port, pinning behaviour the
 port's own authors chose to check, not a port of anything upstream wrote.
 
+**Re-run again in this audit pass** (`nix develop --command xvfb-run -a ruby
+test/drive_app_window.rb`), independently of the above: same result, `49 of
+49 checks passed`, `DRIVE OK`. The script now also attempts two widget
+screenshots (`shot 06-document`, `shot 07-empty-again`) added since the
+prior pass; both raised `RuntimeError: widget produced no render node (not
+realised yet?)` and were caught and printed, not counted as failures — the
+script's own comment says plainly "a screenshot is not an assertion, so a
+failure here never fails a check." That is disclosed, not a hidden
+false-green, and is noted here only for completeness.
+
+One line of this run's output is more significant: the install-drivers
+check printed `Failed to install drivers:
+GDBus.Error:org.freedesktop.DBus.Error.ServiceUnknown: The name is not
+activatable` and was still marked `ok`, because the check only ever asserted
+the dialog's two display strings, not the PackageKit resolve/install call
+itself. See `.reports/component-parity.md` finding 2 for the detail: the
+PackageKit install code was wired up since the prior test-parity pass (a
+real fix), but this drive script does not and cannot (no PackageKit D-Bus
+service is activatable in the xvfb sandbox) verify that the install call
+itself succeeds. That specific mechanism remains unverified by anything
+that runs, which per the task brief counts as "unverified, not done."
+
 ## The runtime gate is a drive script, not a test suite
 
 The task brief's "49 checks passed, 0 failed, 27 components" gate is this

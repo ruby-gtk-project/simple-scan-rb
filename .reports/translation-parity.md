@@ -106,6 +106,31 @@ to show the counts were actually pulled and compared, not asserted. The
 concrete gap is items 1 and 2 above, which are omissions the count alone
 does not surface.
 
+### 4. Help pages: only the English (`C`) tree is ported; upstream's 40 translated help trees are not
+
+Separate from `po/*.po` (which covers UI strings), upstream also ships
+per-language Mallard help trees under `help/<lang>/`, listed in
+`help/LINGUAS` — 40 languages. This audit's re-pass of the repository (since
+`.reports/component-inventory.md` was last updated) found the man page and
+`help/C/*` were ported verbatim in commit `5d7e894e` — a real fix, credited
+in `.reports/component-parity.md`. But `find help -type f` on `ruby` shows
+only `help/C/*`; none of the 40 translated trees exist. A non-English user
+opening in-app help gets English, where upstream would show their own
+language.
+
+**Verdict: gap**, newly discovered against a part of the tree that did not
+exist in the port at the time of the prior translation-parity pass.
+
+### 5. Confirmed again this pass: the desktop/appdata gap is also an installation gap, not only an extraction gap
+
+Item 2 above (POTFILES.in omission) still holds unchanged. This pass also
+checked whether the two files are even installed anywhere runnable — they
+are not (`.reports/component-parity.md` finding 4) — so the translation gap
+compounds with a packaging gap: not only do the app's name/summary/keywords
+never reach a `.po` file, the files carrying them are never installed to
+where a desktop environment or software centre would read them in *any*
+language, English included.
+
 ## What this report does not claim
 
 This pass spot-checked one catalogue (`de.po`) byte-for-byte and did not diff
@@ -116,9 +141,11 @@ claimed clean; they are unverified in this pass.
 
 ## Verdict
 
-**Not clean.** Two real, concrete omissions: the entire 26-string gschema
-catalogue, and the desktop/appdata files' strings never reaching
-`po/POTFILES.in` despite the source files existing in the port. Neither is
-excused anywhere in the port's own files (no `PORTING.md` or similar exists
-on this branch to excuse it in) — which means the omission has at least not
-been laundered into a "decision" yet. It still needs to be built.
+**Not clean.** Confirmed again in this pass: the entire 26-string gschema
+catalogue is still missing, the desktop/appdata files' strings still never
+reach `po/POTFILES.in`, and (newly found this pass) 40 of upstream's 41
+help-page language trees were never ported. The man page and English help
+pages did get ported since the prior pass — credited, not a gap. None of
+the remaining gaps are excused anywhere in the port's own files (no
+`PORTING.md` or similar exists on this branch) — the omissions have not
+been laundered into a "decision" yet. They still need to be built.

@@ -8,9 +8,25 @@ No `PORTING.md`, `FINDINGS.md`, `COMPONENT_PARITY.md` or `TEST_PARITY.md`
 exist anywhere on `ruby`. That is itself worth stating: there is no single
 document on this branch making a completeness claim about the whole port, so
 most of the laundering this skill exists to catch (a note cited later as
-settled authority) has nowhere to have happened yet. The two hits below are
-smaller in scope for exactly that reason — but they are real, and they are
-exactly the shape this skill is built to catch.
+settled authority) has nowhere to have happened yet.
+
+**Update (this audit pass, re-scanning the current `ruby` HEAD):** of the
+three hits the prior pass of this report recorded, two are now resolved —
+Hit 2 (the PackageKit "not done yet" comment) by the gap actually being
+built, and Hit 3 (the laundered "by design" row in
+`component-inventory.md`) by that row being rewritten without the excuse.
+Both are detailed below, credited rather than re-flagged, with the grep
+evidence that confirms removal rather than rewording. Hit 1 — the
+settings.rb GSettings excuse — is unchanged: `sed -n '14,22p' lib/settings.rb`
+in this pass returns the identical text quoted below. A fresh grep this
+pass across `lib/`, `exe/`, every `.reports/*.md` file and the repo root
+(`PORTING.md` still does not exist) for `TODO`, `FIXME`, "not implemented",
+"for now", "in a future", "out of scope", "simplified", "n/a", "placeholder"
+and "stub" found exactly one hit — a false positive in `lib/scanner.rb:558`
+(`@options['AutoDocumentSize']` case-insensitively contains the letters
+`toDo` inside `AutoDocumentSize`, matching the `TODO` pattern) — confirmed
+by reading the line directly; it is a GSettings-style key name, not prose,
+and not an excuse construction.
 
 ## Hit 1 — `lib/settings.rb:16-20`
 
@@ -39,66 +55,73 @@ a gap is *hard*, never a reason it is *closed*.
 > the 26 schema strings have no file to live in at all (see
 > `.reports/translation-parity.md`).
 
-## Hit 2 — `lib/install_drivers_dialog.rb:13-17`
+## Hit 2 — RESOLVED since the prior pass: `lib/install_drivers_dialog.rb`'s "not done yet"
 
-> "The `packagekit-glib` gem this app depends on could drive that the same
-> way upstream's `Pk.Task.resolve_async`/`install_packages_async` pair does;
-> wiring that live D-Bus install flow is not done yet, so this dialog still
-> only names the package..."
+The prior pass of this report quoted `lib/install_drivers_dialog.rb:13-17`
+excusing an unbuilt PackageKit install flow with "not done yet." Re-checked
+in this pass: that sentence is gone. Commit `5d7e894e` wired the flow up
+(`PackageKitGlib::Task#resolve_sync`/`install_packages_sync` on a background
+`Thread`, result marshalled via `GLib::Idle.add`) and rewrote the header
+comment to describe what the code does, not what it is missing — confirmed
+by reading the current file directly, not by trusting the commit message.
+This is exactly the right kind of fix for a Hit in this report: the excuse
+was removed by building the thing, not by rewording the excuse. Credited,
+not re-flagged.
 
-"Not done yet" is the skill's "not ported"/"TODO: maybe" pattern exactly:
-honest about the absence, names no owed behaviour in a form that forces a
-fix, and sits in a comment where the next reader will take "not done yet" as
-a settled, low-priority backlog item rather than a currently-missing feature
-on a gem the gemspec already declares as a hard dependency.
+One caveat carried into `.reports/component-parity.md` and
+`.reports/test-parity.md` instead of repeated here: the code being honestly
+described now is not the same as the code being verified — no check
+exercises the PackageKit call succeeding or failing. That is a narrow-check
+finding, not an accountability finding, because nothing in the current
+source text excuses it or claims it is covered; it is reported plainly
+where it belongs.
 
-**Rewrite:**
+## Hit 3 — RESOLVED since the prior pass: `.reports/component-inventory.md`'s laundered "by design" row
 
-> I did not build the PackageKit install flow, because I am an idiot who
-> added `packagekit-glib` to the gemspec and then never wrote a single line
-> that calls it.
-> Upstream: `install_drivers` in `src/app-window.vala` (`#if HAVE_PACKAGEKIT`
-> branch) resolves and installs the missing driver package live via
-> `Pk.Task`.
-> Port: `lib/install_drivers_dialog.rb` only ever shows the package name and
-> a vendor URL — upstream's own non-PackageKit fallback path, permanently,
-> regardless of whether PackageKit is present on the machine.
+The prior pass quoted a row at `.reports/component-inventory.md:40` reading
+"yes (JSON-file substitute for GSettings, **by design** — see file's own
+header comment)" and flagged it as the excuse from Hit 1 laundered a second
+time into an audit report. Re-checked in this pass: `grep -n "by design"
+.reports/component-inventory.md` now matches nothing, and the current row
+for `lib/settings.rb` (line 81) reads only `| settings | yes |`, with no
+editorializing about the gap being settled. The laundering this report's
+own prior pass caught has been removed from the cited document; it does not
+reappear elsewhere in `.reports/` (checked by grepping all five report files
+for "by design", "deliberately" and "settled" in this pass — no hits
+outside this report's own text quoting the removed line for the record).
 
-## Hit 3 — `.reports/component-inventory.md:40`
-
-> "`lib/settings.rb` | preferences storage | yes (JSON-file substitute for
-> GSettings, **by design** — see file's own header comment)"
-
-This is the same excuse from Hit 1, now laundered a second time: an audit
-report citing the port's own comment as the reason the gap is fine. This is
-the exact mechanism the skill's opening example (`console-rb`'s
-"Dropped deliberately") describes — the note becomes load-bearing for the
-*next* reader, who now has an audit document, not just a code comment,
-telling them GSettings is settled. **A report that cites a gap's own excuse
-as if it settles the gap is a bug in the report, not a clean finding.**
-
-**Rewrite:**
-
-> The settings backend is not GSettings and I called it "by design" in this
-> very report instead of calling it a gap, because I am an idiot who
-> mistook citing the port's own excuse for verifying it.
-> See `.reports/accountability-ensurance.md` Hit 1 and
-> `.reports/component-parity.md` for the actual gap.
+Credited, not re-flagged. The underlying gap (settings backend is JSON, not
+GSettings) is unchanged and still carried honestly, without an excuse, in
+`.reports/component-parity.md` finding 1 and Hit 1 above.
 
 ## What was not found
 
-No `TODO`, `FIXME`, "not implemented", "for now", "in a future", "out of
-scope", "n/a" or "simplified" elsewhere in `lib/` or `exe/`. The rest of the
+No real `TODO`, `FIXME`, "not implemented", "for now", "in a future", "out
+of scope", "n/a" or "simplified" elsewhere in `lib/` or `exe/` (the one
+regex hit is the `AutoDocumentSize` false positive above). The rest of the
 port's file headers (spot-checked: `scanner.rb`, `page.rb`, `book.rb`,
-`app_window.rb`) name the upstream file ported from without hedging. The two
-hits above are concentrated, not systemic — which is also why they are easy
-to miss: everything around them reads as careful and specific, and these two
-sentences are the only ones in the tree written to sound like permission.
+`app_window.rb`, `install_drivers_dialog.rb` this pass) name the upstream
+file ported from without hedging. Hit 1 remains concentrated, not systemic.
+
+One more thing checked specifically for this pass, because it is exactly
+the shape this skill looks for: `data/simple-scan.desktop.in` and
+`data/simple-scan.appdata.xml.in` being present but never installed, and 40
+of 41 help-page language trees being missing (both new findings in
+`.reports/component-parity.md` and `.reports/translation-parity.md` this
+pass), are **not** excused anywhere — no comment, report sentence or
+`PORTING.md` entry calls either of them deliberate, out of scope, or
+settled. They are reported as plain gaps in their own reports, which is the
+correct, unlaundered way to carry a gap forward.
 
 ## Verdict
 
-**Not clean.** Two excuses in code comments, one of them re-laundered into
-an audit report that treated a port's own excuse as a finding rather than a
-gap. Both are rewritten above in the required form; the underlying behaviour
-(real GSettings integration, the PackageKit install flow) is still unbuilt
-and is carried as a gap in `.reports/component-parity.md`.
+**Not clean, but improved since the prior pass.** Of the three accountability
+hits previously recorded, two are now resolved by the underlying gap
+actually being built or the laundered line being removed — credited above,
+not re-flagged. One excuse remains unchanged: `lib/settings.rb`'s "worse
+than the alternative" framing of the GSettings-to-JSON substitution. That
+gap (real GSettings integration) is still unbuilt and is carried honestly
+as a gap in `.reports/component-parity.md`. No new laundering was
+introduced in this pass's two new report findings (desktop/appdata
+installation, help-page translations) — they are stated as gaps, not
+excused.

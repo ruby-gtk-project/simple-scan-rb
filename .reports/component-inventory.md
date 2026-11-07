@@ -87,10 +87,10 @@ template `data/ui/app-window.ui` together build everything in this section.
 | Upstream file(s) | kind | notes |
 |---|---|---|
 | `data/icons/hicolor/scalable/org.gnome.SimpleScan.svg`, `data/icons/hicolor/symbolic/org.gnome.SimpleScan-symbolic.svg`, `data/icons/scalable/actions/{crop,scan-type-adf,scan-type-batch}-symbolic.svg` | app/action icons | no icon asset pipeline found under the port's `data/`; needs a home before the port can show its own icon or the scan-type icons `scan_options_popover`/`scanner_status_page` reference |
-| `data/simple-scan.desktop.in` | desktop launcher | not checked for a port equivalent |
-| `data/simple-scan.appdata.xml.in` | AppStream metadata | not checked for a port equivalent |
-| `data/simple-scan.1` | man page | not checked for a port equivalent |
-| `help/**` (the Mallard user-help pages, 30+ languages) | user documentation | out of scope for this component survey; not a UI widget, flagged for a separate pass |
+| `data/simple-scan.desktop.in` | desktop launcher | present verbatim under `data/`, but **never installed anywhere** — `flake.nix` installs the man page and `help/**` (`$out/share/man/man1`, `$out/share/help/<lang>/simple-scan`) but has no `$out/share/applications/` step and the gemspec does not package it either; grep for `desktop`/`applications/` across `flake.nix`, `simple-scan-rb.gemspec`, `exe/*` returns nothing. The file sitting in the repo is not the same as a launcher the desktop ever sees. |
+| `data/simple-scan.appdata.xml.in` | AppStream metadata | same as above: present under `data/`, never installed, never referenced by anything that would register it with a software centre |
+| `data/simple-scan.1` | man page | **resolved since the prior pass** — ported verbatim (`diff` against `origin/main:data/simple-scan.1` is empty) and installed to `$out/share/man/man1/` by `flake.nix` |
+| `help/**` (the Mallard user-help pages, 30+ languages) | user documentation | **resolved since the prior pass, partially** — the English `help/C/*` pages are ported verbatim (`diff` against `origin/main:help/C/index.page` is empty) and `flake.nix` installs `help/*/` into `$out/share/help/<lang>/simple-scan/`. Only the `C` (English) tree exists under `ruby`'s `help/`; upstream's `help/LINGUAS` lists 40 translated help trees, none of which were ported — confirmed by `find help -type f` returning only `help/C/*`, 19 files total, no other language directories. |
 
 ## Totals
 
@@ -101,8 +101,18 @@ template `data/ui/app-window.ui` together build everything in this section.
   entrypoints `lib/simple_scan.rb` and `lib/simple/scan/rb/version.rb`).
 - Every upstream component file above already has a corresponding `lib/*.rb`
   file. The gaps that remain are off to the side of this file-level survey —
-  icon assets, desktop/appdata/man metadata and the help pages — plus
+  desktop/appdata installation, 40 of 41 help-page language trees — plus
   whatever this inventory's sibling checks (`component-parity`,
   `translation-parity`, `test-parity`) find once they compare *inside* each
   mapped file: a file existing is not proof its widgets, CSS classes, signals
   and actions are all there.
+
+## Update (this audit pass, 2026-11-07)
+
+Re-verified against the current `ruby` HEAD and `origin/main`. Since the
+table above was written, two items moved from "not yet mapped" to resolved:
+the man page and the English help pages are now ported verbatim and
+installed by `flake.nix`. Two items in the same row did not move: the
+`.desktop` and AppStream files are present in `data/` but installed nowhere,
+and only 1 of upstream's 41 help-page language trees (`C`) was ported. See
+`.reports/component-parity.md` for the full current-state findings.
