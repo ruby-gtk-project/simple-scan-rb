@@ -12,8 +12,10 @@ ROOT = Dir.mktmpdir('simple-scan-drive')
 ENV['XDG_CONFIG_HOME'] = File.join(ROOT, 'config')
 ENV['XDG_CACHE_HOME'] = File.join(ROOT, 'cache')
 
+checks = 0
 failures = []
 check = lambda do |label, &body|
+  checks += 1
   result = body.call
   puts "ok   #{label}#{result.nil? ? '' : " -> #{result}"}"
 rescue StandardError, GLib::Error => e
@@ -33,6 +35,56 @@ app.signal_connect('activate') do
   check.call('scan button insensitive with no devices') { window.scan_button.sensitive?.inspect }
   check.call('status title') { window.status_page.status_page.title }
 
+  # `Application#build` only calls this when `present:` is true, so a drive
+  # run that wants the real startup path (window.present, the autosave
+  # manager wired to the book, restore_state) has to call it itself.
+  check.call('window start wires the autosave manager and presents') do
+    window.start
+    [window.window.visible?,
+     window.instance_variable_get(:@autosave_manager).book.equal?(window.book)
+].inspect
+  end
+
+  check.call('keyboard shortcuts registered for every action') do
+    AppWindow::ACTIONS.each do |name, accels|
+      bound = app.get_accels_for_action("app.#{name}")
+      if bound != accels
+        raise "#{name}: expected #{accels.inspect}, got #{bound.inspect}"
+      end
+    end
+    "#{AppWindow::ACTIONS.size} actions"
+  end
+
+  check.call('devices listed via real SANE redetect') do
+    deadline = Time.now + 10
+    until window.selected_device || Time.now > deadline
+      GLib::MainContext.default.iteration(true)
+    end
+    [window.status_page.status_page.title, window.selected_device, window.scan_button.sensitive?].inspect
+  end
+
+  check.call('real scan via the SANE test backend produces a page with pixel data') do
+    pages_before = window.book.n_pages
+    app.lookup_action('scan_single').activate(nil)
+    deadline = Time.now + 10
+    until window.book.n_pages > pages_before || Time.now > deadline
+      GLib::MainContext.default.iteration(true)
+    end
+    unless window.book.n_pages > pages_before
+      raise 'scan_single did not add a page'
+    end
+
+    page = window.book.get_page(window.book.n_pages - 1)
+    deadline = Time.now + 10
+    until page.has_data? || Time.now > deadline
+      GLib::MainContext.default.iteration(true)
+    end
+    [page.has_data?, page.width, page.height].inspect.tap do
+      # Restore the empty book the synthetic-page checks below expect.
+      window.book.delete_page(page)
+    end
+  end
+
   check.call('devices listed') do
     window.set_scan_devices([ScanDevice.new(name: 'test:0', label: 'Test Scanner')])
     [window.status_page.status_page.title, window.selected_device, window.scan_button.sensitive?].inspect
@@ -40,6 +92,41 @@ app.signal_connect('activate') do
 
   check.call('gear menu items') { window.gear_menu.n_items }
   check.call('page menu built') { window.page_menu.model.n_items }
+
+  check.call('preferences action opens the dialog') do
+    app.lookup_action('preferences').activate(nil)
+    GLib::MainContext.default.iteration(false) while GLib::MainContext.default.pending?
+    window.preferences_dialog.visible?
+  end
+  check.call('shortcuts action opens the dialog') do
+    app.lookup_action('shortcuts').activate(nil)
+    GLib::MainContext.default.iteration(false) while GLib::MainContext.default.pending?
+    'activated'
+  end
+  check.call('about action opens the dialog') do
+    app.lookup_action('about').activate(nil)
+    GLib::MainContext.default.iteration(false) while GLib::MainContext.default.pending?
+    'activated'
+  end
+  check.call('reorder action opens the dialog') do
+    app.lookup_action('reorder').activate(nil)
+    GLib::MainContext.default.iteration(false) while GLib::MainContext.default.pending?
+    'activated'
+  end
+
+  check.call('error alert builds, presents and closes') do
+    dialog = Alerts.error(window.window, 'Driven error', 'exercised from the drive script')
+    GLib::MainContext.default.iteration(false) while GLib::MainContext.default.pending?
+    dialog.class
+  end
+
+  check.call('screensaver inhibit and uninhibit do not raise') do
+    screensaver = window.instance_variable_get(:@screensaver)
+    screensaver.inhibit('Document Scanner', 'Scanning')
+    inhibited = screensaver.inhibited?
+    screensaver.uninhibit
+    [inhibited, screensaver.inhibited?].inspect
+  end
 
   check.call('preferences dialog') do
     window.preferences_dialog
@@ -58,7 +145,8 @@ app.signal_connect('activate') do
   end
 
   check.call('scan options popover') do
-    window.scan_options_popover.build
+    # Already built once by AppWindow#build (scan_options_button.popover=);
+    # calling .build again would re-append already-parented children.
     window.scan_options_popover.scan_type = ScanType::ADF
     [window.scan_options_popover.scan_type, window.scan_options_popover.scan_type_icon].inspect
   end
@@ -247,6 +335,15 @@ app.signal_connect('activate') do
     [window.book.n_pages, window.stack.visible_child_name].inspect
   end
 
+  check.call('autosave manager writes the cleared book to disk') do
+    autosave_manager = window.instance_variable_get(:@autosave_manager)
+    deadline = Time.now + 5
+    until File.exist?(autosave_manager.path) || Time.now > deadline
+      GLib::MainContext.default.iteration(true)
+    end
+    [File.exist?(autosave_manager.path), autosave_manager.exists?].inspect
+  end
+
   check.call('prompt appears when the book is unsaved') do
     window.book.append_page(
       Page.from_data(
@@ -284,5 +381,8 @@ end
 
 app.run([])
 
-puts(failures.empty? ? "\nALL CHECKS PASSED" : "\nFAILURES: #{failures.join(', ')}")
+puts
+puts "#{checks - failures.length} of #{checks} checks passed"
+failures.each { |label| puts "  failed check: #{label}" }
+puts(failures.empty? ? 'DRIVE OK' : "DRIVE FAILED (#{failures.length})")
 exit(failures.empty? ? 0 : 1)
