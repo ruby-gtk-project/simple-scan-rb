@@ -7,10 +7,15 @@ $LOAD_PATH.unshift(File.expand_path('../lib', __dir__))
 
 require 'simple_scan'
 require 'tmpdir'
+require 'fileutils'
 
 ROOT = Dir.mktmpdir('simple-scan-drive')
 ENV['XDG_CONFIG_HOME'] = File.join(ROOT, 'config')
 ENV['XDG_CACHE_HOME'] = File.join(ROOT, 'cache')
+
+SHOTS = File.expand_path('../tmp/shots', __dir__)
+FileUtils.rm_rf(SHOTS)
+FileUtils.mkdir_p(SHOTS)
 
 checks = 0
 failures = []
@@ -22,6 +27,34 @@ rescue StandardError, GLib::Error => e
   failures << label
   puts "FAIL #{label}: #{e.class}: #{e.message}"
   puts e.backtrace.first(4).map { |line| "       #{line}" }
+end
+
+# Writes a PNG of `widget`. GTK4 has no screenshot call; the route that works
+# headlessly is to paint the widget into a render node and hand that to a
+# renderer, which returns a texture that knows how to write a PNG.
+#
+# A screenshot is not an assertion, so a failure here never fails a check --
+# it is read back by a human, which is how several visual-only bugs upstream
+# (blank labels, dialogs rendered off to the side) get caught in the other
+# ports' drivers.
+shoot = lambda do |name, widget|
+  renderer = Gsk::CairoRenderer.new
+  renderer.realize(nil)
+  snapshot = Gtk::Snapshot.new
+  Gtk::WidgetPaintable.new(widget).snapshot(snapshot, widget.width, widget.height)
+  node = snapshot.to_node
+  raise 'widget produced no render node (not realised yet?)' if node.nil?
+
+  path = File.join(SHOTS, "#{name}.png")
+  renderer.render_texture(node, nil).save_to_png(path)
+  puts "shot #{path}"
+rescue StandardError => e
+  puts "shot #{name} failed: #{e.class}: #{e.message}"
+ensure
+  renderer&.unrealize
+end
+pump = lambda do
+  4.times { GLib::MainContext.default.iteration(false) while GLib::MainContext.default.pending? }
 end
 
 application = SimpleScan::Application.new(app_id: 'org.rubygtkproject.SimpleScanDrive', present: false)
@@ -40,10 +73,13 @@ app.signal_connect('activate') do
   # manager wired to the book, restore_state) has to call it itself.
   check.call('window start wires the autosave manager and presents') do
     window.start
+    pump.call
     [window.window.visible?,
      window.instance_variable_get(:@autosave_manager).book.equal?(window.book)
 ].inspect
   end
+  pump.call
+  shoot.call('01-startup', window.window)
 
   check.call('keyboard shortcuts registered for every action') do
     AppWindow::ACTIONS.each do |name, accels|
@@ -98,21 +134,30 @@ app.signal_connect('activate') do
     GLib::MainContext.default.iteration(false) while GLib::MainContext.default.pending?
     window.preferences_dialog.visible?
   end
+  shoot.call('02-preferences', window.window)
+  window.preferences_dialog.close
+  pump.call
+
   check.call('shortcuts action opens the dialog') do
     app.lookup_action('shortcuts').activate(nil)
     GLib::MainContext.default.iteration(false) while GLib::MainContext.default.pending?
     'activated'
   end
+  shoot.call('03-shortcuts', window.window)
+
   check.call('about action opens the dialog') do
     app.lookup_action('about').activate(nil)
     GLib::MainContext.default.iteration(false) while GLib::MainContext.default.pending?
     'activated'
   end
+  shoot.call('04-about', window.window)
+
   check.call('reorder action opens the dialog') do
     app.lookup_action('reorder').activate(nil)
     GLib::MainContext.default.iteration(false) while GLib::MainContext.default.pending?
     'activated'
   end
+  shoot.call('05-reorder', window.window)
 
   check.call('error alert builds, presents and closes') do
     dialog = Alerts.error(window.window, 'Driven error', 'exercised from the drive script')
@@ -195,6 +240,8 @@ app.signal_connect('activate') do
     GLib::MainContext.default.iteration(false) while GLib::MainContext.default.pending?
     [window.book_view.drawing_area.width, window.book_view.drawing_area.height].inspect
   end
+  pump.call
+  shoot.call('06-document', window.window)
 
   check.call('rotate action') do
     app.lookup_action('rotate_left').activate(nil)
@@ -334,6 +381,8 @@ app.signal_connect('activate') do
     GLib::MainContext.default.iteration(false) while GLib::MainContext.default.pending?
     [window.book.n_pages, window.stack.visible_child_name].inspect
   end
+  pump.call
+  shoot.call('07-empty-again', window.window)
 
   check.call('autosave manager writes the cleared book to disk') do
     autosave_manager = window.instance_variable_get(:@autosave_manager)
