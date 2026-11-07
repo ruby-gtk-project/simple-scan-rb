@@ -307,6 +307,24 @@ app.signal_connect('activate') do
     end
   end
 
+  # Exercises the PackageKitGlib round trip start_install kicks off: a real
+  # Thread calling Task#resolve_sync/#install_packages_sync over D-Bus, with
+  # the result marshalled back to the main loop via GLib::Idle.add. Waits for
+  # install_finished? (not just one main-loop iteration) so the assertion
+  # covers the live call's outcome, not just the dialog's static text.
+  check.call('install drivers dialog runs a live PackageKit install') do
+    dialog = InstallDriversDialog.new('hpaio').build
+    dialog.present(window.window)
+    deadline = Time.now + 10
+    until dialog.install_finished? || Time.now > deadline
+      GLib::MainContext.default.iteration(true)
+    end
+    raise 'PackageKit round trip never finished' unless dialog.install_finished?
+
+    dialog.close
+    [dialog.send(:status_label).label, dialog.send(:instructions_label).label].inspect
+  end
+
   check.call('authorize dialog') do
     credentials = nil
     dialog = AuthorizeDialog.new('Username and password required to access “test”') { |u, p| credentials = [u, p] }.build

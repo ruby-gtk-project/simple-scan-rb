@@ -100,7 +100,11 @@ Gem::Specification.new do |spec|
   # Runtime dependencies. This gemspec had none at all, which is true of 78 of
   # the 90 forks: the app's gems were declared only in nix/Gemfile, so
   # `gem install` produced something that could not load its own toolkit.
-  spec.add_dependency("gem_kit", "~> 0.2")
+  #
+  # gem_kit is deliberately NOT listed here: nothing under lib/ requires it
+  # directly (it is GemKit::Deprecate, a release-time deprecation DSL this
+  # app never calls). It still arrives at runtime as packagekit-glib's own
+  # dependency, so declaring it again here would be decorative.
   spec.add_dependency("gtk4", "~> 4.3")
   spec.add_dependency("adwaita", "~> 4.3")
   spec.add_dependency("glib2", "~> 4.3")
