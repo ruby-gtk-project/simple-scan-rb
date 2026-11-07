@@ -99,6 +99,31 @@ app.signal_connect('activate') do
     [window.status_page.status_page.title, window.selected_device, window.scan_button.sensitive?].inspect
   end
 
+  check.call('multiple SANE devices are listed and independently selectable') do
+    device_names = window.status_page.instance_variable_get(:@devices).map(&:first)
+    raise "expected 2 test devices, got #{device_names.inspect}" unless device_names.size == 2
+    raise 'test devices should have distinct SANE names' if device_names.uniq.size != 2
+
+    window.status_page.selected_device = device_names.last
+    pump.call
+    selected_after_pick = window.status_page.selected_device
+    unless selected_after_pick == device_names.last
+      raise "selecting #{device_names.last.inspect} did not stick, got #{selected_after_pick.inspect}"
+    end
+
+    [device_names, selected_after_pick].inspect
+  end
+
+  check.call('Resources locates the bundled icon and locale directories') do
+    icon_dir = Resources.icon_dir
+    [Resources.data_dir, icon_dir, File.directory?(icon_dir)].inspect
+  end
+
+  check.call('Translations binds the message domain and _() resolves to a String') do
+    message = window.send(:_, 'Document Scanner')
+    message.is_a?(String) && !message.empty? ? message : raise("unexpected: #{message.inspect}")
+  end
+
   check.call('real scan via the SANE test backend produces a page with pixel data') do
     pages_before = window.book.n_pages
     app.lookup_action('scan_single').activate(nil)

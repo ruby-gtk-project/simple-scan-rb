@@ -22,8 +22,17 @@
         # attached, so SANE's own "test" backend stands in for one — it is
         # the virtual-scanner backend sane-backends ships for exactly this.
         # SANE_CONFIG_DIR replaces the default /etc/sane.d search path
-        # wholesale, so this is the dll.conf that enables just "test".
-        saneTestConfig = pkgs.writeTextDir "etc/sane.d/dll.conf" "test\n";
+        # wholesale, so this is the dll.conf that enables just "test", plus a
+        # test.conf asking the backend for two virtual devices (test:0,
+        # test:1) instead of its single-device default — otherwise nothing
+        # in the drive script could exercise Scanner's multi-device list
+        # (device_weight sorting, the status page's device dropdown with
+        # more than one entry) at all.
+        saneTestConfig = pkgs.runCommand "sane-test-config" { } ''
+          mkdir -p $out/etc/sane.d
+          echo "test" > $out/etc/sane.d/dll.conf
+          echo "number_of_devices 2" > $out/etc/sane.d/test.conf
+        '';
 
         # Shared libraries every ruby-gnome extension links against.
         gtkStack = with pkgs; [
