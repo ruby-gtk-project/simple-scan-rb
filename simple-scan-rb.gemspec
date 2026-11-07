@@ -78,7 +78,8 @@ Gem::Specification.new do |spec|
     *enumerate_package_files.call("exe"),
     # Extra package files configured by .structuredmerge/kettle-jem.yml
     *enumerate_package_glob.call(File.join(gemspec_root, "data/**/*")),
-    *enumerate_package_glob.call(File.join(gemspec_root, "po/**/*"))
+    *enumerate_package_glob.call(File.join(gemspec_root, "po/**/*")),
+    *enumerate_package_glob.call(File.join(gemspec_root, "help/**/*"))
   ]
   spec.rdoc_options += [
     "--title",

@@ -2,6 +2,8 @@
 
 require 'adwaita'
 require 'gtk4'
+require 'glib2'
+require 'packagekit_glib'
 
 require_relative 'translations'
 
@@ -9,14 +11,15 @@ require_relative 'translations'
 # have plugged in can be found.
 #
 # Ported from install_drivers in upstream's src/app-window.vala: the same
-# per-backend messages and instructions, and the same closing line.
-#
-# Upstream can also install a package itself through PackageKit when it was
-# built with it. The `packagekit-glib` gem this app depends on could drive
-# that the same way upstream's Pk.Task.resolve_async/install_packages_async
-# pair does; wiring that live D-Bus install flow is not done yet, so this
-# dialog still only names the package the way upstream's non-PackageKit
-# build does.
+# per-backend messages and instructions, the same closing line, and — for a
+# backend with a known package name — the same #if HAVE_PACKAGEKIT branch:
+# a Pk.Task resolves the package then installs it, with a spinner/status
+# Gtk::Stack standing in for upstream's stack/spinner/status_label trio.
+# The install runs on a Ruby Thread because PackageKitGlib::Task only
+# exposes the resolve_sync/install_packages_sync pair's blocking D-Bus
+# round trip (see the packagekit-glib README); the result is marshalled
+# back to the GTK main loop with GLib::Idle.add, the same hand-off upstream
+# gets for free from vala's `yield`.
 class InstallDriversDialog < Adwaita::Dialog
   include Translations
   extend Translations
@@ -103,9 +106,13 @@ class InstallDriversDialog < Adwaita::Dialog
 
         content_box.tap do |box|
           box.append(message_label)
-          box.append(instructions_label)
+          box.append(install_row)
           box.append(restart_label)
         end
+      end
+
+      if auto_install?
+        start_install
       end
     end
   end
@@ -128,6 +135,29 @@ class InstallDriversDialog < Adwaita::Dialog
     @message_label ||= label_for(message)
   end
 
+  # Mirrors upstream's instructions_box: a status stack (spinner while
+  # installing, a ☑/☒ glyph once done) beside the instructions label. The
+  # stack stays invisible for a backend with no package to auto-install.
+  def install_row
+    @install_row ||= Gtk::Box.new(:horizontal, 6).tap do |box|
+      box.append(status_stack)
+      box.append(instructions_label)
+    end
+  end
+
+  def status_stack
+    @status_stack ||= Gtk::Stack.new.tap do |stack|
+      stack.add_named(spinner, 'spinner')
+      stack.add_named(status_label, 'status')
+      stack.visible_child_name = 'spinner'
+      stack.visible = false
+    end
+  end
+
+  def spinner = @spinner ||= Gtk::Spinner.new
+
+  def status_label = @status_label ||= Gtk::Label.new('')
+
   def instructions_label
     @instructions_label ||= label_for(instructions)
   end
@@ -149,7 +179,77 @@ class InstallDriversDialog < Adwaita::Dialog
     end
   end
 
+  # True once start_install has kicked off a Pk.Task round trip and we are
+  # waiting for the main loop to pick up its result.
+  def installing? = @installing == true
+
+  # True once that round trip has reported success or failure.
+  def install_finished? = @installing == false
+
   private
+
+    def auto_install? = PACKAGES.fetch(@driver, []).any?
+
+    # Upstream's install_packages: Pk.Task#resolve_async then
+    # #install_packages_async on the resolved ids, kicked off from
+    # install_drivers when packages_to_install is non-empty.
+    def start_install
+      @installing = true
+      spinner.start
+      status_stack.visible = true
+      # Label shown while installing drivers
+      instructions_label.label = _('Installing drivers…')
+      packages = PACKAGES.fetch(@driver, [])
+      Thread.new do
+        outcome = perform_install(packages)
+        GLib::Idle.add do
+          apply_install_result(outcome)
+          false
+        end
+      end
+    end
+
+    def perform_install(packages)
+      task = PackageKitGlib::Task.new
+      resolved = task.resolve_sync(PackageKitGlib::FilterEnum::NOT_INSTALLED, packages, nil) { |_progress, _type| }
+      if resolved.error_code
+        [:failed, resolved.error_code.code]
+      else
+        install_resolved(task, resolved.package_array.map(&:package_id))
+      end
+    rescue StandardError => e
+      warn "Failed to install drivers: #{e.message}"
+      [:error, nil]
+    end
+
+    def install_resolved(task, ids)
+      if ids.empty?
+        [:success, nil]
+      else
+        installed = task.install_packages_sync(ids, nil) { |_progress, _type| }
+        installed.error_code ? [:failed, installed.error_code.code] : [:success, nil]
+      end
+    end
+
+    def apply_install_result((status, code))
+      @installing = false
+      spinner.stop
+      status_stack.visible_child_name = 'status'
+      case status
+      when :success
+        status_label.label = '☑'
+        # Label shown once drivers successfully installed
+        instructions_label.label = _('Drivers installed successfully!')
+      when :failed
+        status_label.label = '☒'
+        # Label shown if failed to install drivers
+        instructions_label.label = format(_('Failed to install drivers (error code %d).'), code)
+      else
+        status_label.label = '☒'
+        # Label shown if failed to install drivers
+        instructions_label.label = _('Failed to install drivers.')
+      end
+    end
 
     def package_instructions
       PACKAGES.fetch(@driver, []).then do |packages|

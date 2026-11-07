@@ -131,6 +131,7 @@
         optionalDirs = builtins.filter (d: builtins.pathExists (./. + "/${d}")) [
           "data"
           "po"
+          "help"
         ];
       in
       {
@@ -166,6 +167,24 @@
               mkdir -p $out/share/glib-2.0/schemas
               cp data/schemas/*.gschema.xml $out/share/glib-2.0/schemas/
               ${pkgs.glib.dev}/bin/glib-compile-schemas $out/share/glib-2.0/schemas
+            fi
+
+            # app.help's `Gtk.show_uri("help:simple-scan", ...)` resolves
+            # through yelp, which looks for Mallard pages under
+            # share/help/<lang>/<app-name>/ on XDG_DATA_DIRS.
+            if [ -d help ]; then
+              mkdir -p $out/share/help
+              for lang in help/*/; do
+                lang=$(basename "$lang")
+                [ -d "help/$lang" ] || continue
+                mkdir -p "$out/share/help/$lang/simple-scan"
+                cp -r "help/$lang"/* "$out/share/help/$lang/simple-scan/"
+              done
+            fi
+
+            # The man page matching upstream's data/simple-scan.1.
+            if [ -f data/simple-scan.1 ]; then
+              install -Dm644 data/simple-scan.1 $out/share/man/man1/${launcher}.1
             fi
 
             # -rbundler/setup puts the bundled gems on the load path, and
