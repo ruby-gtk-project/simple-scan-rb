@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative 'scan/rb/version'
+require_relative 'rb/version'
 
 # Simple::Scan::Rb is the gem's packaging namespace (Simple::Scan::Rb::Version::VERSION).
 #

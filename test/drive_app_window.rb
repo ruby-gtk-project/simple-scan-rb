@@ -364,8 +364,15 @@ app.signal_connect('activate') do
   end
 
   check.call('about dialog') do
-    AboutDialog.new.build.tap { |d| d.present(window.window) }
+    dialog = AboutDialog.new.build.tap { |d| d.present(window.window) }
     GLib::MainContext.default.iteration(false) while GLib::MainContext.default.pending?
+    # Adw.AboutDialog fills in the GPL-3.0 text itself for a known
+    # license_type; a custom `license=` alongside it previously made the
+    # dialog try to parse that text as Pango markup, and it failed on the
+    # license's bare "<http://...>" URL (a Gtk-WARNING, not an exception,
+    # so nothing above would have caught it without this check).
+    raise "license should be the built-in gpl_3_0 text, not custom" unless dialog.license_type == :gpl_3_0 && dialog.license.to_s.empty?
+
     'presented'
   end
 

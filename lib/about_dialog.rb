@@ -15,22 +15,6 @@ class AboutDialog < Adwaita::AboutDialog
   include Translations
   extend Translations
 
-  # The license this software is under (GPL3+)
-  LICENSE = <<~LICENSE
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  LICENSE
-
   DEVELOPERS = ['Robert Ancell <robert.ancell@canonical.com>'].freeze
   WEBSITE = 'https://gitlab.gnome.org/GNOME/simple-scan'
 
@@ -47,8 +31,12 @@ class AboutDialog < Adwaita::AboutDialog
       dialog.translator_credits = _('translator-credits')
       dialog.website = WEBSITE
       dialog.copyright = 'Copyright © 2009-2018 Canonical Ltd.'
+      # Adw.AboutDialog fills in the full GPL-3.0 text itself for a known
+      # SPDX license_type; setting `license=` as well made it try to parse
+      # that text as Pango markup, which failed on the bare
+      # "<http://www.gnu.org/licenses/>" URL (Gtk-WARNING: Failed to set
+      # text ... from markup).
       dialog.license_type = :gpl_3_0
-      dialog.license = LICENSE
     end
   end
 end
