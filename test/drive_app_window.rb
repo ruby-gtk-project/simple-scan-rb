@@ -13,6 +13,21 @@ ROOT = Dir.mktmpdir('simple-scan-drive')
 ENV['XDG_CONFIG_HOME'] = File.join(ROOT, 'config')
 ENV['XDG_CACHE_HOME'] = File.join(ROOT, 'cache')
 
+# flake.nix points SANE_CONFIG_DIR at a read-only Nix store path (so the dev
+# shell is reproducible), which is fine for the device list at startup but
+# cannot be rewritten to simulate a device appearing or disappearing. The
+# SANE "test" backend only re-reads number_of_devices on sane_init, not on
+# every sane_get_devices call (there is no live hotplug in the backend
+# itself), so a writable copy of that config is made here and mutated later,
+# paired with a Scanner#free + #start cycle (sane_exit/sane_init) to force a
+# re-enumeration — this is the Scanner-level analogue of a real USB attach or
+# detach notification reaching SANE.
+SANE_CONFIG_DIR = File.join(ROOT, 'sane.d')
+FileUtils.mkdir_p(SANE_CONFIG_DIR)
+File.write(File.join(SANE_CONFIG_DIR, 'dll.conf'), "test\n")
+File.write(File.join(SANE_CONFIG_DIR, 'test.conf'), "number_of_devices 2\n")
+ENV['SANE_CONFIG_DIR'] = SANE_CONFIG_DIR
+
 SHOTS = File.expand_path('../tmp/shots', __dir__)
 FileUtils.rm_rf(SHOTS)
 FileUtils.mkdir_p(SHOTS)
@@ -112,6 +127,36 @@ app.signal_connect('activate') do
     end
 
     [device_names, selected_after_pick].inspect
+  end
+
+  check.call('device appearing mid-run (hot-plug) updates the device list') do
+    File.write(File.join(SANE_CONFIG_DIR, 'test.conf'), "number_of_devices 3\n")
+    application.scanner.free
+    application.scanner.start
+    deadline = Time.now + 10
+    device_names = window.status_page.instance_variable_get(:@devices).map(&:first)
+    until device_names.size == 3 || Time.now > deadline
+      GLib::MainContext.default.iteration(true)
+      device_names = window.status_page.instance_variable_get(:@devices).map(&:first)
+    end
+    raise "expected 3 devices after hot-plug, got #{device_names.inspect}" unless device_names.size == 3
+
+    device_names.inspect
+  end
+
+  check.call('device disappearing mid-run (hot-unplug) updates the device list') do
+    File.write(File.join(SANE_CONFIG_DIR, 'test.conf'), "number_of_devices 1\n")
+    application.scanner.free
+    application.scanner.start
+    deadline = Time.now + 10
+    device_names = window.status_page.instance_variable_get(:@devices).map(&:first)
+    until device_names.size == 1 || Time.now > deadline
+      GLib::MainContext.default.iteration(true)
+      device_names = window.status_page.instance_variable_get(:@devices).map(&:first)
+    end
+    raise "expected 1 device after hot-unplug, got #{device_names.inspect}" unless device_names.size == 1
+
+    device_names.inspect
   end
 
   check.call('Resources locates the bundled icon and locale directories') do

@@ -136,10 +136,16 @@ class Scanner
     @authorize_queue << Credentials.new(username, password)
   end
 
+  # Upstream's free, including the Sane.exit() it issues once the scan
+  # thread has joined. Pairing it with Scanner#start's sane_init is what lets
+  # a device that was plugged or unplugged while idle be picked up: the SANE
+  # backends (the "test" backend among them) re-enumerate on sane_init, not
+  # on every sane_get_devices call.
   def free
     @request_queue << Request.new(:quit)
     @thread&.join
     @thread = nil
+    SaneApi.sane_exit
   end
 
   private

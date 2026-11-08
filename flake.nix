@@ -196,6 +196,25 @@
               install -Dm644 data/simple-scan.1 $out/share/man/man1/${launcher}.1
             fi
 
+            # The desktop entry and AppStream metadata, so the app shows up
+            # in a desktop grid / software centre with its real name,
+            # summary and keywords instead of just its binary name. Both are
+            # plain .in files here (no itstool/intltool merge step upstream
+            # runs at release time), so installing them is stripping the
+            # .in suffix.
+            if [ -f data/simple-scan.desktop.in ]; then
+              mkdir -p $out/share/applications
+              sed 's/\.in$//' data/simple-scan.desktop.in > $out/share/applications/org.gnome.SimpleScan.desktop
+            fi
+            if [ -f data/simple-scan.appdata.xml.in ]; then
+              mkdir -p $out/share/metainfo
+              sed 's/\.in$//' data/simple-scan.appdata.xml.in > $out/share/metainfo/org.gnome.SimpleScan.appdata.xml
+            fi
+            if [ -d data/icons ]; then
+              mkdir -p $out/share/icons
+              cp -r data/icons/. $out/share/icons/
+            fi
+
             # -rbundler/setup puts the bundled gems on the load path, and
             # GI_TYPELIB_PATH keeps GObject-Introspection from re-registering
             # types the cairo gem's C extension has already registered.
@@ -255,7 +274,13 @@
             export XDG_DATA_DIRS="${pkgs.gsettings-desktop-schemas}/share/gsettings-schemas/${pkgs.gsettings-desktop-schemas.name}:${pkgs.gtk4}/share/gsettings-schemas/${pkgs.gtk4.name}:${pkgs.adwaita-icon-theme}/share:$XDG_DATA_DIRS"
             export GI_TYPELIB_PATH="${typelibPath}''${GI_TYPELIB_PATH:+:$GI_TYPELIB_PATH}"
             export RUBYLIB="$PWD/lib''${RUBYLIB:+:$RUBYLIB}"
-            [ -d data/schemas ] && export GSETTINGS_SCHEMA_DIR="$PWD/data/schemas"
+            # Compiled on every shell entry, not left for a developer to
+            # remember a manual step — otherwise the schema is only reachable
+            # after that step and Gio::Settings aborts the process instead.
+            if [ -d data/schemas ]; then
+              ${pkgs.glib.dev}/bin/glib-compile-schemas data/schemas
+              export GSETTINGS_SCHEMA_DIR="$PWD/data/schemas"
+            fi
             unset BUNDLE_GEMFILE BUNDLE_FROZEN
             # No real scanner is attached in this shell, so Scanner talks to
             # SANE's own "test" backend — lib/sane_api.rb's dlopen target and

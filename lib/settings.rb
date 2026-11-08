@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'json'
 require 'fileutils'
 require 'gtk4'
 
@@ -9,44 +8,20 @@ require_relative 'scan_options'
 # Settings holds the keys of upstream's org.gnome.SimpleScan GSettings schema
 # and the window state upstream keeps beside it in a key file.
 #
-# Ported from data/org.gnome.SimpleScan.gschema.xml, plus the load_state and
-# save_state pair in src/app-window.vala.
+# Ported from data/org.gnome.SimpleScan.gschema.xml (now data/schemas/
+# org.gnome.SimpleScan.gschema.xml in this port, compiled by flake.nix), plus
+# the load_state and save_state pair in src/app-window.vala.
 #
-# Upstream reads the first group through GSettings, which needs a schema
-# compiled into the system's glib-2.0/schemas directory; requiring an install
-# step before the app will start from a checkout is worse than the
-# alternative, so the same keys, defaults, ranges and choices are backed by a
-# JSON file under XDG_CONFIG_HOME. The state group keeps upstream's format and
-# location exactly — the same key file at $XDG_CACHE_HOME/simple-scan/state —
-# because nothing has to be installed for that to work.
+# Upstream reads the first group through Gio::Settings (GSettings), which
+# needs the schema compiled into a glib-2.0/schemas directory the process can
+# see via GSETTINGS_SCHEMA_DIR or XDG_DATA_DIRS — flake.nix's devShell and
+# packages.default both set this up, so this class talks to Gio::Settings
+# directly rather than re-implementing the schema's defaults, choices and
+# ranges in Ruby. The state group keeps upstream's format and location
+# exactly — the same key file at $XDG_CACHE_HOME/simple-scan/state — because
+# that part of upstream was never a GSettings key in the first place.
 class Settings
-  DEFAULTS = {
-    'selected-device' => '',
-    'document-type'   => 'photo',
-    'paper-width'     => 0,
-    'paper-height'    => 0,
-    'brightness'      => 0,
-    'contrast'        => 0,
-    'text-dpi'        => 150,
-    'photo-dpi'       => 300,
-    'page-side'       => 'both',
-    'save-directory'  => '',
-    'save-format'     => 'application/pdf',
-    'jpeg-quality'    => 75,
-    'page-delay'      => 1000,
-  }.freeze
-
-  # The <choices> and <range> elements of the schema, enforced on write the
-  # way GSettings enforces them.
-  CHOICES = {
-    'document-type' => %w[text photo],
-    'page-side'     => %w[front back both],
-  }.freeze
-
-  RANGES = {
-    'jpeg-quality' => (0..100),
-    'page-delay'   => (0..15_000),
-  }.freeze
+  SCHEMA_ID = 'org.gnome.SimpleScan'
 
   # The defaults load_state falls back to, from app-window.vala.
   STATE_DEFAULTS = {
@@ -60,42 +35,38 @@ class Settings
   attr_reader :window_width, :window_height, :scan_type
   attr_writer :window_width, :window_height, :scan_type
 
-  def initialize(config_path: nil, state_path: nil)
-    @config_path = config_path || default_config_path
+  def initialize(gsettings: nil, state_path: nil)
+    @gsettings = gsettings || Gio::Settings.new(SCHEMA_ID)
     @state_path = state_path || default_state_path
-    @values = DEFAULTS.merge(read_config)
     load_state
   end
 
-  def [](key) = @values.fetch(key.to_s, DEFAULTS[key.to_s])
+  def [](key) = @gsettings.get_value(key.to_s)
 
   def []=(key, value)
-    @values[key.to_s] = clamp(key.to_s, value)
-    write_config
-    @values[key.to_s]
+    @gsettings.set_value(key.to_s, value)
+    value
   end
 
-  def get_int(key) = self[key].to_i
+  def get_int(key) = @gsettings.get_int(key.to_s)
 
-  def get_string(key) = self[key].to_s
+  def get_string(key) = @gsettings.get_string(key.to_s)
 
-  def set_int(key, value)
-    self[key] = value.to_i
-  end
+  def set_int(key, value) = @gsettings.set_int(key.to_s, value.to_i)
 
-  def set_string(key, value)
-    self[key] = value.to_s
-  end
+  def set_string(key, value) = @gsettings.set_string(key.to_s, value.to_s)
 
-  # page-side is an enum key in the schema; these two are the get_enum and
-  # set_enum upstream calls on it.
-  def page_side = ScanSide.from_name(self['page-side'])
+  # page-side is an enum key in the schema (org.gnome.SimpleScan.PageSide);
+  # these two are the get_enum and set_enum upstream calls on it. The enum's
+  # nicks (front/back/both) are ScanSide's own names, so no translation table
+  # is needed beyond ScanSide itself.
+  def page_side = ScanSide.from_name(@gsettings.get_string('page-side'))
 
   def page_side=(side)
-    self['page-side'] = ScanSide.to_name(side)
+    @gsettings.set_string('page-side', ScanSide.to_name(side))
   end
 
-  def config_location = @config_path
+  def config_location = SCHEMA_ID
 
   def state_location = @state_path
 
@@ -170,40 +141,11 @@ class Settings
 
   private
 
-    def default_config_path
-      File.join(config_dir, 'simple-scan', 'settings.json')
-    end
-
     def default_state_path
       File.join(cache_dir, 'simple-scan', 'state')
     end
 
-    def config_dir = ENV['XDG_CONFIG_HOME'].to_s.empty? ? File.join(Dir.home, '.config') : ENV['XDG_CONFIG_HOME']
-
     def cache_dir = ENV['XDG_CACHE_HOME'].to_s.empty? ? File.join(Dir.home, '.cache') : ENV['XDG_CACHE_HOME']
-
-    def read_config
-      JSON.parse(File.read(@config_path)).then { |parsed| parsed.is_a?(Hash) ? parsed : {} }
-    rescue SystemCallError, JSON::ParserError
-      {}
-    end
-
-    def write_config
-      FileUtils.mkdir_p(File.dirname(@config_path))
-      File.write(@config_path, "#{JSON.pretty_generate(@values)}\n")
-    rescue SystemCallError => e
-      warn "Failed to write settings: #{e.message}"
-    end
-
-    def clamp(key, value)
-      if CHOICES.key?(key)
-        CHOICES[key].include?(value.to_s) ? value.to_s : DEFAULTS[key]
-      elsif RANGES.key?(key)
-        [[value.to_i, RANGES[key].first].max, RANGES[key].last].min
-      else
-        value
-      end
-    end
 
     def positive_or(value, fallback) = value.positive? ? value : fallback
 
