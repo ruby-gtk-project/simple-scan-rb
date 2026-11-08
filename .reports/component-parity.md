@@ -158,3 +158,41 @@ by nothing that asserts success or failure. The existing
 `component-inventory.md` is insufficient on its own to claim component
 parity because it never recorded the CSS/signal/action/text axes the
 `component-parity` skill requires.
+
+## Re-audit pass (2026-11-08, commits `aa2cf654`/`447e9f6c` since the last report)
+
+Re-verified live in this pass: `nix develop --command xvfb-run -a ruby
+test/drive_app_window.rb` → **53 of 53 checks passed, DRIVE OK**, matching
+this round's runtime gate exactly. Two commits landed since the last
+`Parity reports` commit and both are real, credited fixes against findings
+above, confirmed by reading the diff and the live run output, not the
+commit messages:
+
+- **Finding 2 (PackageKit install) — further resolved.** The script now
+  waits on `dialog.install_finished?` across real main-loop iterations and
+  asserts the round trip completes, reading back
+  `status_label`/`instructions_label`. Run live in this pass: PackageKit is
+  still not activatable in the xvfb sandbox
+  (`GDBus.Error:...ServiceUnknown: The name is not activatable`), so the
+  dialog lands on its failure branch (`"☒", "Failed to install drivers."`)
+  and the check still passes — because it asserts the round trip *finishes*
+  (success or failure both reach `install_finished?`), not that installation
+  *succeeds*. That is a legitimate, honestly-scoped check given no
+  PackageKit D-Bus service exists in this sandbox, but it means the success
+  path (`install_packages_sync` actually completing) is still never
+  exercised by anything that runs. Narrowed, not closed.
+- **Finding 6 (drive coverage per-file) — partially resolved.** `flake.nix`
+  now configures the SANE test backend with `number_of_devices 2`, and a new
+  check drives selecting between two distinct devices
+  (`Resources.icon_dir`/`Resources.data_dir` and `Translations`'s `_()` also
+  each got their own direct check). Device hot-plug
+  (`device-added`/`device-removed` firing at runtime, as opposed to two
+  devices both present at startup) is still never driven — the gap is
+  narrower than before, not gone.
+
+All other findings above (1, 3, 4, 5) are unchanged: `lib/settings.rb` is
+still JSON-backed, no `*.gschema.xml` exists anywhere on `ruby`, the
+desktop/appdata files are still present but installed nowhere
+(`grep -n "desktop\|appdata\|applications\|metainfo" flake.nix` shows no
+install rule for either), and `find help -maxdepth 1 -type d` still shows
+only `help/C` — 40 of 41 translated help trees remain unported.

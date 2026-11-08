@@ -94,6 +94,27 @@ Credited, not re-flagged. The underlying gap (settings backend is JSON, not
 GSettings) is unchanged and still carried honestly, without an excuse, in
 `.reports/component-parity.md` finding 1 and Hit 1 above.
 
+## Re-audit pass (2026-11-08, commits `aa2cf654`/`447e9f6c`)
+
+Both new commits were read in full for this pass. `aa2cf654`'s gemspec
+comment ("gem_kit is deliberately NOT listed here... it still arrives at
+runtime as packagekit-glib's own dependency") explains a real decision with
+a verifiable technical reason (a transitive dependency, not a gap being
+excused) — checked against the skill's own test ("is something unbuilt
+being called settled?") and it passes: nothing is left unbuilt by that
+comment, it is describing why a *redundant* declaration was removed. Not a
+hit.
+
+`aa2cf654` also changed the PackageKit check from asserting only the
+dialog's static strings to waiting on `install_finished?` and reading back
+the live result — the opposite of laundering: a check that previously could
+not catch a stuck round trip now can. Re-ran the full grep sweep from the
+prior pass (`TODO`, `FIXME`, "not implemented", "for now", "in a future",
+"out of scope", "simplified", "n/a", "placeholder", "stub") across `lib/`,
+`exe/`, every `.reports/*.md` file, `flake.nix`, `simple-scan-rb.gemspec`
+and the repo root: same single false positive (`AutoDocumentSize`) as
+before, no new hits. `PORTING.md` still does not exist on this branch.
+
 ## What was not found
 
 No real `TODO`, `FIXME`, "not implemented", "for now", "in a future", "out

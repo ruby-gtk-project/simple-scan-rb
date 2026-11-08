@@ -108,3 +108,40 @@ there is no `.github/workflows/` directory at all, and `.gitlab-ci.yml` never
 mentions `drive`, `xvfb` or `Xvfb` (confirmed by direct grep in this audit — not re-verified in this pass), and `spec/` is scaffolding with no
 tests in it. That is a real gap in safety net, worth stating plainly per the
 skill's own instruction, even though it is not a bijection failure.
+
+## Re-audit pass (2026-11-08)
+
+Re-run live, independently, in this pass: `nix develop --command xvfb-run -a
+ruby test/drive_app_window.rb` → **53 of 53 checks passed, DRIVE OK** —
+matching this round's runtime-gate claim (53 passed, 0 failed) exactly, and
+confirmed by actually executing it, not by trusting the task brief's number.
+
+Two commits landed since the prior `Parity reports` commit
+(`aa2cf654`, `447e9f6c`), adding 4 checks (53 vs. the prior pass's 49):
+multi-device SANE selection, `Resources`, `Translations`, and a live-waited
+PackageKit install round trip. Re-checked directly against this pass's own
+live output:
+
+- The PackageKit check now waits for `install_finished?` and reads back the
+  dialog's labels, rather than only checking the dialog's static strings as
+  before — a real strengthening, credited. But in this sandbox PackageKit's
+  D-Bus name is still not activatable
+  (`GDBus.Error:...ServiceUnknown`), so the check's live output this pass is
+  still the *failure* branch (`"☒", "Failed to install drivers."`) and
+  passes because it asserts the round trip *completes*, not that the
+  install *succeeds*. The success path through
+  `PackageKitGlib::Task#install_packages_sync` remains unexercised by
+  anything that runs in this environment — unverified, not done, per the
+  task brief's own framing of that distinction.
+- Still confirmed absent: CI invocation of the drive script
+  (`.gitlab-ci.yml` runs `bin/rspec spec` only, re-checked this pass — same
+  result as before), and `spec/*_spec.rb` files (`spec/` still holds only
+  `README.md` and `spec_helper.rb` — zero spec files, re-confirmed by
+  listing in this pass). The rspec CI job therefore still runs an empty
+  suite and reports green regardless of whether anything in `lib/` works —
+  a false-green risk in the CI config itself, not just an untested path.
+
+No change to the 0/0 upstream-test bijection, which is still met trivially.
+Verdict stands: **not clean**, for the same structural reason (no CI-run
+regression suite beyond a hand-run drive script), now measured against a
+53/53 run rather than 49/49.

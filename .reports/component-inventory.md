@@ -116,3 +116,15 @@ installed by `flake.nix`. Two items in the same row did not move: the
 `.desktop` and AppStream files are present in `data/` but installed nowhere,
 and only 1 of upstream's 41 help-page language trees (`C`) was ported. See
 `.reports/component-parity.md` for the full current-state findings.
+
+## Update (re-audit pass, 2026-11-08)
+
+Re-counted: `find lib -name '*.rb' | wc -l` still returns 31 (29 mapped
+upstream/widget components plus the 2 gem-boilerplate entrypoints counted
+above — consistent with this round's runtime gate describing "29
+components" covered by the drive script). The two commits since the last
+`Parity reports` commit (`aa2cf654`, `447e9f6c`) touched only `flake.nix`,
+`simple-scan-rb.gemspec` and `test/drive_app_window.rb` — no `lib/*.rb` file
+was added, removed or renamed, so the file-mapping table itself is
+unchanged. Confirmed live: `nix develop --command xvfb-run -a ruby
+test/drive_app_window.rb` → 53 of 53 checks, DRIVE OK, in this pass.

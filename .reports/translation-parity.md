@@ -149,3 +149,16 @@ pages did get ported since the prior pass — credited, not a gap. None of
 the remaining gaps are excused anywhere in the port's own files (no
 `PORTING.md` or similar exists on this branch) — the omissions have not
 been laundered into a "decision" yet. They still need to be built.
+
+## Re-audit pass (2026-11-08)
+
+The two commits since the prior `Parity reports` commit (`aa2cf654`,
+`447e9f6c`) touch `flake.nix`, `simple-scan-rb.gemspec` and
+`test/drive_app_window.rb` only — no `.po`, `.pot`, `POTFILES.in`, gschema,
+desktop, appdata or `help/` file changed. Re-checked directly rather than
+assumed unchanged: `find . -iname '*gschema*' -not -path './.git/*'` still
+returns nothing; `find help -maxdepth 1 -type d` still shows only `help/C`;
+`grep -n "desktop\|appdata" po/POTFILES.in` still has no match. All three
+gaps above stand exactly as recorded. No new translatable strings were
+added or dropped by this round's changes, and no new laundering of these
+gaps appears anywhere in the two new commits' diffs or messages.
