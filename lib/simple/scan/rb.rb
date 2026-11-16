@@ -6,6 +6,7 @@
 # (Settings, Scanner, AppWindow, ...) under lib/, loaded by exe/simple-scan —
 # this file exists only so `require "simple/scan/rb"` (what the gemspec's
 # name maps to, and what spec/spec_helper.rb requires) resolves to something.
+
 require_relative "rb/version"
 
 module Simple
